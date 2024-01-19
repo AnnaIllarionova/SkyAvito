@@ -1,3 +1,16 @@
+# SkyAvito
+- это сайт онлайн объявлений, где каждый пользователь может посмотреть и приобрести товары, а зарегистрированные пользователи - выложить и продать свой товар.
+
+## Разработчик:
+- Илларионова Анна
+
+## Используемые технологии для создания приложения:
+- HTML
+- JavaScript
+- React
+- StyledComponents
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
