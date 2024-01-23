@@ -5,7 +5,7 @@ import { device } from "../../components/media-sizes/media-sizes";
 export const MainContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
-  padding: 52px 10px 37px;
+ 
 
   @media ${device.mobile} {
     padding: 85px 10px 84px;

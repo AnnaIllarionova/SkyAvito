@@ -1,8 +1,9 @@
 import { Footer } from "../../components/footer/footer.styled";
 import { Header } from "../../components/header/header";
+import { Menu } from "../../components/menu/menu";
 import { CardItem } from "../main-page/main-page";
 import * as Styled from "../main-page/main-page.styled";
-import "./profile.css";
+import * as S from "./profile.styled";
 
 export const Profile = () => {
   return (
@@ -10,102 +11,83 @@ export const Profile = () => {
       <Header />
       <main className="main">
         <Styled.MainContainer>
-          <div className="main__center-block">
-            <div className="main__menu menu">
-              <a className="menu__logo-link" href="" target="_blank">
-                <img className="menu__logo-img" src="img/logo.png" alt="logo" />
-              </a>
-              <form className="menu__form" action="#">
-                <button className="menu__btn btn-hov02" id="btnGoBack">
-                  Вернуться на&nbsp;главную
-                </button>
-              </form>
-            </div>
-
+          <S.MainCenterBlock>
+            <Menu />
             <Styled.MainTitle>Здравствуйте, Антон!</Styled.MainTitle>
 
-            <div className="main__profile profile">
-              <div className="profile__content">
-                <h3 className="profile__title title">Настройки профиля</h3>
-                <div className="profile__settings settings">
-                  <div className="settings__left">
-                    <div className="settings__img">
+            <S.MainProfile>
+              <S.ProfileContent>
+                <S.ProfileTitle>Настройки профиля</S.ProfileTitle>
+                <S.ProfileSettings>
+                  <S.SettingsLeft>
+                    <S.SettingsImgBox>
                       <a href="" target="_self">
-                        <img src="#" alt="" />
+                        <S.SettingsImg src="#" alt="" />
                       </a>
-                    </div>
-                    <a
-                      className="settings__change-photo"
-                      href=""
-                      target="_self"
-                    >
+                    </S.SettingsImgBox>
+                    <S.SettingsChangePhoto href="#" target="_self">
                       Заменить
-                    </a>
-                  </div>
-                  <div className="settings__right">
-                    <form className="settings__form" action="#">
-                      <div className="settings__div">
-                        <label htmlFor="fname">Имя</label>
-                        <input
-                          className="settings__f-name"
+                    </S.SettingsChangePhoto>
+                  </S.SettingsLeft>
+                  <S.SettingsRight>
+                    <S.SettingsForm action="#">
+                      <S.SettingsBox>
+                        <S.SettingsFormLabel htmlFor="fname">Имя</S.SettingsFormLabel>
+                        <S.SettingsFormInputFirstName
                           id="settings-fname"
                           name="fname"
                           type="text"
-                          value="Ан"
-                          placeholder=""
+                          // value=""
+                          placeholder="Введите своё имя"
                         />
-                      </div>
+                      </S.SettingsBox>
 
-                      <div className="settings__div">
-                        <label htmlFor="lname">Фамилия</label>
-                        <input
-                          className="settings__l-name"
+                      <S.SettingsBox>
+                        <S.SettingsFormLabel htmlFor="lname">Фамилия</S.SettingsFormLabel>
+                        <S.SettingsFormInputLastName
                           id="settings-lname"
                           name="lname"
                           type="text"
-                          value="Городецкий"
-                          placeholder=""
+                          // value=""
+                          placeholder="Введите свою фамилию"
                         />
-                      </div>
+                      </S.SettingsBox>
 
-                      <div className="settings__div">
-                        <label htmlFor="city">Город</label>
-                        <input
-                          className="settings__city"
+                      <S.SettingsBox>
+                        <S.SettingsFormLabel htmlFor="city">Город</S.SettingsFormLabel>
+                        <S.SettingsFormInputCity
                           id="settings-city"
                           name="city"
                           type="text"
-                          value="Санкт-Петербург"
-                          placeholder=""
+                          // value=""
+                          placeholder="Введите город"
                         />
-                      </div>
+                      </S.SettingsBox>
 
-                      <div className="settings__div">
-                        <label htmlFor="phone">Телефон</label>
-                        <input
-                          className="settings__phone"
+                      <S.SettingsBox>
+                        <S.SettingsFormLabel htmlFor="phone">Телефон</S.SettingsFormLabel>
+                        <S.SettingsFormInputPhone
                           id="settings-phone"
                           name="phone"
                           type="tel"
-                          value="89161234567"
-                          placeholder="+79161234567"
+                          // value=""
+                          placeholder="Введите номер телефона"
                         />
-                      </div>
+                      </S.SettingsBox>
 
-                      <button
-                        className="settings__btn btn-hov02"
+                      <S.SettingsButton
                         id="settings-btn"
                       >
                         Сохранить
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+                      </S.SettingsButton>
+                    </S.SettingsForm>
+                  </S.SettingsRight>
+                </S.ProfileSettings>
+              </S.ProfileContent>
+            </S.MainProfile>
 
-            <h3 className="main__title title">Мои товары</h3>
-          </div>
+            <S.MainProfileTitle>Мои товары</S.MainProfileTitle>
+          </S.MainCenterBlock>
           <CardItem />
         </Styled.MainContainer>
       </main>
@@ -113,3 +95,5 @@ export const Profile = () => {
     </>
   );
 };
+
+

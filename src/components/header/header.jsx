@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import * as S from "./header.styled";
 
 export const Header = () => {
@@ -8,9 +8,10 @@ export const Header = () => {
     <S.Header>
       <S.HeaderNav>
         {location.pathname === "/" ? (
+          <Link to="/singin">
           <S.HeaderButtonMainEnter id="btnMainEnter">
             Вход в личный кабинет
-          </S.HeaderButtonMainEnter>
+          </S.HeaderButtonMainEnter></Link>
         ) : (
           <>
             <S.HeaderLogo>
@@ -24,9 +25,10 @@ export const Header = () => {
             <S.HeaderButtonPutAddvertisement id="btputAd">
               Разместить объявление
             </S.HeaderButtonPutAddvertisement>
+            <Link to="/profile">
             <S.HeaderButtonNavToProfile id="btnlk">
               Личный кабинет
-            </S.HeaderButtonNavToProfile>
+            </S.HeaderButtonNavToProfile></Link>
           </>
         )}
       </S.HeaderNav>

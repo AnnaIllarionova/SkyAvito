@@ -16,7 +16,7 @@ export const MainSearch = styled.div`
   padding: 11px 0;
   max-width: 1178px;
   margin: 0 auto;
-  padding: 31px 10px 0px;
+  padding: 43px 0px 63px;
 
   @media ${device.mobile} {
     width: 100%;
