@@ -1,11 +1,11 @@
+import { CardList } from "../../components/card-list/card-list";
 import { Footer } from "../../components/footer/footer.styled";
 import { Header } from "../../components/header/header";
 import { Menu } from "../../components/menu/menu";
-import { CardItem } from "../main-page/main-page";
 import * as Styled from "../main-page/main-page.styled";
 import * as S from "./profile.styled";
 
-export const Profile = () => {
+export const Profile = (searchText, startSearch, setStartSearch) => {
   return (
     <>
       <Header />
@@ -88,7 +88,7 @@ export const Profile = () => {
 
             <S.MainProfileTitle>Мои товары</S.MainProfileTitle>
           </S.MainCenterBlock>
-          <CardItem />
+          <CardList searchText={searchText} startSearch={startSearch} setStartSearch={setStartSearch} />
         </Styled.MainContainer>
       </main>
       <Footer />

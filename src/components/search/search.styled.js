@@ -4,14 +4,8 @@ import { Link } from "react-router-dom";
 
 export const MainSearch = styled.div`
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 11px 0;
   max-width: 1178px;
@@ -22,7 +16,6 @@ export const MainSearch = styled.div`
     width: 100%;
     height: 55px;
     background-color: #009ee4;
-    -webkit-box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
     margin-bottom: 0px;
     padding: 11px 17px;
@@ -68,16 +61,12 @@ export const SearchForm = styled.form`
   margin-left: 60px;
   max-width: 1044px;
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 
   @media ${device.mobile} {
     margin-left: 10px;
     max-width: 1044px;
     width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
   }
 `;
