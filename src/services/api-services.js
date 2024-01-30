@@ -20,7 +20,13 @@ export const allAdvertisementsApi = createApi({
     getAdvertisementById: builder.query({
       query: ({ id }) => `/ads/${id}`,
     }),
+    getAdvertisementCommentsById: builder.query({
+      query: ({ id }) => `/ads/${id}/comments`,
   }),
+  getAllUsers: builder.query({
+    query: () => `/user/all`,
+}),
+}),
 });
 
 export const {
@@ -28,4 +34,6 @@ export const {
   useGetAllImagesQuery,
   useGetImageByIdQuery,
   useGetAdvertisementByIdQuery,
+  useGetAdvertisementCommentsByIdQuery,
+  useGetAllUsersQuery,
 } = allAdvertisementsApi;

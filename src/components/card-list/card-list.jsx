@@ -1,28 +1,22 @@
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
-import {
-  useGetAllAdvertisementsQuery,
-  useGetAllImagesQuery,
-  useGetImageByIdQuery,
-} from "../../services/api-services";
 import * as S from "./card-list.styled";
 import { SkeletonForAdd } from "../skeletons/skeleton";
 import { Link } from "react-router-dom";
 
-export const CardList = ({ searchText, startSearch, setStartSearch }) => {
+export const CardList = ({ searchText, startSearch, setStartSearch, data, error, isLoading }) => {
   const [searchResults, setSearchResults] = useState([]);
-  const { data: allAds, error, isLoading } = useGetAllAdvertisementsQuery();
-  const { data: allImg } = useGetAllImagesQuery();
-  const { data: imgById } = useGetImageByIdQuery({ id: 2 });
-  console.log(imgById);
-  console.log(allImg);
-  console.log(allAds);
-
+  
+  // const { data: allImg } = useGetAllImagesQuery();
+  // const { data: imgById } = useGetImageByIdQuery({ id: 2 });
+  // console.log(imgById);
+  // console.log(allImg);
+  console.log(data);
 
   useEffect(() => {
     const searchResultsArr =
-      allAds &&
-      allAds.filter(
+    data &&
+    data.filter(
         (add) =>
           add.title.toLowerCase().includes(searchText.toLowerCase()) ||
           add.price.toString().includes(searchText) ||
@@ -32,7 +26,7 @@ export const CardList = ({ searchText, startSearch, setStartSearch }) => {
     if (startSearch && searchText !== "") {
       setSearchResults(searchResultsArr);
     } else {
-      setSearchResults(allAds);
+      setSearchResults(data);
       setStartSearch(false);
     }
   }, [searchText, startSearch]);
@@ -55,7 +49,7 @@ export const CardList = ({ searchText, startSearch, setStartSearch }) => {
             </S.CardTitleNoResults>
           )
         ) : (
-          allAds && allAds.map((add) => <CardItem key={add.id} add={add} />)
+          data && data.map((add) => <CardItem key={add.id} add={add} />)
         )}
       </S.Cards>
     </S.MainContent>
@@ -68,7 +62,9 @@ export const CardItem = ({ add }) => {
       <S.CardsCard>
         <S.CardImage>
           <a href="#" target="_blank">
-            <S.CardImg src={`./img/${add.images[0]?.url}`} alt="picture" />
+            {add.images.length > 0 ? (
+              <S.CardImg src={`/img/${add.images[0]?.url}`} alt="picture" />
+            ) : null}
           </a>
         </S.CardImage>
         <div className="card__content">

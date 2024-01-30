@@ -5,7 +5,7 @@ export const Menu = () => {
   return (
     <S.MainMenu>
       <S.MenuLogoLink to="/" target="_blank">
-        <S.MenuLogoImg src="img/logo.png" alt="logo" />
+        <S.MenuLogoImg src="/img/logo.png" alt="logo" />
       </S.MenuLogoLink>
       <S.MenuForm action="#">
         <Link to="/">

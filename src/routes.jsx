@@ -6,6 +6,9 @@ import { SingUp } from "./pages/singup/singup";
 import { ErrorPage } from "./pages/error-page/error-page";
 import { useState } from "react";
 import { Advertisement } from "./pages/advertisement-page/advertisement-page";
+import { SellerProfilePage } from "./pages/seller-profile-page/seller-profile-page";
+import { Reviews } from "./pages/reviews/reviews";
+import { NewAdvertisement } from "./pages/add-new-advertisement/add-new-advertisement";
 
 export const AppRoutes = () => {
   const [searchText, setSearchText] = useState("");
@@ -37,6 +40,19 @@ export const AppRoutes = () => {
       <Route path="/singin" element={<SingIn />} />
       <Route path="/singup" element={<SingUp />} />
       <Route path="/advertisement/:advId" element={<Advertisement />} />
+      <Route
+        path="/seller-profile/:sellerId"
+        element={
+          <SellerProfilePage
+            searchText={searchText}
+            startSearch={startSearch}
+            setStartSearch={setStartSearch}
+          />
+        }
+      />
+      <Route path="/reviews/:advId" element={<Reviews />} />
+      <Route path="/add-new-advertisement" element={<NewAdvertisement />} />
+
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

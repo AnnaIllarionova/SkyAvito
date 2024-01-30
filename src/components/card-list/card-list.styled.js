@@ -22,6 +22,18 @@ export const CardTitleNoResults = styled.p`
 export const MainContent = styled.div`
   width: 100%;
   margin: 0 auto;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 0px;
+    background-color: #05abf473;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #0080c1;
+    border-radius: 3px;
+  }
 
   @media ${device.mobile} {
     width: 100%;
@@ -43,21 +55,13 @@ export const Cards = styled.div`
   grid-auto-rows: 441px;
   grid-gap: 40px 26px;
   justify-content: center;
-  overflow-y: auto;
-  scrollbar-color: #ffffff #2e2e2e;
-  scrollbar-width: thin;
-  scrollbar-width: 0px;
+  // overflow-y: auto;
+  // scrollbar-color: #ffffff #2e2e2e;
+  // scrollbar-width: thin;
+  // scrollbar-width: 0px;
   height: 922px;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    background-color: #009ee4;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #0080c1;
-    border-radius: 3px;
-  }
+  
 
   @media ${device.laptop} {
     display: -ms-grid;

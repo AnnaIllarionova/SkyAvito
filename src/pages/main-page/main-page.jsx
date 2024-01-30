@@ -3,6 +3,7 @@ import { Header } from "../../components/header/header";
 import { Search } from "../../components/search/search";
 import * as S from "./main-page.styled";
 import { CardList } from "../../components/card-list/card-list";
+import { useGetAllAdvertisementsQuery } from "../../services/api-services";
 
 export const MainPage = ({
   searchText,
@@ -13,6 +14,8 @@ export const MainPage = ({
   const handleSearchResult = () => {
     setStartSearch(true);
   };
+  const { data: allAds, error, isLoading } = useGetAllAdvertisementsQuery();
+
 
   return (
     <>
@@ -28,6 +31,9 @@ export const MainPage = ({
             searchText={searchText}
             startSearch={startSearch}
             setStartSearch={setStartSearch}
+            data={allAds}
+            error={error}
+            isLoading={isLoading}
           />
         </S.MainContainer>
       </main>
