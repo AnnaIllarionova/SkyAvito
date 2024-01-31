@@ -26,6 +26,7 @@ export const allAdvertisementsApi = createApi({
   getAllUsers: builder.query({
     query: () => `/user/all`,
 }),
+
 }),
 });
 
@@ -37,3 +38,5 @@ export const {
   useGetAdvertisementCommentsByIdQuery,
   useGetAllUsersQuery,
 } = allAdvertisementsApi;
+
+

@@ -1,84 +1,84 @@
-import "./add-new-advertisement.css";
+import { Link } from "react-router-dom";
+import { ModalButton } from "../reviews/reviews";
+import { ModalButtonClose } from "../reviews/reviews";
+import * as S from "../reviews/reviews.styled";
+import * as Styled from "./add-new-advertisement.styled";
 
 export const NewAdvertisement = () => {
   return (
-    <div className="container-bg">
-      <div className="modal__block">
-        <div className="modal__content">
-          <h3 className="modal__title">Новое объявление</h3>
-          <div className="modal__btn-close">
-            <div className="modal__btn-close-line"></div>
-          </div>
-          <form
-            className="modal__form-newArt form-newArt"
-            id="formNewArt"
-            action="#"
-          >
-            <div className="form-newArt__block">
-              <label htmlFor="name">Название</label>
-              <input
-                className="form-newArt__input"
-                type="text"
-                name="name"
-                id="formName"
-                placeholder="Введите название"
-              />
-            </div>
-            <div className="form-newArt__block">
-              <label htmlFor="text">Описание</label>
-              <textarea
-                className="form-newArt__area"
-                name="text"
-                id="formArea"
-                cols="auto"
-                rows="10"
-                placeholder="Введите описание"
-              ></textarea>
-            </div>
-            <div className="form-newArt__block">
-              <p className="form-newArt__p">
-                Фотографии товара<span>не более 5 фотографий</span>
-              </p>
-              <div className="form-newArt__bar-img">
-                <div className="form-newArt__img">
-                  <img src="" alt="" />
-                  <div className="form-newArt__img-cover"></div>
-                </div>
-                <div className="form-newArt__img">
-                  <img src="" alt="" />
-                  <div className="form-newArt__img-cover"></div>
-                </div>
-                <div className="form-newArt__img">
-                  <div className="form-newArt__img-cover"></div>
-                  <img src="" alt="" />
-                </div>
-                <div className="form-newArt__img">
-                  <div className="form-newArt__img-cover"></div>
-                  <img src="" alt="" />
-                </div>
-                <div className="form-newArt__img">
-                  <div className="form-newArt__img-cover"></div>
-                  <img src="" alt="" />
-                </div>
-              </div>
-            </div>
-            <div className="form-newArt__block block-price">
-              <label htmlFor="price">Цена</label>
-              <input
-                className="form-newArt__input-price"
-                type="text"
-                name="price"
-                id="formName"
-              />
-              <div className="form-newArt__input-price-cover"></div>
-            </div>
+    <S.ContainerModal>
+      <S.ModalBlock>
+        <S.ModalContentAdv>
+          <S.ModalTitle>Новое объявление</S.ModalTitle>
+      <Link to={`/profile`}>
+        <ModalButtonClose />
+      </Link>
+      <S.ModalFormNewArtAdv id="formNewArt" action="#">
+        <S.FormNewArtBlockAdv>
+          <S.FormNewArtLabel htmlFor="text">Название</S.FormNewArtLabel>
+          <S.FormNewArtAreaName
+            type="text"
+            name="name"
+            id="formName"
+            cols="auto"
+            rows="2"
+            placeholder="Введите название"
+          ></S.FormNewArtAreaName>
+        </S.FormNewArtBlockAdv>
 
-            <button className="form-newArt__btn-pub btn-hov02" id="btnPublish">
-              Опубликовать
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+        <S.FormNewArtBlockAdv>
+          <S.FormNewArtLabel htmlFor="text">Описание</S.FormNewArtLabel>
+          <S.FormNewArtAreaDescription
+            name="text"
+            id="formArea"
+            cols="auto"
+            rows="10"
+            placeholder="Введите описание"
+          ></S.FormNewArtAreaDescription>
+        </S.FormNewArtBlockAdv>
+
+        <S.FormNewArtBlockAdvBottom>
+          <Styled.FormNewArtP>
+            Фотографии товара
+            <Styled.FormNewArtSpan>не более 5 фотографий</Styled.FormNewArtSpan>
+          </Styled.FormNewArtP>
+          <Styled.FormNewArtBarImg>
+            <Styled.FormNewArtImg>
+              <Styled.FormNewArtAddImg src="" alt="" />
+              <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+            </Styled.FormNewArtImg>
+            <Styled.FormNewArtImg>
+              <Styled.FormNewArtAddImg src="" alt="" />
+              <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+            </Styled.FormNewArtImg>
+            <Styled.FormNewArtImg>
+              <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+              <Styled.FormNewArtAddImg src="" alt="" />
+            </Styled.FormNewArtImg>
+            <Styled.FormNewArtImg>
+              <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+              <Styled.FormNewArtAddImg src="" alt="" />
+            </Styled.FormNewArtImg>
+            <Styled.FormNewArtImg>
+              <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+              <Styled.FormNewArtAddImg src="" alt="" />
+            </Styled.FormNewArtImg>
+          </Styled.FormNewArtBarImg>
+        </S.FormNewArtBlockAdvBottom>
+        <S.FormNewArtBlockAdvBottom style={{ position: "relative"}}>
+          <S.FormNewArtLabel htmlFor="price">Цена</S.FormNewArtLabel>
+          <Styled.FormNewArtInputPrice
+            type="text"
+            name="price"
+            id="formName"
+          />
+          <Styled.FormNewArtInputPriceCover></Styled.FormNewArtInputPriceCover>
+        </S.FormNewArtBlockAdvBottom>
+
+        <ModalButton buttonTitle="Опубликовать" />
+      </S.ModalFormNewArtAdv>
+      </S.ModalContentAdv>
+      </S.ModalBlock>
+    </S.ContainerModal>
   );
 };

@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Outlet } from "react-router-dom";
 import {
   useGetAdvertisementByIdQuery,
   useGetAdvertisementCommentsByIdQuery,
@@ -57,9 +57,9 @@ export const Advertisement = () => {
                   <S.ArticleImgBox>
                     {data.images.length > 0 ? (
                       <S.ArticleImg
-                      src={`/img/${data.images[0]?.url}`}
-                      alt="article-img"
-                    />
+                        src={`/img/${data.images[0]?.url}`}
+                        alt="article-img"
+                      />
                     ) : null}
                   </S.ArticleImgBox>
                 )}
@@ -96,8 +96,12 @@ export const Advertisement = () => {
                     </S.ArticleDateAndCity>
                   )}
 
-                  <S.ArticleLink to={`/reviews/${data && data.id}`}>
-                    {isCommentsLoading ? <Skeleton width={400} /> : commentsCount}
+                  <S.ArticleLink to="reviews">
+                    {isCommentsLoading ? (
+                      <Skeleton width={400} />
+                    ) : (
+                      commentsCount
+                    )}
                   </S.ArticleLink>
                 </S.ArticleInfo>
                 {isLoading ? (
@@ -149,6 +153,7 @@ export const Advertisement = () => {
         </S.MainContainer>
       </S.Main>
       <Footer />
+      <Outlet />
     </>
   );
 };

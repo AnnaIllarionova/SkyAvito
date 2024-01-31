@@ -39,7 +39,9 @@ export const AppRoutes = () => {
       />
       <Route path="/singin" element={<SingIn />} />
       <Route path="/singup" element={<SingUp />} />
-      <Route path="/advertisement/:advId" element={<Advertisement />} />
+      <Route path="/advertisement/:advId/*" element={<Advertisement />} >
+        <Route path="reviews" element={<Reviews />} />
+      </Route>
       <Route
         path="/seller-profile/:sellerId"
         element={
@@ -50,8 +52,10 @@ export const AppRoutes = () => {
           />
         }
       />
-      <Route path="/reviews/:advId" element={<Reviews />} />
-      <Route path="/add-new-advertisement" element={<NewAdvertisement />} />
+ 
+      
+        <Route path="/add-new-advertisement" element={<NewAdvertisement />} />
+   
 
       <Route path="*" element={<ErrorPage />} />
     </Routes>

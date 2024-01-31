@@ -31,7 +31,7 @@ export const ModalBlockSingup = styled(ModalBlock)`
   top: calc(50% - (711px / 2));
 `;
 
-export const ModalFormLogin = styled.form`
+export const ModalFormLogin = styled.div`
   width: 366px;
   min-height: 439px;
   background-color: #ffffff;
@@ -77,7 +77,7 @@ export const ModalLogoImg = styled.img`
   }
 `;
 
-export const ModalInputBlock = styled.div`
+export const ModalInputBlock = styled.form`
   display: flex;
   flex-direction: column;
   row-gap: 38px;
@@ -116,17 +116,30 @@ export const ModalInput = styled.input`
   }
 `;
 
-export const ModalButtonEnter = styled.button`
+export const ErrorMessage = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: red;
+`;
+
+export const ModalButtonEnter = styled.input`
   width: 278px;
   height: 52px;
   background-color: #009ee4;
   border-radius: 6px;
-  margin-top: 60px;
+  margin-top: 22px;
   margin-bottom: 20px;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.05px;
+  color: ${(props) => props.disabled ? "#b3b3b3" : "#ffffff"} ;
 
   &:hover {
     background-color: #0080c1;
@@ -141,6 +154,8 @@ export const ModalButtonEnter = styled.button`
     margin-top: 40px;
     margin-bottom: 10px;
     border: none;
+    font-size: 16px;
+    line-height: 24px;
   }
 `;
 

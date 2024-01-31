@@ -20,9 +20,7 @@ export const Reviews = () => {
         <S.ModalContent>
           <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
           <Link to={`/advertisement/${advId}`}>
-          <S.ModalButtonClose>
-            <S.ModalButtonCloseLine></S.ModalButtonCloseLine>
-          </S.ModalButtonClose>
+            <ModalButtonClose />
           </Link>
           <S.ModalScroll>
             <S.ModalFormNewArt id="formNewArt" action="#">
@@ -38,16 +36,27 @@ export const Reviews = () => {
                   placeholder="Введите отзыв"
                 ></S.FormNewArtArea>
               </S.FormNewArtBlock>
-              <S.FormNewArtButtonPub id="btnPublish">
-                Опубликовать
-              </S.FormNewArtButtonPub>
             </S.ModalFormNewArt>
-
+            <ModalButton buttonTitle="Опубликовать" />
             <ReviewItems data={dataComments} isLoading={isCommentsLoading} />
           </S.ModalScroll>
         </S.ModalContent>
       </S.ModalBlock>
     </S.ContainerModal>
+  );
+};
+
+export const ModalButtonClose = () => {
+  return (
+    <S.ModalButtonClose>
+      <S.ModalButtonCloseLine></S.ModalButtonCloseLine>
+    </S.ModalButtonClose>
+  );
+};
+
+export const ModalButton = ({ buttonTitle }) => {
+  return (
+    <S.FormNewArtButtonPub id="btnPublish">{buttonTitle}</S.FormNewArtButtonPub>
   );
 };
 

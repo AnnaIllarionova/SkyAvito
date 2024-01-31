@@ -6,14 +6,15 @@ export const ContainerModal = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  max-width: 100%;
+  width: 100%;
   height: 100vh;
   margin: 0 auto;
-  position: relative;
+  position: fixed;
+  
 `;
 
 export const ModalBlock = styled.div`
-  position: absolute;
+ position: absolute;
   z-index: 5;
   left: calc(50% - (800px / 2));
   top: 60px;
@@ -39,6 +40,7 @@ export const ModalContent = styled.div`
   border-radius: 12px;
   position: relative;
 
+
   @media ${device.mobile} {
     display: flex;
     flex-direction: column;
@@ -50,9 +52,14 @@ export const ModalContent = styled.div`
   }
 `;
 
+export const ModalContentAdv = styled(ModalContent)`
+width: 600px;
+padding: 20px 50px 42px 50px;
+`;
+
 export const ModalTitle = styled.h3`
   font-size: 32px;
-  line-height: 46px;
+  line-height: 70px;
   font-weight: 500;
   color: #000000;
   margin-bottom: 15px;
@@ -149,8 +156,7 @@ export const ModalScroll = styled.div`
 `;
 
 export const ModalFormNewArt = styled.form`
-  margin-top: 5px;
-  margin-bottom: 30px;
+ 
   display: flex;
   flex-direction: column;
   width: 652px;
@@ -160,14 +166,13 @@ export const ModalFormNewArt = styled.form`
   }
 `;
 
+export const ModalFormNewArtAdv = styled(ModalFormNewArt)`
+width: 500px;
+`
+
 export const FormNewArtBlock = styled.div`
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   margin-bottom: 14px;
 
@@ -178,6 +183,13 @@ export const FormNewArtBlock = styled.div`
     margin-bottom: 16px;
   }
 `;
+
+export const FormNewArtBlockAdv = styled(FormNewArtBlock)`
+margin-bottom: 20px;
+`
+export const FormNewArtBlockAdvBottom = styled(FormNewArtBlock)`
+margin-bottom: 30px;
+`
 
 export const FormNewArtLabel = styled.label`
   margin-bottom: 14px;
@@ -227,6 +239,12 @@ export const FormNewArtArea = styled.textarea`
     }
   }
 `;
+export const FormNewArtAreaName = styled(FormNewArtArea)`
+height: 50px;
+`
+export const FormNewArtAreaDescription = styled(FormNewArtArea)`
+height: 200px;
+`
 
 export const FormNewArtButtonPub = styled.button`
   width: 181px;
@@ -251,6 +269,7 @@ export const FormNewArtButtonPub = styled.button`
 `;
 
 export const ModalReviews = styled.div`
+margin-top: 30px;
   width: 100%;
   height: 495px;
   display: flex;
@@ -321,4 +340,4 @@ export const ReviewText = styled(FontTitles)`
   line-height: 24px;
 `;
 
-// export const = styled.div``;
+
