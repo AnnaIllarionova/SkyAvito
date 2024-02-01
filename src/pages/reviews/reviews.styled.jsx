@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { device } from "../../components/media-sizes/media-sizes";
+import { Link } from "react-router-dom";
 
 export const ContainerModal = styled.div`
   opacity: 2;
@@ -340,4 +341,16 @@ export const ReviewText = styled(FontTitles)`
   line-height: 24px;
 `;
 
+export const ReviewTitleAuth = styled.p`
+font-size: 24px;
+  line-height: 32px;
+  color: #000000;
+  margin-bottom: 20px;
+`
 
+export const ReviewTitleAuthLink = styled(Link)`
+font-size: 24px;
+  line-height: 32px;
+  color: #009ee4;
+  margin-bottom: 20px;
+`

@@ -4,6 +4,17 @@ import { Search } from "../../components/search/search";
 import * as S from "./main-page.styled";
 import { CardList } from "../../components/card-list/card-list";
 import { useGetAllAdvertisementsQuery } from "../../services/api-services";
+import { Outlet } from "react-router-dom";
+
+export const Layout = ({user, logOut}) => {
+  return (
+    <>
+    <Header user={user} logOut={logOut} />
+    <Outlet />
+    <Footer />
+    </>
+  )
+}
 
 export const MainPage = ({
   searchText,
@@ -18,8 +29,8 @@ export const MainPage = ({
 
 
   return (
-    <>
-      <Header />
+
+      
       <main className="main">
         <Search
           setSearchText={setSearchText}
@@ -37,7 +48,7 @@ export const MainPage = ({
           />
         </S.MainContainer>
       </main>
-      <Footer />
-    </>
+     
+    
   );
 };

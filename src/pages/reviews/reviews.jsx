@@ -5,7 +5,7 @@ import Skeleton from "react-loading-skeleton";
 import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 
-export const Reviews = () => {
+export const Reviews = ({user}) => {
   const { advId } = useParams();
   console.log(advId);
   const { data: dataComments, isLoading: isCommentsLoading } =
@@ -23,7 +23,9 @@ export const Reviews = () => {
             <ModalButtonClose />
           </Link>
           <S.ModalScroll>
-            <S.ModalFormNewArt id="formNewArt" action="#">
+           {user ? ( 
+           <>
+           <S.ModalFormNewArt id="formNewArt" action="#">
               <S.FormNewArtBlock>
                 <S.FormNewArtLabel htmlFor="text">
                   Добавить отзыв
@@ -38,6 +40,10 @@ export const Reviews = () => {
               </S.FormNewArtBlock>
             </S.ModalFormNewArt>
             <ModalButton buttonTitle="Опубликовать" />
+           </>
+            ) :
+            <S.ReviewTitleAuth><S.ReviewTitleAuthLink to="/singin" >Авторизуйтесь</S.ReviewTitleAuthLink>, чтобы оставить отзыв о товаре</S.ReviewTitleAuth>
+            }
             <ReviewItems data={dataComments} isLoading={isCommentsLoading} />
           </S.ModalScroll>
         </S.ModalContent>

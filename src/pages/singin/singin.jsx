@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useGetTokenMutation } from "../../services/api-services-reauth";
 import { useState } from "react";
 
-export const SingIn = () => {
+export const SingIn = ({setUser}) => {
   const [getToken, { error: tokenError }] = useGetTokenMutation();
   const [loginError, setLoginError] = useState(null);
 
@@ -19,11 +19,7 @@ export const SingIn = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log("data", data);
-    // alert(JSON.stringify(data));
-   
-    // localStorage.getItem("user");
-    console.log(localStorage.getItem("user"));
+
     try {
       const accessToken = await getToken({
         email: data.login,
@@ -32,7 +28,9 @@ export const SingIn = () => {
       if (tokenError && tokenError.status === 401) {
         throw new Error("Ошибка авторизации");
       }
-      localStorage.setItem("accessTokenData", JSON.stringify(accessToken));
+      localStorage.setItem("accessTokenData", JSON.stringify(accessToken.access_token));
+      localStorage.setItem("refreshTokenData", JSON.stringify(accessToken.refresh_token));
+      setUser(accessToken)
       reset();
       navigate("/profile");
     } catch (error) {

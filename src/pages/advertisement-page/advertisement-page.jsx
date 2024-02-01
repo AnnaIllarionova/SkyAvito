@@ -3,11 +3,11 @@ import {
   useGetAdvertisementByIdQuery,
   useGetAdvertisementCommentsByIdQuery,
 } from "../../services/api-services";
-import { Header } from "../../components/header/header";
+// import { Header } from "../../components/header/header";
 import { Menu } from "../../components/menu/menu";
 import * as Styled from "../main-page/main-page.styled";
 import * as S from "./advertisement-page.styled";
-import { Footer } from "../../components/footer/footer.styled";
+// import { Footer } from "../../components/footer/footer.styled";
 import { DateOfAdvertisement } from "../../components/card-list/card-list";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
@@ -41,7 +41,6 @@ export const Advertisement = () => {
 
   return (
     <>
-      <Header />
       <S.Main>
         <Styled.MainContainer>
           <Menu />
@@ -152,7 +151,7 @@ export const Advertisement = () => {
           )}
         </S.MainContainer>
       </S.Main>
-      <Footer />
+  
       <Outlet />
     </>
   );

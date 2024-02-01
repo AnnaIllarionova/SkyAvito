@@ -56,6 +56,10 @@ padding: 10px 37px;
 align-items: center;
 border-radius: 6px;
 background: #009EE4;
+
+&:hover {
+  background-color: #0080c1;
+}
 `
 
 export const ArticleButtonText = styled.p`

@@ -85,3 +85,21 @@ export const HeaderButtonNavToProfile = styled(HeaderButton)`
     display: none;
   }
 `;
+
+export const LogOutDiv = styled.div`
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+
+  @media ${device.mobile} {
+    display: none;
+  }
+`;
+
+export const LogOutImg = styled.img`
+  width: 100%;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;

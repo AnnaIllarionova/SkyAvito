@@ -24,7 +24,7 @@ export const allAdvertisementsApi = createApi({
       query: ({ id }) => `/ads/${id}/comments`,
   }),
   getAllUsers: builder.query({
-    query: () => `/user/all`,
+    query: () => "/user/all",
 }),
 
 }),

@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { Header } from "../../components/header/header";
+// import { Header } from "../../components/header/header";
 import * as S from "./error-page.styled";
 
 export const ErrorPage = () => {
   return (
-    <>
-      <Header />
+  
       <S.ErrorContent>
         <S.ErrorContainer>
           <S.ErrorNumber>404</S.ErrorNumber>
@@ -23,6 +22,6 @@ export const ErrorPage = () => {
           </Link>
         </S.ErrorContainer>
       </S.ErrorContent>
-    </>
+    
   );
 };

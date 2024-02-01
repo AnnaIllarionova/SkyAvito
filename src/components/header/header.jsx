@@ -1,13 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as S from "./header.styled";
 
-export const Header = () => {
-  const location = useLocation();
+export const Header = ({user, logOut}) => {
 
   return (
     <S.Header>
       <S.HeaderNav>
-        {location.pathname === "/" ? (
+        {!user ? (
           <Link to="/singin">
             <S.HeaderButtonMainEnter id="btnMainEnter">
               Вход в личный кабинет
@@ -30,6 +29,9 @@ export const Header = () => {
                 Личный кабинет
               </S.HeaderButtonNavToProfile>
             </Link>
+            <S.LogOutDiv onClick={logOut}>
+              <S.LogOutImg src="/img/LogOutWhite.png" alt="exit" />
+            </S.LogOutDiv>
           </>
         )}
       </S.HeaderNav>
