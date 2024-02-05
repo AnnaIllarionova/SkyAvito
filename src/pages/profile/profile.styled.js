@@ -99,9 +99,9 @@ export const SettingsImgBox = styled.div`
 
 export const SettingsImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  -o-object-fit: cover;
+  border-radius: 50%;
   object-fit: cover;
 `;
 
@@ -157,33 +157,6 @@ export const SettingsFormInput = styled.input`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   padding: 13px 19px;
-
-  &::-webkit-input-placeholder {
-    background-color: transparent;
-    color: rgba(0, 0, 0, 0.3);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  &:-ms-input-placeholder {
-    background-color: transparent;
-    color: rgba(0, 0, 0, 0.3);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  &::-ms-input-placeholder {
-    background-color: transparent;
-    color: rgba(0, 0, 0, 0.3);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-  }
 
   &::placeholder {
     background-color: transparent;
@@ -257,12 +230,12 @@ export const SettingsButton = styled.button`
   width: 154px;
   height: 50px;
   margin: 10px 7px 0;
-  background-color: #009ee4;
+  background-color: ${(props) => (props.disabled ? "#D9D9D9" : "#009ee4")};
   border-radius: 6px;
-  border: 1px solid #009ee4;
+  border: 1px solid ${(props) => (props.disabled ? "#D9D9D9" : "#009ee4")};
 
   &:hover {
-    background-color: #0080c1;
+    background-color: ${(props) => (!props.disabled ? "#0080c1" : "")};
   }
 
   @media ${device.mobile} {
@@ -274,3 +247,70 @@ export const SettingsButton = styled.button`
   }
 `;
 
+export const FormFileLabel = styled.label`
+  position: relative;
+  display: inline-block;
+  margin-top: 22px;
+  
+`;
+
+export const FormFileSpan = styled.span`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 14px;
+  vertical-align: middle;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 6px;
+  background-color: #009ee4;
+  line-height: 22px;
+  height: 40px;
+  width: 140px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #0080c1;
+  }
+`;
+
+export const FormFileInput = styled.input`
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+`;
+
+export const FormInputSubmit = styled.input`
+  height: 40px;
+  width: 140px;
+  background-color: #009ee4;
+  border-radius: 6px;
+  margin-top: 22px;
+  margin-bottom: 20px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: -0.05px;
+  color: #ffffff;
+  padding: 10px 20px;
+  box-sizing: border-box;
+`;
+
+export const FormFile = styled.form`
+  display: flex;
+  flex-direction: column;
+`;

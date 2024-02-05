@@ -24,9 +24,9 @@ export const GlobalStyles = createGlobalStyle`
     //   url("./fonts/Roboto/Roboto-Italic.ttf") format("truetype"),
     //   url("./fonts/Roboto/Roboto-Light.ttf") format("truetype"),
     //   url("./fonts/Roboto/Roboto-LightItalic.ttf") format("truetype"),
-      url("./fonts/Roboto/Roboto-Medium.ttf") format("truetype"),
+      url("/fonts/Roboto/Roboto-Medium.ttf") format("truetype"),
     //   url("./fonts/Roboto/Roboto-MediumItalic.ttf") format("truetype"),
-      url("./fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+      url("/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
     //   url("./fonts/Roboto/Roboto-Thin.ttf") format("truetype"),
     //   url("./fonts/Roboto/Roboto-ThinItalic.ttf") format("truetype");
     font-weight: 300;

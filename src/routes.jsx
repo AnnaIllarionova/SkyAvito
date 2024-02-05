@@ -9,6 +9,7 @@ import { Advertisement } from "./pages/advertisement-page/advertisement-page";
 import { SellerProfilePage } from "./pages/seller-profile-page/seller-profile-page";
 import { Reviews } from "./pages/reviews/reviews";
 import { NewAdvertisement } from "./pages/add-new-advertisement/add-new-advertisement";
+import { ChangePasswordModal } from "./pages/change-page-modal/change-page-modal";
 
 export const AppRoutes = () => {
   const [searchText, setSearchText] = useState("");
@@ -30,10 +31,9 @@ export const AppRoutes = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessTokenData");
     localStorage.removeItem("refreshTokenData");
-    setUser(null)
+    setUser(null);
     navigate("/singin");
   };
-
 
   return (
     <Routes>
@@ -66,26 +66,30 @@ export const AppRoutes = () => {
         />
 
         <Route
-          path="/profile"
+          path="/profile/*"
           element={
             <Profile
               searchText={searchText}
               startSearch={startSearch}
               setStartSearch={setStartSearch}
-              user={user} 
+              user={user}
               logOut={logOut}
             />
           }
-        />
-
+        >
+          <Route path="change-password" element={<ChangePasswordModal />} />
+        </Route>
+        
         <Route path="*" element={<ErrorPage />} />
-
       </Route>
 
       <Route path="/singin" element={<SingIn setUser={setUser} />} />
       <Route path="/singup" element={<SingUp />} />
 
-      <Route path="/add-new-advertisement" element={<NewAdvertisement user={user} />} />
+      <Route
+        path="/add-new-advertisement"
+        element={<NewAdvertisement user={user} />}
+      />
     </Routes>
   );
 };

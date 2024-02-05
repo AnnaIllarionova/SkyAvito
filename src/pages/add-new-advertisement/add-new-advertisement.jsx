@@ -78,7 +78,10 @@ export const NewAdvertisement = ({ user }) => {
               <Styled.FormNewArtInputPriceCover></Styled.FormNewArtInputPriceCover>
             </S.FormNewArtBlockAdvBottom>
 
-            <ModalButton buttonTitle="Опубликовать" />
+            <ModalButton buttonTitle="Опубликовать" 
+            // onClick={onClick} 
+            // disabled={disabled}
+             />
           </S.ModalFormNewArtAdv>
         </S.ModalContentAdv>
       </S.ModalBlock>

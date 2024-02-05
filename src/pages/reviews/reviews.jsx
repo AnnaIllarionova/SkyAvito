@@ -4,15 +4,35 @@ import * as S from "./reviews.styled";
 import Skeleton from "react-loading-skeleton";
 import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
+import { useState } from "react";
+import { useAddReviewMutation } from "../../services/api-services-reauth";
 
-export const Reviews = ({user}) => {
+export const Reviews = ({ user }) => {
   const { advId } = useParams();
-  console.log(advId);
-  const { data: dataComments, isLoading: isCommentsLoading } =
+  // console.log(advId);
+  const { data: dataComments, isLoading: isCommentsLoading, refetch: refetchDataComments } =
     useGetAdvertisementCommentsByIdQuery({
       id: advId,
     });
-  console.log(dataComments);
+  console.log("Все комментарии", dataComments);
+  const [userReviewValue, setUserReviewValue] = useState("");
+  const [addReview, { isLoading: isReviewLoading, error: addReviewError }] =
+    useAddReviewMutation();
+
+  const handleSendReview = async () => {
+    console.log("click");
+    try {
+      if (addReviewError) {
+        throw new Error(addReviewError.message);
+      }
+      await addReview({ id: advId, text: userReviewValue });
+      refetchDataComments();
+      setUserReviewValue("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("isReviewLoading", isReviewLoading);
 
   return (
     <S.ContainerModal>
@@ -23,27 +43,41 @@ export const Reviews = ({user}) => {
             <ModalButtonClose />
           </Link>
           <S.ModalScroll>
-           {user ? ( 
-           <>
-           <S.ModalFormNewArt id="formNewArt" action="#">
-              <S.FormNewArtBlock>
-                <S.FormNewArtLabel htmlFor="text">
-                  Добавить отзыв
-                </S.FormNewArtLabel>
-                <S.FormNewArtArea
-                  name="text"
-                  id="formArea"
-                  cols="auto"
-                  rows="5"
-                  placeholder="Введите отзыв"
-                ></S.FormNewArtArea>
-              </S.FormNewArtBlock>
-            </S.ModalFormNewArt>
-            <ModalButton buttonTitle="Опубликовать" />
-           </>
-            ) :
-            <S.ReviewTitleAuth><S.ReviewTitleAuthLink to="/singin" >Авторизуйтесь</S.ReviewTitleAuthLink>, чтобы оставить отзыв о товаре</S.ReviewTitleAuth>
-            }
+            {user ? (
+              <>
+                <S.ModalFormNewArt id="formNewArt" action="#">
+                  <S.FormNewArtBlock>
+                    <S.FormNewArtLabel htmlFor="text">
+                      Добавить отзыв
+                    </S.FormNewArtLabel>
+                    <S.FormNewArtArea
+                      name="text"
+                      id="formArea"
+                      cols="auto"
+                      rows="5"
+                      placeholder="Введите отзыв"
+                      required
+                      value={userReviewValue}
+                      onChange={(e) => setUserReviewValue(e.target.value)}
+                    ></S.FormNewArtArea>
+                  </S.FormNewArtBlock>
+                </S.ModalFormNewArt>
+                <ModalButton
+                  buttonTitle={
+                    isReviewLoading ? "Публикуем..." : "Опубликовать"
+                  }
+                  onClick={handleSendReview}
+                  disabled={isReviewLoading}
+                />
+              </>
+            ) : (
+              <S.ReviewTitleAuth>
+                <S.ReviewTitleAuthLink to="/singin">
+                  Авторизуйтесь
+                </S.ReviewTitleAuthLink>
+                , чтобы оставить отзыв о товаре
+              </S.ReviewTitleAuth>
+            )}
             <ReviewItems data={dataComments} isLoading={isCommentsLoading} />
           </S.ModalScroll>
         </S.ModalContent>
@@ -60,9 +94,11 @@ export const ModalButtonClose = () => {
   );
 };
 
-export const ModalButton = ({ buttonTitle }) => {
+export const ModalButton = ({ buttonTitle, onClick, disabled }) => {
   return (
-    <S.FormNewArtButtonPub id="btnPublish">{buttonTitle}</S.FormNewArtButtonPub>
+    <S.FormNewArtButtonPub id="btnPublish" onClick={onClick} disabled={disabled}>
+      {buttonTitle} 
+    </S.FormNewArtButtonPub>
   );
 };
 
@@ -82,11 +118,11 @@ export const ReviewItems = ({ data, isLoading }) => {
                   <S.ReviewImgDiv>
                     {isLoading ? (
                       <Skeleton height={40} width={40} />
-                    ) : (
+                    ) : (comment.author.avatar ?
                       <S.ReviewImg
                         src={`/img/${comment.author.avatar}`}
                         alt="avatar"
-                      />
+                      /> : null
                     )}
                   </S.ReviewImgDiv>
                 </S.ReviewLeft>

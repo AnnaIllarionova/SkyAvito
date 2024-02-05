@@ -30,6 +30,12 @@ export const SingIn = ({setUser}) => {
       }
       localStorage.setItem("accessTokenData", JSON.stringify(accessToken.access_token));
       localStorage.setItem("refreshTokenData", JSON.stringify(accessToken.refresh_token));
+      console.log(localStorage.getItem("accessTokenData"));
+      console.log(localStorage.getItem("refreshTokenData"));
+
+       localStorage.setItem("currentPassword", data.password);
+     
+
       setUser(accessToken)
       reset();
       navigate("/profile");
@@ -38,6 +44,9 @@ export const SingIn = ({setUser}) => {
       setLoginError(error.data.detail);
     }
   };
+
+
+
   return (
     <S.ContainerEnter>
       <S.ModalBlock>
@@ -65,6 +74,7 @@ export const SingIn = ({setUser}) => {
             <S.ModalInput
               {...register("password", {
                 required: "Поле email обязательно для заполнения",
+                // required: false
               })}
               type="password"
               id="formpassword"
