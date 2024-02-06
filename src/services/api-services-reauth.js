@@ -145,6 +145,39 @@ export const apiWithAuthorization = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
+    addNewAdvertisementText: builder.mutation({
+      query: ({ title, description, price }) => ({
+        url: "/adstext",
+        method: "POST",
+        body: {
+          title,
+          description,
+          price,
+        },
+      }),
+      invalidatesTags: ["Auth"],
+    }),
+    addNewAdvertisementFiles: builder.mutation({
+      query: ({ data, id }) => {
+        console.log("id", id);
+        console.log("data", data);
+        const formData = new FormData();
+        if (data) {
+          formData.append("file", data);
+        }
+
+        return {
+          url: `/ads/${id}/image`,
+          method: "POST",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+    getCurrentUserAdvertisements: builder.query({
+      query: () => "/ads/me",
+      providesTags: ["Auth"],
+    }),
   }),
 });
 
@@ -154,6 +187,9 @@ export const {
   useChangePasswordMutation,
   useAddReviewMutation,
   useAddUserAvatarMutation,
+  useAddNewAdvertisementTextMutation,
+  useAddNewAdvertisementFilesMutation,
+  useGetCurrentUserAdvertisementsQuery,
 } = apiWithAuthorization;
 
 export const userApi = createApi({

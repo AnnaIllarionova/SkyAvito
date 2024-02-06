@@ -4,9 +4,16 @@ import * as S from "./card-list.styled";
 import { SkeletonForAdd } from "../skeletons/skeleton";
 import { Link } from "react-router-dom";
 
-export const CardList = ({ searchText, startSearch, setStartSearch, data, error, isLoading }) => {
+export const CardList = ({
+  searchText,
+  startSearch,
+  setStartSearch,
+  data,
+  error,
+  isLoading,
+}) => {
   const [searchResults, setSearchResults] = useState([]);
-  
+
   // const { data: allImg } = useGetAllImagesQuery();
   // const { data: imgById } = useGetImageByIdQuery({ id: 2 });
   // console.log(imgById);
@@ -15,8 +22,8 @@ export const CardList = ({ searchText, startSearch, setStartSearch, data, error,
 
   useEffect(() => {
     const searchResultsArr =
-    data &&
-    data.filter(
+      data &&
+      data.filter(
         (add) =>
           add.title.toLowerCase().includes(searchText.toLowerCase()) ||
           add.price.toString().includes(searchText) ||
@@ -63,7 +70,7 @@ export const CardItem = ({ add }) => {
         <S.CardImage>
           <a href="#" target="_blank">
             {add.images.length > 0 ? (
-              <S.CardImg src={`/img/${add.images[0]?.url}`} alt="picture" />
+              <S.CardImg src={`http://localhost:8090/${add.images[0]?.url}`} alt="picture" />
             ) : null}
           </a>
         </S.CardImage>
@@ -86,9 +93,9 @@ export const DateOfAdvertisement = ({ add }) => {
   const addDate = parseISO(add.created_on);
   useEffect(() => {
     if (isToday(addDate)) {
-      setWasCreatedAt(format(`Сегодня в ${format(addDate, "HH:mm")}`));
+      setWasCreatedAt(`Сегодня в ${format(addDate, "HH:mm")}`);
     } else if (isYesterday(addDate)) {
-      setWasCreatedAt(format(`Вчера в ${format(addDate, "HH:mm")}`));
+      setWasCreatedAt(`Вчера в ${format(addDate, "HH:mm")}`);
     } else {
       setWasCreatedAt(format(addDate, "dd.MM.yyy в HH:mm"));
     }

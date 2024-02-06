@@ -108,7 +108,7 @@ export const ArticleImgBox = styled.div`
 
 export const ArticleImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
 `;

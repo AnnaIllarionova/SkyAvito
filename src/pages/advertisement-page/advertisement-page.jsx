@@ -56,7 +56,7 @@ export const Advertisement = () => {
                   <S.ArticleImgBox>
                     {data.images.length > 0 ? (
                       <S.ArticleImg
-                        src={`/img/${data.images[0]?.url}`}
+                        src={`http://localhost:8090/${data.images[0]?.url}`}
                         alt="article-img"
                       />
                     ) : null}
@@ -117,7 +117,7 @@ export const Advertisement = () => {
                   ) : (
                     <S.AuthorImg>
                       <S.AuthorImgPicture
-                        src={`/img/${data.user.avatar}`}
+                        src={`http://localhost:8090/${data.user.avatar}`}
                         alt="user-avatar"
                       />
                     </S.AuthorImg>
@@ -169,7 +169,7 @@ export const ArticleImages = ({ data, isLoading }) => {
         productImagesArr.map((image, index) => (
           <S.ArticleImgBarDiv key={index}>
             <S.ArticleImgBarDivPicture
-              src={image.url ? `/img/${image.url}` : null}
+              src={image.url ? `http://localhost:8090/${image.url}` : null}
               alt="article-img"
             />
           </S.ArticleImgBarDiv>

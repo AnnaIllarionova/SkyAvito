@@ -1,11 +1,10 @@
 import Skeleton from "react-loading-skeleton";
 import { CardList } from "../../components/card-list/card-list";
-// import { Footer } from "../../components/footer/footer.styled";
-// import { Header } from "../../components/header/header";
 import { Menu } from "../../components/menu/menu";
 import {
   useAddUserAvatarMutation,
   useChangeCurrentUserMutation,
+  useGetCurrentUserAdvertisementsQuery,
   useGetCurrentUserQuery,
 } from "../../services/api-services-reauth";
 import * as Styled from "../main-page/main-page.styled";
@@ -20,6 +19,12 @@ export const Profile = ({
   user,
   logOut,
 }) => {
+  const {
+    data: userAdvsData,
+    isLoading: userAdvsIsLoading,
+    error: userAdvsError,
+  } = useGetCurrentUserAdvertisementsQuery();
+  console.log("userAdvs", userAdvsData);
   const {
     data: currentUser,
     isLoading,
@@ -274,6 +279,9 @@ export const Profile = ({
             searchText={searchText}
             startSearch={startSearch}
             setStartSearch={setStartSearch}
+            data={userAdvsData}
+            error={userAdvsError}
+            isLoading={userAdvsIsLoading}
           />
         </Styled.MainContainer>
       </main>

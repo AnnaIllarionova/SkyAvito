@@ -120,7 +120,7 @@ export const ReviewItems = ({ data, isLoading }) => {
                       <Skeleton height={40} width={40} />
                     ) : (comment.author.avatar ?
                       <S.ReviewImg
-                        src={`/img/${comment.author.avatar}`}
+                        src={`http://localhost:8090/${comment.author.avatar}`}
                         alt="avatar"
                       /> : null
                     )}
