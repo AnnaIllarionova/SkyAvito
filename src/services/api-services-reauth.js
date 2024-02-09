@@ -178,6 +178,25 @@ export const apiWithAuthorization = createApi({
       query: () => "/ads/me",
       providesTags: ["Auth"],
     }),
+    deleteAdvertisement: builder.mutation({
+      query: ({ id }) => ({
+        url: `ads/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Auth"],
+    }),
+    changeAdvertisement: builder.mutation({
+      query: ({ id, title, description, price }) => ({
+        url: `/ads/${id}`,
+        method: "PATCH",
+        body: {
+          title,
+          description,
+          price,
+        },
+      }),
+      invalidatesTags: ["Auth"],
+    }),
   }),
 });
 
@@ -190,6 +209,8 @@ export const {
   useAddNewAdvertisementTextMutation,
   useAddNewAdvertisementFilesMutation,
   useGetCurrentUserAdvertisementsQuery,
+  useDeleteAdvertisementMutation,
+  useChangeAdvertisementMutation,
 } = apiWithAuthorization;
 
 export const userApi = createApi({

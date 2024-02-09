@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-// export const = styled.div``;
-
 export const ContainerEnter = styled.div`
   max-width: 100%;
   height: 100vh;
   margin: 0 auto;
   position: relative;
   background-color: #f4f5f6;
+
+  @media (max-width: 768px) {
+    background-color: #ffffff;
+  }
 `;
 
 export const ModalBlock = styled.div`

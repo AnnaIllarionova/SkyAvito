@@ -10,14 +10,19 @@ import { useAddReviewMutation } from "../../services/api-services-reauth";
 export const Reviews = ({ user }) => {
   const { advId } = useParams();
   // console.log(advId);
-  const { data: dataComments, isLoading: isCommentsLoading, refetch: refetchDataComments } =
-    useGetAdvertisementCommentsByIdQuery({
-      id: advId,
-    });
+  const {
+    data: dataComments,
+    isLoading: isCommentsLoading,
+    error: commentsError,
+    refetch: refetchDataComments,
+  } = useGetAdvertisementCommentsByIdQuery({
+    id: advId,
+  });
   console.log("Все комментарии", dataComments);
   const [userReviewValue, setUserReviewValue] = useState("");
   const [addReview, { isLoading: isReviewLoading, error: addReviewError }] =
     useAddReviewMutation();
+  const [reviewError, setReviewError] = useState(null);
 
   const handleSendReview = async () => {
     console.log("click");
@@ -30,15 +35,25 @@ export const Reviews = ({ user }) => {
       setUserReviewValue("");
     } catch (error) {
       console.log(error);
+      setReviewError(error.message);
     }
   };
   console.log("isReviewLoading", isReviewLoading);
+
+  if (commentsError) {
+    return <S.CommentsNoResults>{commentsError.error}</S.CommentsNoResults>;
+  }
 
   return (
     <S.ContainerModal>
       <S.ModalBlock>
         <S.ModalContent>
-          <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
+          <S.ModalTitleDiv>
+            <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
+            <Link to={`/advertisement/${advId}`}>
+              <S.ModalLinkBack></S.ModalLinkBack>
+            </Link>
+          </S.ModalTitleDiv>
           <Link to={`/advertisement/${advId}`}>
             <ModalButtonClose />
           </Link>
@@ -62,6 +77,7 @@ export const Reviews = ({ user }) => {
                     ></S.FormNewArtArea>
                   </S.FormNewArtBlock>
                 </S.ModalFormNewArt>
+                <S.ErrorMessage>{reviewError}</S.ErrorMessage>
                 <ModalButton
                   buttonTitle={
                     isReviewLoading ? "Публикуем..." : "Опубликовать"
@@ -96,8 +112,12 @@ export const ModalButtonClose = () => {
 
 export const ModalButton = ({ buttonTitle, onClick, disabled }) => {
   return (
-    <S.FormNewArtButtonPub id="btnPublish" onClick={onClick} disabled={disabled}>
-      {buttonTitle} 
+    <S.FormNewArtButtonPub
+      id="btnPublish"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {buttonTitle}
     </S.FormNewArtButtonPub>
   );
 };
@@ -118,12 +138,12 @@ export const ReviewItems = ({ data, isLoading }) => {
                   <S.ReviewImgDiv>
                     {isLoading ? (
                       <Skeleton height={40} width={40} />
-                    ) : (comment.author.avatar ?
+                    ) : comment.author.avatar ? (
                       <S.ReviewImg
                         src={`http://localhost:8090/${comment.author.avatar}`}
                         alt="avatar"
-                      /> : null
-                    )}
+                      />
+                    ) : null}
                   </S.ReviewImgDiv>
                 </S.ReviewLeft>
                 <S.ReviewRight>

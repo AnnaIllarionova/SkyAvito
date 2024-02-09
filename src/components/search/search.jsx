@@ -6,16 +6,16 @@ export const Search = ({ setSearchText, handleSearchResult }) => {
   };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault(); // Предотвращаем стандартное действие формы (обновление страницы)
+    e.preventDefault(); 
     handleSearchResult();
   };
 
   return (
     <S.MainSearch className="search">
-      <S.SearchLogoLink to="/" target="_blank">
+      <S.SearchLogoLink to="/" >
         <S.SearchLogoImg src="./img/logo.png" alt="logo" />
       </S.SearchLogoLink>
-      <S.SearchLogoMobileLink to="/" target="_blank">
+      <S.SearchLogoMobileLink to="/" >
         <S.SearchLogoMobileImg src="./img/logo-mob.png" alt="logo" />
       </S.SearchLogoMobileLink>
       <S.SearchForm  onSubmit={handleFormSubmit}>

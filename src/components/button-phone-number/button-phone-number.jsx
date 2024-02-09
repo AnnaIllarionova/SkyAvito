@@ -35,11 +35,7 @@ export const ButtonPhoneNumber = ({ data, isLoading }) => {
             </S.ArticleButtonTextNumbers>
           </S.ArticleButtonPhone>
         )}
-  
-        {/* <S.ArticleButtonRedact>Редактировать</S.ArticleButtonRedact>
-      <S.ArticleButtonRemove>
-        Снять с публикации
-      </S.ArticleButtonRemove> */}
+
       </S.ArticleButtonBlock>
     );
   };

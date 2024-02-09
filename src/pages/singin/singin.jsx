@@ -3,8 +3,10 @@ import * as S from "./singin.styled";
 import { useForm } from "react-hook-form";
 import { useGetTokenMutation } from "../../services/api-services-reauth";
 import { useState } from "react";
+import { MenuMob } from "../../components/menu/menu";
+import { Footer } from "../../components/footer/footer";
 
-export const SingIn = ({setUser}) => {
+export const SingIn = ({setUser, logOut, user}) => {
   const [getToken, { error: tokenError }] = useGetTokenMutation();
   const [loginError, setLoginError] = useState(null);
 
@@ -45,10 +47,10 @@ export const SingIn = ({setUser}) => {
     }
   };
 
-
-
   return (
+    <>
     <S.ContainerEnter>
+      <MenuMob logOut={logOut} user={user} />
       <S.ModalBlock>
         <S.ModalFormLogin id="formLogIn" action="#">
           <S.ModalLogo>
@@ -74,7 +76,6 @@ export const SingIn = ({setUser}) => {
             <S.ModalInput
               {...register("password", {
                 required: "Поле email обязательно для заполнения",
-                // required: false
               })}
               type="password"
               id="formpassword"
@@ -93,9 +94,7 @@ export const SingIn = ({setUser}) => {
               disabled={!isValid}
             />
           </S.ModalInputBlock>
-          
-          {/* <S.ModalButtonEnterLink to="/">Войти</S.ModalButtonEnterLink>
-          </S.ModalButtonEnter> */}
+    
           <S.ModalButtonSingup id="btnSignUp">
             <S.ModalButtonSingupLink to="/singup">
               Зарегистрироваться
@@ -104,5 +103,7 @@ export const SingIn = ({setUser}) => {
         </S.ModalFormLogin>
       </S.ModalBlock>
     </S.ContainerEnter>
+    <Footer/>
+    </>
   );
 };

@@ -24,6 +24,12 @@ export const FormNewArtSpan = styled.span`
     color: rgba(0, 0, 0, 0.3);
   }
 `;
+export const FormNewArtInput = styled.input`
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+`;
 
 export const FormNewArtBarImg = styled.div`
   width: 500px;
@@ -32,7 +38,7 @@ export const FormNewArtBarImg = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  overflow: hidden;
+  // overflow: hidden;
 
   @media ${device.mobile} {
     width: 278px;
@@ -65,93 +71,93 @@ export const FormNewArtImg = styled.div`
 export const FormNewArtAddImg = styled.img`
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   z-index: 2;
 
   @media ${device.mobile} {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
   }
 `;
 
 export const FormNewArtImgCover = styled.div`
-position: absolute;
-width: 100%;
-height: 100%;
-top: 0;
-left: 0;
-background-color: #F0F0F0;
-z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #f0f0f0;
+  z-index: -1;
 
-&::after, &::before {
+  &::after,
+  &::before {
     content: "";
     position: absolute;
     width: 30px;
     height: 2px;
     border-radius: 2px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     top: 50%;
-    right: calc(50% - (30px/2));
-}
+    right: calc(50% - (30px / 2));
+  }
 
-&::before {
+  &::before {
     transform: rotate(90deg);
-}
-
-`
+  }
+`;
 
 export const FormNewArtInputPrice = styled.input`
-padding: 13px 19px;
-background: #FFFFFF;
-border: 1px solid rgba(0, 0, 0, 0.2);
-border-radius: 6px;
-width: 200px;
-font-size: 16px;
-line-height: 24px;
-color: #000000;
+  padding: 13px 19px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  width: 200px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
 
-&::placeholder {
+  &::placeholder {
     text-align: end;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     color: #000000;
-}
+  }
 
-@media ${device.mobile} {
+  @media ${device.mobile} {
     padding: 9px 17px;
-      background: #FFFFFF;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 30px;
-      font-size: 16px;
-      line-height: 1;
-      width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    font-size: 16px;
+    line-height: 1;
+    width: 100%;
 
-      &::placeholder {
-        font-size: 14px;
-        line-height: 21px;
-        color: #000000;
-      }
-}
-`
+    &::placeholder {
+      font-size: 14px;
+      line-height: 21px;
+      color: #000000;
+    }
+  }
+`;
 
 export const FormNewArtInputPriceCover = styled.div`
-width: 24px;
-height: 24px;
-font-size: 16px;
-line-height: 24px;
-color: #000000;
-position: absolute;
-bottom: 13px;
-left: 170px;
-z-index: 0;
-background-color: #FFFFFF;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  position: absolute;
+  bottom: 13px;
+  left: 170px;
+  z-index: 0;
+  background-color: #ffffff;
 
-&:after {
+  &:after {
     content: "₽";
     width: 24px;
     height: 24px;
@@ -159,22 +165,69 @@ background-color: #FFFFFF;
     font-size: 16px;
     line-height: 24px;
     color: #000000;
-    z-index: 2; 
-}
+    z-index: 2;
+  }
 
-@media ${device.mobile} {
+  @media ${device.mobile} {
     width: 21px;
-      height: 21px;
+    height: 21px;
+    font-size: 14px;
+    line-height: 21px;
+    bottom: 9px;
+    left: auto;
+    right: 18px;
+
+    &:after {
       font-size: 14px;
       line-height: 21px;
-      bottom: 9px;
-      left: auto;
-      right: 18px;
+    }
+  }
+`;
 
-      &:after {
-        font-size: 14px;
-      line-height: 21px;
-      }
-}
-`
-// export const = styled.div``;
+export const CloseButton = styled.div`
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  bottom: -10px;
+  left: 77px;
+  z-index: 10;
+  cursor: pointer;
+`;
+
+export const CloseLine = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: #000000;
+    top: 47%;
+    right: -4px;
+    transform: rotate(-45deg);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: #000000;
+    top: 47%;
+    right: -4px;
+    transform: rotate(45deg);
+  }
+
+  &:hover:after, &:hover::before {
+    background-color: #009EE4;
+  }
+
+  @media ${device.mobile} {
+    display: none;
+  }
+`;

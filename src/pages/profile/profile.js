@@ -30,7 +30,7 @@ export const Profile = ({
     isLoading,
     error: currentUserError,
   } = useGetCurrentUserQuery();
-  console.log(currentUser);
+  console.log("currentUser", currentUser);
   const navigate = useNavigate();
 
   const handleChangePassword = () => {
@@ -74,9 +74,15 @@ export const Profile = ({
       console.log(error);
     }
   };
-  if (currentUserError && currentUserError.status === 401) {
-    logOut();
-  }
+ 
+    if(currentUserError){
+return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResults>
+    }
+  
+  // if (currentUserError && currentUserError.status === 401) {
+  //   logOut();
+  // }
+  console.log(currentUserError);
 
   const [addUserAvatar, { isLoading: avatarIsLoading }] =
     useAddUserAvatarMutation();
@@ -112,7 +118,7 @@ export const Profile = ({
       <main className="main">
         <Styled.MainContainer>
           <S.MainCenterBlock>
-            <Menu />
+            <Menu logOut={logOut} user={user}/>
             {isLoading ? (
               <Skeleton height={42} />
             ) : (

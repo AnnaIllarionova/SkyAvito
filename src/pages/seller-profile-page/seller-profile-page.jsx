@@ -1,8 +1,6 @@
-import { useParams } from "react-router-dom";
-// import { Header } from "../../components/header/header";
+import { Link, useParams } from "react-router-dom";
 import * as S from "./seller-profile-page.styled";
 import { Menu } from "../../components/menu/menu";
-// import { Footer } from "../../components/footer/footer";
 import { ButtonPhoneNumber } from "../../components/button-phone-number/button-phone-number";
 import { StartSelling } from "../advertisement-page/advertisement-page";
 import {
@@ -16,6 +14,8 @@ export const SellerProfilePage = ({
   searchText,
   startSearch,
   setStartSearch,
+  logOut,
+  user,
 }) => {
   const { sellerId } = useParams();
   const { data: allAds, error, isLoading } = useGetAllAdvertisementsQuery();
@@ -29,7 +29,7 @@ export const SellerProfilePage = ({
 
   // const { data, isLoading } = useGetAdvertisementByIdQuery({ id: sellerId });
   // console.log(data);
-  const { data: allUsers, isLoading: isAllUsersLoading } =
+  const { data: allUsers, isLoading: isAllUsersLoading, error: allUsersError } =
     useGetAllUsersQuery();
   // console.log("allUsers", allUsers);
 
@@ -38,13 +38,22 @@ export const SellerProfilePage = ({
     allUsers.find((sell) => parseInt(sell.id) === parseInt(sellerId));
   console.log("seller", seller);
 
+  if(allUsersError){
+    console.log(allUsersError);
+    return <S.UsersTitleNoResults>{allUsersError.error}</S.UsersTitleNoResults>
+  }
+
   return (
     <main className="main">
       <S.MainContainer>
         <S.MainCenterBlock>
-          <Menu />
-
+          <Menu logOut={logOut} user={user}/>
+          <S.SellerTitleDiv>
           <S.MainH2>Профиль продавца</S.MainH2>
+            <Link to="/">
+              <S.LinkBack></S.LinkBack>
+            </Link>
+          </S.SellerTitleDiv>
 
           <S.MainProfileSell>
             <S.ProfileSellContent>
@@ -56,7 +65,7 @@ export const SellerProfilePage = ({
                         <Skeleton width={170} height={170} />
                       ) : (
                         <S.SellerImg
-                          src={`/img/${seller.avatar}`}
+                          src={`http://localhost:8090/${seller.avatar}`}
                           alt="avatar"
                         />
                       )}
@@ -91,7 +100,7 @@ export const SellerProfilePage = ({
                           <Skeleton />
                         ) : (
                           <S.SellerImgMob
-                            src={`/img/${seller.avatar}`}
+                            src={`http://localhost:8090/${seller.avatar}`}
                             alt="avatar"
                           />
                         )}

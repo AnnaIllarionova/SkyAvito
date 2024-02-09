@@ -38,12 +38,13 @@ export const MainContent = styled.div`
   @media ${device.mobile} {
     width: 100%;
     margin: 0 auto;
-    overflow: hidden;
-    position: fixed;
-    right: 0;
-    left: 0;
-    top: 134px;
-    bottom: 84px;
+    overflow-y: scroll;
+    // overflow: hidden;
+    // position: fixed;
+    // right: 0;
+    // left: 0;
+    // top: 134px;
+    // bottom: 84px;
   }
 `;
 
@@ -122,6 +123,13 @@ export const CardsCard = styled.div`
     flex-direction: column;
   }
 `;
+
+export const CardContent = styled.div`
+@media ${device.mobile} {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+`
 
 export const CardImage = styled.div`
   width: 270px;

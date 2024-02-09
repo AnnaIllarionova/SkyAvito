@@ -19,6 +19,26 @@ export const MainCenterBlock = styled.div`
     padding: 0 20px;
   }
 `;
+export const SellerTitleDiv = styled.div`
+  @media ${device.mobile} {
+    position: relative;
+  }
+`;
+
+export const LinkBack = styled.div`
+  @media ${device.mobile} {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 9px;
+    left: 0;
+    cursor: pointer;
+  }
+`;
 
 export const MainH2 = styled.h2`
   font-style: normal;
@@ -39,22 +59,6 @@ export const MainH2 = styled.h2`
     color: #000000;
     padding: 0 0 0 26px;
     margin-bottom: 20px;
-    position: relative;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 0;
-      cursor: pointer;
-    }
   }
 `;
 
@@ -146,7 +150,8 @@ export const SellerImgDiv = styled.div`
 
 export const SellerImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
+  border-radius: 50%;
   object-fit: cover;
 `;
 
@@ -200,7 +205,26 @@ export const SellerImgMobDiv = styled.div`
 
 export const SellerImgMob = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
+  border-radius: 50%;
+`;
+
+export const UsersTitleNoResults = styled.p`
+  white-space: nowrap;
+  height: 52px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #009ee4;
+
+  @media ${device.mobile} {
+    height: 51px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #009ee4;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 `;

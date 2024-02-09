@@ -8,8 +8,10 @@ import {
   useAddNewAdvertisementTextMutation,
 } from "../../services/api-services-reauth";
 import { useRef, useState } from "react";
+import { Footer } from "../../components/footer/footer";
+import { MenuMob } from "../../components/menu/menu";
 
-export const NewAdvertisement = ({ user }) => {
+export const NewAdvertisement = ({ user, logOut }) => {
   const navigate = useNavigate();
 
   const [
@@ -20,10 +22,11 @@ export const NewAdvertisement = ({ user }) => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
   const [newAdvError, setNewAdvError] = useState(null);
-  const [addNewAdvertisementFiles, {error: newAdvFileError}] = useAddNewAdvertisementFilesMutation();
+  const [addNewAdvertisementFiles, { error: newAdvFileError }] =
+    useAddNewAdvertisementFilesMutation();
 
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [preview, setPreview] = useState([] || null);
+  const [preview, setPreview] = useState([]);
   const filePicker = useRef(null);
 
   const handlePublishNewAdv = async () => {
@@ -48,12 +51,12 @@ export const NewAdvertisement = ({ user }) => {
             }
           }
         });
-        setTitleValue("");
-        setDescriptionValue("");
-        setPriceValue("");
-        setSelectedFiles([]);
-        setPreview([]);
-        navigate("/profile")
+      setTitleValue("");
+      setDescriptionValue("");
+      setPriceValue("");
+      setSelectedFiles([]);
+      setPreview([]);
+      navigate("/profile");
     } catch (error) {
       console.log(error);
       setNewAdvError(error.message);
@@ -63,30 +66,37 @@ export const NewAdvertisement = ({ user }) => {
   const handleChangeImage = (event) => {
     const files = Array.from(event.target.files || []);
     console.log(files);
-    setSelectedFiles(files.map((file) => file));
+    const filesArray = files.map((file) => file);
+    
+    setSelectedFiles((prevFiles) => prevFiles.concat(filesArray));
 
     const newPreview = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      // if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function () {
-        newPreview.push(reader.result);
-        console.log(newPreview);
-        if (newPreview.length === files.length) {
-          setPreview(newPreview);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+    filesArray.forEach((file) => {
+      newPreview.push(URL.createObjectURL(file));
+    });
+  
+    setPreview((prevPreview) => [...prevPreview, ...newPreview]);
+
+
   };
   console.log("selectedFiles", selectedFiles);
+  console.log("preview", preview);
   return user !== null ? (
+    <>
     <S.ContainerModal>
+    <MenuMob logOut={logOut} user={user} />
       <S.ModalBlock>
         <S.ModalContentAdv>
+    
+          <S.ModalTitleDiv>
           <S.ModalTitle>Новое объявление</S.ModalTitle>
+          <Link to={`/profile`}>
+            <S.ModalLinkBack></S.ModalLinkBack>
+          </Link>
+
+          </S.ModalTitleDiv>
+          
           <Link to={`/profile`}>
             <ModalButtonClose />
           </Link>
@@ -123,7 +133,7 @@ export const NewAdvertisement = ({ user }) => {
                   не более 5 фотографий
                 </Styled.FormNewArtSpan>
               </Styled.FormNewArtP>
-              <input
+              <Styled.FormNewArtInput
                 type="file"
                 accept="image/*"
                 ref={filePicker}
@@ -131,30 +141,40 @@ export const NewAdvertisement = ({ user }) => {
                 onChange={handleChangeImage}
               />
               <Styled.FormNewArtBarImg>
+                {selectedFiles &&
+                  selectedFiles.map((image, index) => {
+                    return (
+                      <Styled.FormNewArtImg
+                        key={index}
+                        onClick={() => filePicker.current.click()}
+                      >
+                        <Styled.FormNewArtAddImg src={preview[index]} alt="" />
+                        <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
+                        <Styled.CloseButton
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelectedFiles(selectedFiles.filter((el) => el !== image));
+                            setPreview(preview.filter((el) => el !== image));
+                          }}
+                        >
+                          <Styled.CloseLine></Styled.CloseLine>
+                        </Styled.CloseButton>
+                      </Styled.FormNewArtImg>
+                    );
+                  })}
+
+               
+               
                 <Styled.FormNewArtImg
                   onClick={() => filePicker.current.click()}
                 >
-                  <Styled.FormNewArtAddImg src={preview[0]} alt="" />
+                  <Styled.FormNewArtAddImg
+                    //  src={preview[4]}
+                    alt=""
+                  />
                   <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
                 </Styled.FormNewArtImg>
-                <Styled.FormNewArtImg
-                  onClick={() => filePicker.current.click()}
-                >
-                  <Styled.FormNewArtAddImg src={preview[1]} alt="" />
-                  <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                </Styled.FormNewArtImg>
-                <Styled.FormNewArtImg>
-                  <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                  <Styled.FormNewArtAddImg src={preview[2]} alt="" />
-                </Styled.FormNewArtImg>
-                <Styled.FormNewArtImg>
-                  <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                  <Styled.FormNewArtAddImg src={preview[3]} alt="" />
-                </Styled.FormNewArtImg>
-                <Styled.FormNewArtImg>
-                  <Styled.FormNewArtAddImg src={preview[4]} alt="" />
-                  <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                </Styled.FormNewArtImg>
+
               </Styled.FormNewArtBarImg>
             </S.FormNewArtBlockAdvBottom>
             <S.FormNewArtBlockAdvBottom style={{ position: "relative" }}>
@@ -181,6 +201,8 @@ export const NewAdvertisement = ({ user }) => {
         </S.ModalContentAdv>
       </S.ModalBlock>
     </S.ContainerModal>
+    <Footer />
+    </>
   ) : (
     navigate("/singin")
   );

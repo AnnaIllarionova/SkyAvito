@@ -314,3 +314,22 @@ export const FormFile = styled.form`
   display: flex;
   flex-direction: column;
 `;
+
+
+export const ProfileTitleNoResults = styled.p`
+  white-space: nowrap;
+  height: 52px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #009ee4;
+
+  @media ${device.mobile} {
+    height: 51px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #009ee4;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+`;

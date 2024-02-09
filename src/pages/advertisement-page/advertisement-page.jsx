@@ -1,11 +1,9 @@
-import { Link, useParams, Outlet } from "react-router-dom";
+import { Link, useParams, Outlet, useNavigate } from "react-router-dom";
 import {
   useGetAdvertisementByIdQuery,
   useGetAdvertisementCommentsByIdQuery,
 } from "../../services/api-services";
-// import { Header } from "../../components/header/header";
 import { Menu } from "../../components/menu/menu";
-import * as Styled from "../main-page/main-page.styled";
 import * as S from "./advertisement-page.styled";
 // import { Footer } from "../../components/footer/footer.styled";
 import { DateOfAdvertisement } from "../../components/card-list/card-list";
@@ -13,18 +11,32 @@ import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ButtonPhoneNumber } from "../../components/button-phone-number/button-phone-number";
+import {
+  useDeleteAdvertisementMutation,
+  useGetCurrentUserQuery,
+} from "../../services/api-services-reauth";
+import { useState } from "react";
 
-export const Advertisement = () => {
+export const Advertisement = ({logOut, user}) => {
   const { advId } = useParams();
-  console.log(advId);
-  const { data, isLoading } = useGetAdvertisementByIdQuery({ id: advId });
-  console.log(data);
+  // console.log(advId);
+  const {
+    data,
+    isLoading,
+    error: advByIdError,
+  } = useGetAdvertisementByIdQuery({ id: advId });
+  // console.log(data);
 
-  const { data: dataComments, isLoading: isCommentsLoading } =
-    useGetAdvertisementCommentsByIdQuery({
-      id: advId,
-    });
-  console.log(dataComments);
+  const [fetchError, setFetchError] = useState(null);
+
+  const {
+    data: dataComments,
+    isLoading: isCommentsLoading,
+    error: commentsError,
+  } = useGetAdvertisementCommentsByIdQuery({
+    id: advId,
+  });
+  // console.log(dataComments);
   const dataCommentsLength = dataComments && dataComments.length;
   let commentsCount = "";
   if (dataCommentsLength === 1) {
@@ -38,13 +50,40 @@ export const Advertisement = () => {
   }
 
   const seller = data && data.user;
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const [
+    deleteAdvertisement,
+    { isLoading: deleteIsLoading, error: deleteError },
+  ] = useDeleteAdvertisementMutation();
+
+  const navigate = useNavigate();
+
+  const handleDeleteAdvertisement = async () => {
+    if (deleteError) {
+      throw new Error("Ошибка удаления");
+    }
+
+    try {
+      await deleteAdvertisement({ id: advId }).unwrap();
+    } catch (error) {
+      console.log(error);
+      setFetchError(error.message);
+    } finally {
+      navigate("/profile");
+    }
+  };
+  if (advByIdError || commentsError) {
+    return (
+      <S.AdvTitleNoResults>{`${advByIdError?.error || ""}, ${commentsError?.error || ""}`}</S.AdvTitleNoResults>
+    );
+  }
 
   return (
     <>
       <S.Main>
-        <Styled.MainContainer>
-          <Menu />
-        </Styled.MainContainer>
+        <S.MainContainer>
+          <Menu logOut={logOut} user={user} />
+        </S.MainContainer>
 
         <S.MainArticle>
           <S.ArticleContent>
@@ -53,14 +92,20 @@ export const Advertisement = () => {
                 {isLoading ? (
                   <Skeleton width={480} height={480} />
                 ) : (
+                  <>
+                  <Link to="/">
+                  <S.BackMob></S.BackMob>
+                  </Link>
+                  
                   <S.ArticleImgBox>
-                    {data.images.length > 0 ? (
+                    {data?.images.length > 0 ? (
                       <S.ArticleImg
-                        src={`http://localhost:8090/${data.images[0]?.url}`}
+                        src={`http://localhost:8090/${data?.images[0]?.url}`}
                         alt="article-img"
                       />
                     ) : null}
                   </S.ArticleImgBox>
+                  </>
                 )}
 
                 <ArticleImages data={data} isLoading={isLoading} />
@@ -78,7 +123,7 @@ export const Advertisement = () => {
                 {isLoading ? (
                   <Skeleton height={46} width={400} />
                 ) : (
-                  <S.ArticleTitle>{data.title}</S.ArticleTitle>
+                  <S.ArticleTitle>{data?.title}</S.ArticleTitle>
                 )}
 
                 <S.ArticleInfo>
@@ -91,7 +136,7 @@ export const Advertisement = () => {
                     <Skeleton width={400} />
                   ) : (
                     <S.ArticleDateAndCity>
-                      {data.user.city}
+                      {data?.user.city}
                     </S.ArticleDateAndCity>
                   )}
 
@@ -106,10 +151,22 @@ export const Advertisement = () => {
                 {isLoading ? (
                   <Skeleton height={39} width={400} />
                 ) : (
-                  <S.ArticlePrice>{data.price + "₽"}</S.ArticlePrice>
+                  <S.ArticlePrice>{data?.price + "₽"}</S.ArticlePrice>
                 )}
-
-                <ButtonPhoneNumber data={seller} isLoading={isLoading} />
+                {fetchError ? <p>{fetchError}</p> : null}
+                {currentUser?.id === data?.user_id ? (
+                  <S.ArticleButtonBlock>
+                    <S.ArticleButtonRedact>Редактировать</S.ArticleButtonRedact>
+                    <S.ArticleButtonRemove
+                      onClick={handleDeleteAdvertisement}
+                      disabled={deleteIsLoading}
+                    >
+                      {deleteIsLoading ? "Удаление..." : "Снять с публикации"}
+                    </S.ArticleButtonRemove>
+                  </S.ArticleButtonBlock>
+                ) : (
+                  <ButtonPhoneNumber data={seller} isLoading={isLoading} />
+                )}
 
                 <S.ArticleAuthor>
                   {isLoading ? (
@@ -117,7 +174,7 @@ export const Advertisement = () => {
                   ) : (
                     <S.AuthorImg>
                       <S.AuthorImgPicture
-                        src={`http://localhost:8090/${data.user.avatar}`}
+                        src={`http://localhost:8090/${data?.user.avatar}`}
                         alt="user-avatar"
                       />
                     </S.AuthorImg>
@@ -127,8 +184,8 @@ export const Advertisement = () => {
                     {isLoading ? (
                       <Skeleton height={18} width={400} />
                     ) : (
-                      <Link to={`/seller-profile/${data.user_id}`}>
-                        <S.AuthorName>{data.user.name}</S.AuthorName>
+                      <Link to={`/seller-profile/${data?.user_id}`}>
+                        <S.AuthorName>{data?.user.name}</S.AuthorName>
                       </Link>
                     )}
 
@@ -146,12 +203,12 @@ export const Advertisement = () => {
             <Skeleton width={500} height={24} />
           ) : (
             <S.MainContent>
-              <S.MainText>{data.description}</S.MainText>
+              <S.MainText>{data?.description}</S.MainText>
             </S.MainContent>
           )}
         </S.MainContainer>
       </S.Main>
-  
+
       <Outlet />
     </>
   );

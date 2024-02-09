@@ -11,11 +11,14 @@ export const ContainerModal = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: fixed;
-  
+
+  @media ${device.mobile} {
+    background-color: #ffffff;
+  }
 `;
 
 export const ModalBlock = styled.div`
- position: absolute;
+  position: absolute;
   z-index: 5;
   left: calc(50% - (800px / 2));
   top: 60px;
@@ -27,6 +30,7 @@ export const ModalBlock = styled.div`
     left: 0px;
     top: 55px;
     opacity: 1;
+    
   }
 `;
 
@@ -41,7 +45,6 @@ export const ModalContent = styled.div`
   border-radius: 12px;
   position: relative;
 
-
   @media ${device.mobile} {
     display: flex;
     flex-direction: column;
@@ -50,12 +53,30 @@ export const ModalContent = styled.div`
     min-width: 320px;
     height: auto;
     padding: 30px 20px 30px;
+    border-radius: 0;
   }
 `;
 
 export const ModalContentAdv = styled(ModalContent)`
-width: 600px;
-padding: 20px 50px 42px 50px;
+  width: 600px;
+  padding: 20px 50px 42px 50px;
+
+  @media ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    width: 320px;
+    height: auto;
+    padding: 30px 20px 30px;
+    border-radius: 0;
+  }
+`;
+
+export const ModalTitleDiv = styled.div`
+@media ${device.mobile} {
+  position: relative;
+}
 `;
 
 export const ModalTitle = styled.h3`
@@ -69,22 +90,23 @@ export const ModalTitle = styled.h3`
     font-size: 24px;
     line-height: 29px;
     padding: 0 0 0 26px;
-    position: relative;
+    margin:0;
+   
+  }
+`;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 0;
-      cursor: pointer;
-    }
+export const ModalLinkBack = styled.div`
+  @media ${device.mobile} {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 9px;
+    left: 0;
+    cursor: pointer;
   }
 `;
 
@@ -127,8 +149,9 @@ export const ModalButtonCloseLine = styled.div`
     transform: rotate(45deg);
   }
 
-  &:hover:after, &:hover::before {
-    background-color: #009EE4;
+  &:hover:after,
+  &:hover::before {
+    background-color: #009ee4;
   }
 
   @media ${device.mobile} {
@@ -142,7 +165,7 @@ export const ModalScroll = styled.div`
   align-items: flex-start;
   width: 100%;
   overflow-y: auto;
-
+  height: 610px;
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -157,19 +180,24 @@ export const ModalScroll = styled.div`
 `;
 
 export const ModalFormNewArt = styled.form`
- 
   display: flex;
   flex-direction: column;
   width: 652px;
 
   @media ${device.mobile} {
     margin-top: 22px;
+    width: 279px;
   }
 `;
 
 export const ModalFormNewArtAdv = styled(ModalFormNewArt)`
-width: 500px;
-`
+  width: 500px;
+
+  @media ${device.mobile} {
+    margin-top: 22px;
+    width: 279px;
+  }
+`;
 
 export const FormNewArtBlock = styled.div`
   width: 100%;
@@ -186,11 +214,11 @@ export const FormNewArtBlock = styled.div`
 `;
 
 export const FormNewArtBlockAdv = styled(FormNewArtBlock)`
-margin-bottom: 20px;
-`
+  margin-bottom: 20px;
+`;
 export const FormNewArtBlockAdvBottom = styled(FormNewArtBlock)`
-margin-bottom: 30px;
-`
+  margin-bottom: 30px;
+`;
 
 export const FormNewArtLabel = styled.label`
   margin-bottom: 14px;
@@ -200,7 +228,12 @@ export const FormNewArtLabel = styled.label`
   color: #000000;
 
   @media ${device.mobile} {
-    display: none;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-align: left;
   }
 `;
 
@@ -229,7 +262,7 @@ export const FormNewArtArea = styled.textarea`
     padding: 9px 17px;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 30px;
+    border-radius: 20px;
     font-size: 16px;
     line-height: 1;
 
@@ -241,11 +274,11 @@ export const FormNewArtArea = styled.textarea`
   }
 `;
 export const FormNewArtAreaName = styled(FormNewArtArea)`
-height: 50px;
-`
+  height: 50px;
+`;
 export const FormNewArtAreaDescription = styled(FormNewArtArea)`
-height: 200px;
-`
+  height: 200px;
+`;
 
 export const FormNewArtButtonPub = styled.button`
   width: 181px;
@@ -266,11 +299,12 @@ export const FormNewArtButtonPub = styled.button`
     width: 100%;
     height: 46px;
     background-color: #009ee4;
+    line-height: 46px;
   }
 `;
 
 export const ModalReviews = styled.div`
-margin-top: 30px;
+  margin-top: 30px;
   width: 100%;
   height: 495px;
   display: flex;
@@ -281,7 +315,6 @@ margin-top: 30px;
 export const ReviewsReview = styled.div`
   display: flex;
   justify-content: flex-start;
-
 `;
 
 export const ReviewItem = styled.div`
@@ -300,11 +333,9 @@ export const ReviewImgDiv = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: #f0f0f0;
-  
 `;
 
 export const ReviewImg = styled.img`
-  
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -343,15 +374,40 @@ export const ReviewText = styled(FontTitles)`
 `;
 
 export const ReviewTitleAuth = styled.p`
-font-size: 24px;
+  font-size: 24px;
   line-height: 32px;
   color: #000000;
   margin-bottom: 20px;
-`
+`;
 
 export const ReviewTitleAuthLink = styled(Link)`
-font-size: 24px;
+  font-size: 24px;
   line-height: 32px;
   color: #009ee4;
   margin-bottom: 20px;
-`
+`;
+
+export const CommentsNoResults = styled.p`
+  white-space: nowrap;
+  height: 52px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #009ee4;
+
+  @media ${device.mobile} {
+    height: 51px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #009ee4;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+`;
+
+export const ErrorMessage = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: red;
+`;

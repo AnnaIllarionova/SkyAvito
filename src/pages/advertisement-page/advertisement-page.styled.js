@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export const Main = styled.main`
   margin: 0 auto;
 `;
+
 export const MainArticle = styled.div`
   max-width: 1178px;
   padding: 0 0 70px;
@@ -14,8 +15,8 @@ export const MainArticle = styled.div`
   @media ${device.mobile} {
     max-width: 1178px;
     width: 100%;
-    padding: 55px 0 0px;
     margin: 0 auto;
+    padding: 0 5px;
   }
 `;
 
@@ -28,6 +29,7 @@ export const ArticleContent = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 55px;
   }
 `;
 
@@ -72,22 +74,23 @@ export const ArticleFillImg = styled.div`
     justify-content: center;
     position: relative;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 23px;
-      height: 23px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 24px;
-      left: 32px;
-      cursor: pointer;
-    }
   }
 `;
+
+export const BackMob = styled.div`
+@media ${device.mobile} {
+  width: 23px;
+  height: 23px;
+  background-color: transparent;
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  cursor: pointer;
+}
+`
 
 export const ArticleImgBox = styled.div`
   width: 480px;
@@ -103,6 +106,7 @@ export const ArticleImgBox = styled.div`
     height: auto;
     min-height: 320px;
     margin: 0 0px;
+    background-color: #ffffff;
   }
 `;
 
@@ -317,6 +321,7 @@ export const AuthorAbout = styled.p`
   @media ${device.mobile} {
     font-size: 14px;
     line-height: 28px;
+    margin: 0;
   }
 `;
 
@@ -363,4 +368,70 @@ font-size: 14px;
   line-height: 24px;
   color: #000000;
   text-align: center;
+`;
+
+export const ArticleButton = styled.button`
+  background-color: #009ee4;
+  border-radius: 6px;
+  border: 1px solid #009ee4;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+  margin-bottom: 10px;
+
+  &:hover {
+    background-color: #0080c1;
+  }
+
+  @media ${device.mobile} {
+    width: 100%;
+    height: 57px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+  }
+`;
+
+export const ArticleButtonBlock = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+
+export const ArticleButtonRedact = styled(ArticleButton)`
+  width: 189px;
+  margin-right: 10px;
+
+  @media ${device.tablet} {
+    width: 100%;
+    margin-right: 0;
+  }
+`;
+
+export const ArticleButtonRemove = styled(ArticleButton)`
+  width: 225px;
+
+  @media ${device.tablet} {
+    width: 100%;
+  }
+`;
+
+export const AdvTitleNoResults = styled.p`
+  white-space: nowrap;
+  height: 52px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #009ee4;
+
+  @media ${device.mobile} {
+    height: 51px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #009ee4;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 `;

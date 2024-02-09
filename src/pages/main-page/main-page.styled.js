@@ -33,21 +33,21 @@ export const MainTitle = styled.h2`
     text-align: center;
     position: relative;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 13px;
-      cursor: pointer;
-    }
-  }
+  //   &::before {
+  //     content: "";
+  //     display: block;
+  //     width: 12px;
+  //     height: 12px;
+  //     background-color: transparent;
+  //     border-top: 2px solid #000000;
+  //     border-left: 2px solid #000000;
+  //     -webkit-transform: rotate(-45deg);
+  //     transform: rotate(-45deg);
+  //     position: absolute;
+  //     top: 9px;
+  //     left: 13px;
+  //     cursor: pointer;
+  //   }
+  // }
 `;
 

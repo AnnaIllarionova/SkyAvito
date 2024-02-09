@@ -9,7 +9,8 @@ import { Advertisement } from "./pages/advertisement-page/advertisement-page";
 import { SellerProfilePage } from "./pages/seller-profile-page/seller-profile-page";
 import { Reviews } from "./pages/reviews/reviews";
 import { NewAdvertisement } from "./pages/add-new-advertisement/add-new-advertisement";
-import { ChangePasswordModal } from "./pages/change-page-modal/change-page-modal";
+import { ChangePasswordModal } from "./pages/change-password-modal/change-password-modal";
+import { ChangeAdvertisement } from "./pages/change-advertisement/change-advertisement-modal";
 
 export const AppRoutes = () => {
   const [searchText, setSearchText] = useState("");
@@ -50,7 +51,7 @@ export const AppRoutes = () => {
           }
         />
 
-        <Route path="/advertisement/:advId/*" element={<Advertisement />}>
+        <Route path="/advertisement/:advId/*" element={<Advertisement logOut={logOut} user={user} />}>
           <Route path="reviews" element={<Reviews user={user} />} />
         </Route>
 
@@ -61,6 +62,8 @@ export const AppRoutes = () => {
               searchText={searchText}
               startSearch={startSearch}
               setStartSearch={setStartSearch}
+              logOut={logOut}
+              user={user}
             />
           }
         />
@@ -81,14 +84,20 @@ export const AppRoutes = () => {
         </Route>
         
         <Route path="*" element={<ErrorPage />} />
+        
       </Route>
 
-      <Route path="/singin" element={<SingIn setUser={setUser} />} />
-      <Route path="/singup" element={<SingUp />} />
+      <Route path="/singin" element={<SingIn setUser={setUser} user={user} logOut={logOut} />} />
+      <Route path="/singup" element={<SingUp user={user} logOut={logOut} />} />
 
       <Route
         path="/add-new-advertisement"
-        element={<NewAdvertisement user={user} />}
+        element={<NewAdvertisement user={user} logOut={logOut}/>}
+      />
+
+    <Route
+        path="/change-advertisement"
+        element={<ChangeAdvertisement user={user} />}
       />
     </Routes>
   );

@@ -11,7 +11,7 @@ export const Layout = ({user, logOut}) => {
     <>
     <Header user={user} logOut={logOut} />
     <Outlet />
-    <Footer />
+    <Footer user={user} />
     </>
   )
 }

@@ -68,20 +68,20 @@ export const CardItem = ({ add }) => {
     <S.CardsItem key={add.id}>
       <S.CardsCard>
         <S.CardImage>
-          <a href="#" target="_blank">
+          
             {add.images.length > 0 ? (
               <S.CardImg src={`http://localhost:8090/${add.images[0]?.url}`} alt="picture" />
             ) : null}
-          </a>
+          
         </S.CardImage>
-        <div className="card__content">
+        <S.CardContent>
           <Link to={`/advertisement/${add.id}`}>
             <S.CardTitle>{add.title}</S.CardTitle>
           </Link>
           <S.CardPrice>{add.price + "₽"}</S.CardPrice>
           <S.CardPlace>{add.user.city}</S.CardPlace>
           <DateOfAdvertisement add={add} />
-        </div>
+        </S.CardContent>
       </S.CardsCard>
     </S.CardsItem>
   );
