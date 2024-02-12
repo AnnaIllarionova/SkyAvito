@@ -114,7 +114,7 @@ export const ArticleImg = styled.img`
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 export const ArticleImgBar = styled.div`
@@ -139,7 +139,7 @@ export const ArticleImgBarDiv = styled.div`
   min-width: 88px;
   height: 88px;
   background-color: #f0f0f0;
-  border: 2px solid #f0f0f0;
+  border: ${(props) => props.$chosen ? "2px solid #009ee4" : "2px solid #f0f0f0"} ;
   margin: 0 5px;
 
   &:hover {

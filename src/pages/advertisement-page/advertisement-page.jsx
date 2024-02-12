@@ -5,7 +5,6 @@ import {
 } from "../../services/api-services";
 import { Menu } from "../../components/menu/menu";
 import * as S from "./advertisement-page.styled";
-// import { Footer } from "../../components/footer/footer.styled";
 import { DateOfAdvertisement } from "../../components/card-list/card-list";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
@@ -15,17 +14,16 @@ import {
   useDeleteAdvertisementMutation,
   useGetCurrentUserQuery,
 } from "../../services/api-services-reauth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const Advertisement = ({logOut, user}) => {
+export const Advertisement = ({ logOut, user }) => {
   const { advId } = useParams();
-  // console.log(advId);
   const {
     data,
     isLoading,
     error: advByIdError,
   } = useGetAdvertisementByIdQuery({ id: advId });
-  // console.log(data);
+  console.log(data);
 
   const [fetchError, setFetchError] = useState(null);
 
@@ -36,7 +34,6 @@ export const Advertisement = ({logOut, user}) => {
   } = useGetAdvertisementCommentsByIdQuery({
     id: advId,
   });
-  // console.log(dataComments);
   const dataCommentsLength = dataComments && dataComments.length;
   let commentsCount = "";
   if (dataCommentsLength === 1) {
@@ -87,37 +84,7 @@ export const Advertisement = ({logOut, user}) => {
 
         <S.MainArticle>
           <S.ArticleContent>
-            <S.ArticleLeft>
-              <S.ArticleFillImg>
-                {isLoading ? (
-                  <Skeleton width={480} height={480} />
-                ) : (
-                  <>
-                  <Link to="/">
-                  <S.BackMob></S.BackMob>
-                  </Link>
-                  
-                  <S.ArticleImgBox>
-                    {data?.images.length > 0 ? (
-                      <S.ArticleImg
-                        src={`http://localhost:8090/${data?.images[0]?.url}`}
-                        alt="article-img"
-                      />
-                    ) : null}
-                  </S.ArticleImgBox>
-                  </>
-                )}
-
-                <ArticleImages data={data} isLoading={isLoading} />
-                <S.ArticleImgBarMob>
-                  <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
-                  <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                  <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                  <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                  <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                </S.ArticleImgBarMob>
-              </S.ArticleFillImg>
-            </S.ArticleLeft>
+            <ArticleImagesSlider data={data} isLoading={isLoading} />
             <S.ArticleRight>
               <S.ArticleBlock>
                 {isLoading ? (
@@ -214,23 +181,91 @@ export const Advertisement = ({logOut, user}) => {
   );
 };
 
-export const ArticleImages = ({ data, isLoading }) => {
+export const ArticleImagesSlider = ({ data, isLoading }) => {
+  const [bigImage, setBigImage] = useState(null);
+  useEffect(() => {
+    setBigImage(data?.images[0])
+  },[data])
+
+  const handleChooseImage = ({index, image}) => {
+    const chosenImage = data?.images[index];
+
+    setBigImage(chosenImage);
+    console.log(chosenImage);
+    
+    console.log("boolean", bigImage?.url === image.url);
+  };
+  console.log("bigImage.url",bigImage?.url);
+ 
+
+  return (
+    <S.ArticleLeft>
+      <S.ArticleFillImg>
+        {isLoading ? (
+          <Skeleton width={480} height={480} />
+        ) : (
+          <>
+            <Link to="/">
+              <S.BackMob></S.BackMob>
+            </Link>
+
+            <S.ArticleImgBox>
+              {data?.images.length > 0 ? (
+                <S.ArticleImg
+                  src={`http://localhost:8090/${bigImage?.url}`}
+                  alt="article-img"
+                />
+              ) : null}
+            </S.ArticleImgBox>
+          </>
+        )}
+
+        <ArticleImages
+          data={data}
+          isLoading={isLoading}
+          handleChooseImage={handleChooseImage}
+          bigImage={bigImage}
+        />
+        <S.ArticleImgBarMob>
+          <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
+          <S.ImgBarMobCircle></S.ImgBarMobCircle>
+          <S.ImgBarMobCircle></S.ImgBarMobCircle>
+          <S.ImgBarMobCircle></S.ImgBarMobCircle>
+          <S.ImgBarMobCircle></S.ImgBarMobCircle>
+        </S.ArticleImgBarMob>
+      </S.ArticleFillImg>
+    </S.ArticleLeft>
+  );
+};
+
+export const ArticleImages = ({
+  data,
+  isLoading,
+  handleChooseImage,
+  bigImage,
+}) => {
   const productImagesArr = data && data.images.map((image) => image);
-  productImagesArr && productImagesArr.shift();
 
   return (
     <S.ArticleImgBar>
       {isLoading ? (
         <Skeleton width={88} height={88} />
       ) : productImagesArr.length > 0 ? (
-        productImagesArr.map((image, index) => (
-          <S.ArticleImgBarDiv key={index}>
+        productImagesArr.map((image, index) => {
+         console.log(productImagesArr.includes(bigImage));
+          return (
+          <S.ArticleImgBarDiv
+            key={index}
+            onClick={() => handleChooseImage({index, image})}
+            $chosen={image?.id === bigImage?.id}
+          >
             <S.ArticleImgBarDivPicture
               src={image.url ? `http://localhost:8090/${image.url}` : null}
               alt="article-img"
+              
             />
           </S.ArticleImgBarDiv>
-        ))
+        )})
       ) : (
         <S.ArticleImgBarDiv>
           {/* <S.ArticleImgBarDivPicture src="" alt="article-img" /> */}

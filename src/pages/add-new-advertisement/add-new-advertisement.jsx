@@ -29,6 +29,17 @@ export const NewAdvertisement = ({ user, logOut }) => {
   const [preview, setPreview] = useState([]);
   const filePicker = useRef(null);
 
+ 
+    if(selectedFiles.length === 0) {
+      setSelectedFiles(Array.from(Array(5)))
+    } else if(selectedFiles.length < 5) {
+      setSelectedFiles([...selectedFiles.push(Array.from(Array(5 - selectedFiles.length)))])
+    } else if(selectedFiles.length > 5) {
+      setSelectedFiles(selectedFiles.slice(0,5))
+    }
+   
+  
+
   const handlePublishNewAdv = async () => {
     if (newAdvTextError || newAdvFileError) {
       throw new Error(" Ошибка загрузки текста объявления");
@@ -82,6 +93,8 @@ export const NewAdvertisement = ({ user, logOut }) => {
   };
   console.log("selectedFiles", selectedFiles);
   console.log("preview", preview);
+
+
   return user !== null ? (
     <>
     <S.ContainerModal>
@@ -150,22 +163,25 @@ export const NewAdvertisement = ({ user, logOut }) => {
                       >
                         <Styled.FormNewArtAddImg src={preview[index]} alt="" />
                         <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                        <Styled.CloseButton
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            setSelectedFiles(selectedFiles.filter((el) => el !== image));
-                            setPreview(preview.filter((el) => el !== image));
-                          }}
-                        >
-                          <Styled.CloseLine></Styled.CloseLine>
+                       {(preview[index] ) ? (
+                         <Styled.CloseButton
+                         onClick={(event) => {
+                           event.stopPropagation();
+                           setSelectedFiles(selectedFiles.filter((el) => el !== image));
+                           setPreview(preview.filter((el) => el !== image));
+                         }}
+                       >
+                         <Styled.CloseLine></Styled.CloseLine>
                         </Styled.CloseButton>
+                       ) : null}
+                         
                       </Styled.FormNewArtImg>
                     );
                   })}
 
                
                
-                <Styled.FormNewArtImg
+                {/* <Styled.FormNewArtImg
                   onClick={() => filePicker.current.click()}
                 >
                   <Styled.FormNewArtAddImg
@@ -173,7 +189,7 @@ export const NewAdvertisement = ({ user, logOut }) => {
                     alt=""
                   />
                   <Styled.FormNewArtImgCover></Styled.FormNewArtImgCover>
-                </Styled.FormNewArtImg>
+                </Styled.FormNewArtImg> */}
 
               </Styled.FormNewArtBarImg>
             </S.FormNewArtBlockAdvBottom>
