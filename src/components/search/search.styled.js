@@ -64,10 +64,11 @@ export const SearchForm = styled.form`
   display: flex;
 
   @media ${device.mobile} {
-    margin-left: 10px;
-    max-width: 1044px;
-    width: 100%;
-    display: flex;
+    // margin-left: 10px;
+    // max-width: 1044px;
+    // width: 100%;
+    // display: flex;
+    display:none;
   }
 `;
 
@@ -140,24 +141,7 @@ export const SearchTextMob = styled.input`
     font-size: 14px;
     line-height: 21px;
     color: #000000;
-
-    &::-webkit-input-placeholder {
-      background-color: transparent;
-      color: #b3b3b3;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 21px;
-    }
-
-    &:-ms-input-placeholder {
-      background-color: transparent;
-      color: #b3b3b3;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 21px;
-    }
+    margin-left: 10px;
 
     &::placeholder {
       background-color: transparent;

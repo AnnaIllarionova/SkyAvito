@@ -35,6 +35,7 @@ export const MainPage = ({
         <Search
           setSearchText={setSearchText}
           handleSearchResult={handleSearchResult}
+          setStartSearch={setStartSearch}
         />
         <S.MainContainer>
           <S.MainTitle>Объявления</S.MainTitle>

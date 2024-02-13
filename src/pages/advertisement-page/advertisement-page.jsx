@@ -15,6 +15,7 @@ import {
   useGetCurrentUserQuery,
 } from "../../services/api-services-reauth";
 import { useEffect, useState } from "react";
+import { ArticleImagesMob } from "../../components/swiper-mob-for-adv-page/swiper-mob";
 
 export const Advertisement = ({ logOut, user }) => {
   const { advId } = useParams();
@@ -208,15 +209,17 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
             <Link to="/">
               <S.BackMob></S.BackMob>
             </Link>
-
             <S.ArticleImgBox>
               {data?.images.length > 0 ? (
+                <>
                 <S.ArticleImg
                   src={`http://localhost:8090/${bigImage?.url}`}
                   alt="article-img"
                 />
+                <ArticleImagesMob isLoading={isLoading} data={data} />
+                </>
               ) : null}
-            </S.ArticleImgBox>
+            </S.ArticleImgBox >
           </>
         )}
 
@@ -226,13 +229,13 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
           handleChooseImage={handleChooseImage}
           bigImage={bigImage}
         />
-        <S.ArticleImgBarMob>
+        {/* <S.ArticleImgBarMob>
           <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
           <S.ImgBarMobCircle></S.ImgBarMobCircle>
           <S.ImgBarMobCircle></S.ImgBarMobCircle>
           <S.ImgBarMobCircle></S.ImgBarMobCircle>
           <S.ImgBarMobCircle></S.ImgBarMobCircle>
-        </S.ArticleImgBarMob>
+        </S.ArticleImgBarMob> */}
       </S.ArticleFillImg>
     </S.ArticleLeft>
   );
@@ -268,7 +271,6 @@ export const ArticleImages = ({
         )})
       ) : (
         <S.ArticleImgBarDiv>
-          {/* <S.ArticleImgBarDivPicture src="" alt="article-img" /> */}
           <S.MainTextPhoto>Доп. фото отсутствуют</S.MainTextPhoto>
         </S.ArticleImgBarDiv>
       )}

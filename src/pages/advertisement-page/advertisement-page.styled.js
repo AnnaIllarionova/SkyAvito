@@ -89,6 +89,7 @@ export const BackMob = styled.div`
   top: 24px;
   left: 32px;
   cursor: pointer;
+  z-index: 2;
 }
 `
 
@@ -115,6 +116,11 @@ export const ArticleImg = styled.img`
   height: 100%;
   display: block;
   object-fit: contain;
+
+  @media ${device.mobile} {
+  
+    display: none;
+  }
 `;
 
 export const ArticleImgBar = styled.div`
@@ -171,18 +177,18 @@ export const ArticleImgBarMob = styled.div`
 
 export const ImgBarMobCircle = styled.div`
   &::active {
-    background-color: #ffffff;
+    background-color: #f0f0f0;
   }
   @media ${device.mobile} {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1px solid #ffffff;
+    border: 1px solid #f0f0f0;
   }
 `;
 
 export const ImgBarMobCircleActive = styled(ImgBarMobCircle)`
-  background-color: #ffffff;
+  background-color: #f0f0f0;
 `;
 
 export const ArticleRight = styled.div`
