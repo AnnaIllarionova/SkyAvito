@@ -47,7 +47,7 @@ export const FormNewArtBarImg = styled.div`
     align-items: center;
     justify-content: start;
     margin: 0px -5px 10px;
-    overflow: hidden;
+    // overflow: hidden;
   }
 `;
 
@@ -223,11 +223,17 @@ export const CloseLine = styled.div`
     transform: rotate(45deg);
   }
 
-  &:hover:after, &:hover::before {
-    background-color: #009EE4;
+  &:hover:after,
+  &:hover::before {
+    background-color: #009ee4;
   }
 
   @media ${device.mobile} {
-    display: none;
+    // display: none;
   }
+`;
+
+export const ErrorText = styled.p`
+  color: red;
+  margin: 10px 0px 10px;
 `;

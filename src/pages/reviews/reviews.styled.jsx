@@ -65,11 +65,11 @@ export const ModalContentAdv = styled(ModalContent)`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
     width: 320px;
-    height: auto;
+    height: 85vh;
     padding: 30px 20px 30px;
     border-radius: 0;
+    overflow-y: auto;
   }
 `;
 
@@ -218,6 +218,7 @@ export const FormNewArtBlockAdv = styled(FormNewArtBlock)`
 `;
 export const FormNewArtBlockAdvBottom = styled(FormNewArtBlock)`
   margin-bottom: 30px;
+  overflow-x: auto;
 `;
 
 export const FormNewArtLabel = styled.label`

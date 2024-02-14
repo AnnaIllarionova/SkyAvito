@@ -39,7 +39,7 @@ export const CardList = ({
   }, [searchText, startSearch]);
 
   if (error) {
-    return <S.CardTitleNoResults>{error.error}</S.CardTitleNoResults>;
+    return <S.CardTitleNoResults>{error.error || error.detail}</S.CardTitleNoResults>;
   }
 
   return (
