@@ -53,6 +53,10 @@ export const AppRoutes = () => {
 
         <Route path="/advertisement/:advId/*" element={<Advertisement logOut={logOut} user={user} />}>
           <Route path="reviews" element={<Reviews user={user} />} />
+          <Route
+        path="change-advertisement"
+        element={<ChangeAdvertisement user={user} logOut={logOut} />}
+      />
         </Route>
 
         <Route
@@ -95,10 +99,7 @@ export const AppRoutes = () => {
         element={<NewAdvertisement user={user} logOut={logOut}/>}
       />
 
-    <Route
-        path="/change-advertisement"
-        element={<ChangeAdvertisement user={user} />}
-      />
+    
     </Routes>
   );
 };

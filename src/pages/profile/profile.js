@@ -31,6 +31,13 @@ export const Profile = ({
     error: currentUserError,
   } = useGetCurrentUserQuery();
   console.log("currentUser", currentUser);
+
+  const [
+    changeCurrentUser,
+    { isLoading: isLoadingChangeUser, error: errorChangeUser },
+  ] = useChangeCurrentUserMutation();
+  console.log(errorChangeUser);
+  
   const navigate = useNavigate();
 
   const handleChangePassword = () => {
@@ -52,11 +59,7 @@ export const Profile = ({
     }
   }, [currentUser]);
 
-  const [
-    changeCurrentUser,
-    { isLoading: isLoadingChangeUser, error: errorChangeUser },
-  ] = useChangeCurrentUserMutation();
-  console.log(errorChangeUser);
+  
 
   const handleSaveUser = async (e) => {
     e.preventDefault();
@@ -78,11 +81,6 @@ export const Profile = ({
     if(currentUserError){
 return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResults>
     }
-  
-  // if (currentUserError && currentUserError.status === 401) {
-  //   logOut();
-  // }
-  console.log(currentUserError);
 
   const [addUserAvatar, { isLoading: avatarIsLoading }] =
     useAddUserAvatarMutation();

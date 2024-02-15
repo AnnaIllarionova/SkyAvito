@@ -197,6 +197,13 @@ export const apiWithAuthorization = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
+    deleteImageInAdvertisement: builder.mutation({
+      query: ({id})=> ({
+        url: `/ads/${id}/image`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Auth"],
+    })
   }),
 });
 
@@ -211,6 +218,7 @@ export const {
   useGetCurrentUserAdvertisementsQuery,
   useDeleteAdvertisementMutation,
   useChangeAdvertisementMutation,
+  useDeleteImageInAdvertisementMutation,
 } = apiWithAuthorization;
 
 export const userApi = createApi({

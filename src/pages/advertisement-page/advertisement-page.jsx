@@ -124,7 +124,9 @@ export const Advertisement = ({ logOut, user }) => {
                 {fetchError ? <p>{fetchError}</p> : null}
                 {currentUser?.id === data?.user_id ? (
                   <S.ArticleButtonBlock>
+                    <Link to="change-advertisement" >
                     <S.ArticleButtonRedact>Редактировать</S.ArticleButtonRedact>
+                    </Link>
                     <S.ArticleButtonRemove
                       onClick={handleDeleteAdvertisement}
                       disabled={deleteIsLoading}
@@ -229,13 +231,7 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
           handleChooseImage={handleChooseImage}
           bigImage={bigImage}
         />
-        {/* <S.ArticleImgBarMob>
-          <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
-          <S.ImgBarMobCircle></S.ImgBarMobCircle>
-          <S.ImgBarMobCircle></S.ImgBarMobCircle>
-          <S.ImgBarMobCircle></S.ImgBarMobCircle>
-          <S.ImgBarMobCircle></S.ImgBarMobCircle>
-        </S.ArticleImgBarMob> */}
+       
       </S.ArticleFillImg>
     </S.ArticleLeft>
   );
@@ -255,7 +251,6 @@ export const ArticleImages = ({
         <Skeleton width={88} height={88} />
       ) : productImagesArr.length > 0 ? (
         productImagesArr.map((image, index) => {
-         console.log(productImagesArr.includes(bigImage));
           return (
           <S.ArticleImgBarDiv
             key={index}
