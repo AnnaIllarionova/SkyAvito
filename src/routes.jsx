@@ -15,12 +15,12 @@ import { ChangeAdvertisement } from "./pages/change-advertisement/change-adverti
 export const AppRoutes = () => {
   const [searchText, setSearchText] = useState("");
   const [startSearch, setStartSearch] = useState(false);
+  const [deletedPictures, setDeletedPictures] = useState([]);
 
   const getUserFromLS = () => {
     try {
       return JSON.parse(localStorage.getItem("accessTokenData"));
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -32,6 +32,7 @@ export const AppRoutes = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("accessTokenData");
     localStorage.removeItem("refreshTokenData");
+    localStorage.removeItem("currentPassword");
     setUser(null);
     navigate("/singin");
   };
@@ -51,12 +52,22 @@ export const AppRoutes = () => {
           }
         />
 
-        <Route path="/advertisement/:advId/*" element={<Advertisement logOut={logOut} user={user} />}>
+        <Route
+          path="/advertisement/:advId/*"
+          element={<Advertisement logOut={logOut} user={user} />}
+        >
           <Route path="reviews" element={<Reviews user={user} />} />
           <Route
-        path="change-advertisement"
-        element={<ChangeAdvertisement user={user} logOut={logOut} />}
-      />
+            path="change-advertisement"
+            element={
+              <ChangeAdvertisement
+                user={user}
+                logOut={logOut}
+                setDeletedPictures={setDeletedPictures}
+                deletedPictures={deletedPictures}
+              />
+            }
+          />
         </Route>
 
         <Route
@@ -86,20 +97,27 @@ export const AppRoutes = () => {
         >
           <Route path="change-password" element={<ChangePasswordModal />} />
         </Route>
-        
+
         <Route path="*" element={<ErrorPage />} />
-        
       </Route>
 
-      <Route path="/singin" element={<SingIn setUser={setUser} user={user} logOut={logOut} />} />
+      <Route
+        path="/singin"
+        element={<SingIn setUser={setUser} user={user} logOut={logOut} />}
+      />
       <Route path="/singup" element={<SingUp user={user} logOut={logOut} />} />
 
       <Route
         path="/add-new-advertisement"
-        element={<NewAdvertisement user={user} logOut={logOut}/>}
+        element={
+          <NewAdvertisement
+            user={user}
+            logOut={logOut}
+            setDeletedPictures={setDeletedPictures}
+            deletedPictures={deletedPictures}
+          />
+        }
       />
-
-    
     </Routes>
   );
 };

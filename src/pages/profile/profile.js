@@ -12,32 +12,25 @@ import * as S from "./profile.styled";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export const Profile = ({
-  searchText,
-  startSearch,
-  setStartSearch,
-  user,
-  logOut,
-}) => {
+export const Profile = ({ searchText, startSearch, user, logOut }) => {
   const {
     data: userAdvsData,
     isLoading: userAdvsIsLoading,
     error: userAdvsError,
+    refetch: userAdvsRefetch,
   } = useGetCurrentUserAdvertisementsQuery();
-  console.log("userAdvs", userAdvsData);
   const {
     data: currentUser,
     isLoading,
     error: currentUserError,
+    refetch,
   } = useGetCurrentUserQuery();
-  console.log("currentUser", currentUser);
 
   const [
     changeCurrentUser,
     { isLoading: isLoadingChangeUser, error: errorChangeUser },
   ] = useChangeCurrentUserMutation();
-  console.log(errorChangeUser);
-  
+
   const navigate = useNavigate();
 
   const handleChangePassword = () => {
@@ -51,6 +44,9 @@ export const Profile = ({
   const [isChanging, setIsChanging] = useState(false);
 
   useEffect(() => {
+    refetch();
+    userAdvsRefetch();
+
     if (currentUser) {
       setNameValue(currentUser.name);
       setSurnameValue(currentUser.surname);
@@ -58,8 +54,6 @@ export const Profile = ({
       setCityValue(currentUser.city);
     }
   }, [currentUser]);
-
-  
 
   const handleSaveUser = async (e) => {
     e.preventDefault();
@@ -77,10 +71,14 @@ export const Profile = ({
       console.log(error);
     }
   };
- 
-    if(currentUserError){
-return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResults>
-    }
+
+  if (currentUserError) {
+    return (
+      <S.ProfileTitleNoResults>
+        {currentUserError?.error}
+      </S.ProfileTitleNoResults>
+    );
+  }
 
   const [addUserAvatar, { isLoading: avatarIsLoading }] =
     useAddUserAvatarMutation();
@@ -97,7 +95,6 @@ return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResul
 
     try {
       await addUserAvatar(formData);
-      console.log(file);
       setFile("");
       setIsAvatarChanging(false);
     } catch (error) {
@@ -109,14 +106,12 @@ return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResul
     setIsAvatarChanging(true);
   };
 
-  console.log(avatarIsLoading);
-
   return user !== null ? (
     <>
       <main className="main">
         <Styled.MainContainer>
           <S.MainCenterBlock>
-            <Menu logOut={logOut} user={user}/>
+            <Menu logOut={logOut} user={user} />
             {isLoading ? (
               <Skeleton height={42} />
             ) : (
@@ -254,7 +249,11 @@ return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResul
                           }}
                         />
                       </S.SettingsBox>
-
+                      {errorChangeUser ? (
+                        <S.ProfileTitleNoResults>
+                          {errorChangeUser?.error}
+                        </S.ProfileTitleNoResults>
+                      ) : null}
                       <S.SettingsButton
                         id="settings-btn"
                         onClick={handleSaveUser}
@@ -282,7 +281,6 @@ return <S.ProfileTitleNoResults>{currentUserError?.error}</S.ProfileTitleNoResul
           <CardList
             searchText={searchText}
             startSearch={startSearch}
-            setStartSearch={setStartSearch}
             data={userAdvsData}
             error={userAdvsError}
             isLoading={userAdvsIsLoading}

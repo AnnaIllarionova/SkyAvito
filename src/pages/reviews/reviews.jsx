@@ -9,7 +9,6 @@ import { useAddReviewMutation } from "../../services/api-services-reauth";
 
 export const Reviews = ({ user }) => {
   const { advId } = useParams();
-  // console.log(advId);
   const {
     data: dataComments,
     isLoading: isCommentsLoading,
@@ -18,14 +17,12 @@ export const Reviews = ({ user }) => {
   } = useGetAdvertisementCommentsByIdQuery({
     id: advId,
   });
-  console.log("Все комментарии", dataComments);
   const [userReviewValue, setUserReviewValue] = useState("");
   const [addReview, { isLoading: isReviewLoading, error: addReviewError }] =
     useAddReviewMutation();
   const [reviewError, setReviewError] = useState(null);
 
   const handleSendReview = async () => {
-    console.log("click");
     try {
       if (addReviewError) {
         throw new Error(addReviewError.message);
@@ -38,7 +35,6 @@ export const Reviews = ({ user }) => {
       setReviewError(error.message);
     }
   };
-  console.log("isReviewLoading", isReviewLoading);
 
   if (commentsError) {
     return <S.CommentsNoResults>{commentsError.error}</S.CommentsNoResults>;

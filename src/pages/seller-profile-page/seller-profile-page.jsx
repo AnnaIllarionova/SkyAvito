@@ -19,27 +19,20 @@ export const SellerProfilePage = ({
 }) => {
   const { sellerId } = useParams();
   const { data: allAds, error, isLoading } = useGetAllAdvertisementsQuery();
-  console.log("allAds", allAds);
   const sellerAdvertisements =
     allAds &&
     allAds.filter(
       (sellerAdv) => parseInt(sellerAdv.user_id) === parseInt(sellerId),
     );
-  console.log("sellerAdvertisements", sellerAdvertisements);
 
-  // const { data, isLoading } = useGetAdvertisementByIdQuery({ id: sellerId });
-  // console.log(data);
   const { data: allUsers, isLoading: isAllUsersLoading, error: allUsersError } =
     useGetAllUsersQuery();
-  // console.log("allUsers", allUsers);
 
   const seller =
     allUsers &&
     allUsers.find((sell) => parseInt(sell.id) === parseInt(sellerId));
-  console.log("seller", seller);
 
   if(allUsersError){
-    console.log(allUsersError);
     return <S.UsersTitleNoResults>{allUsersError.error}</S.UsersTitleNoResults>
   }
 
@@ -63,11 +56,11 @@ export const SellerProfilePage = ({
                     <a href="" target="_self">
                       {isAllUsersLoading ? (
                         <Skeleton width={170} height={170} />
-                      ) : (
+                      ) : (seller.avatar ?
                         <S.SellerImg
                           src={`http://localhost:8090/${seller.avatar}`}
                           alt="avatar"
-                        />
+                        /> : null
                       )}
                     </a>
                   </S.SellerImgDiv>

@@ -4,14 +4,20 @@ export const Search = ({
   setSearchText,
   handleSearchResult,
   setStartSearch,
+  searchText,
 }) => {
   const handleSearchText = (e) => {
     setSearchText(e.target.value);
+    
   };
+  if(searchText === "") {
+    setStartSearch(false);
+  } 
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleSearchResult();
+    
   };
 
   return (
@@ -27,6 +33,7 @@ export const Search = ({
           type="search"
           placeholder="Поиск по объявлениям"
           name="search"
+          value={searchText}
           onChange={handleSearchText}
         />
         <S.SearchButton type="submit">Найти</S.SearchButton>

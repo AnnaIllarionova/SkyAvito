@@ -8,7 +8,7 @@ const baseQueryReauth = async (args, api, extraOptions) => {
         .getItem("accessTokenData")
         .replace(/^"|"$/g, "");
 
-      console.debug("Аксес", accessToken);
+      // console.debug("Аксес", accessToken);
 
       if (accessToken) {
         headers.set("Authorization", `Bearer ${accessToken}`);
@@ -21,11 +21,12 @@ const baseQueryReauth = async (args, api, extraOptions) => {
     localStorage.removeItem("newUser");
     localStorage.removeItem("accessTokenData");
     localStorage.removeItem("refreshTokenData");
+    localStorage.removeItem("currentPassword");
     window.location.href = "/singin";
   };
 
   const result = await baseQuery(args, api, extraOptions);
-  console.debug("Результат первого запроса", result);
+  // console.debug("Результат первого запроса", result);
 
   if (result?.error?.status !== 401) {
     return result;
@@ -34,13 +35,13 @@ const baseQueryReauth = async (args, api, extraOptions) => {
   const accessToken = localStorage
     .getItem("accessTokenData")
     .replace(/^"|"$/g, "");
-  console.debug("Аксесс_2", accessToken);
+  // console.debug("Аксесс_2", accessToken);
 
   const refreshToken = localStorage
     .getItem("refreshTokenData")
     .replace(/^"|"$/g, "");
 
-  console.debug("Рефреш", refreshToken);
+  // console.debug("Рефреш", refreshToken);
 
   if (!refreshToken) {
     return forceLogOut();
@@ -58,14 +59,13 @@ const baseQueryReauth = async (args, api, extraOptions) => {
     api,
     extraOptions,
   );
-  console.debug(
-    "Результат запроса на обновление токена не объект",
-    refreshResult,
-  );
+  // console.debug(
+  //   "Результат запроса на обновление токена не объект",
+  //   refreshResult,
+  // );
 
   if (!refreshResult.data.access_token) {
     return forceLogOut();
-    // console.log(refreshResult.data.access_token);
   }
 
   localStorage.setItem(
@@ -81,9 +81,8 @@ const baseQueryReauth = async (args, api, extraOptions) => {
 
   if (retryResult?.error?.status === 401) {
     return forceLogOut();
-    // console.log(retryResult);
   }
-  console.debug("Повторный запрос завершился успешно");
+  // console.debug("Повторный запрос завершился успешно");
 
   return retryResult;
 };
@@ -159,8 +158,7 @@ export const apiWithAuthorization = createApi({
     }),
     addNewAdvertisementFiles: builder.mutation({
       query: ({ data, id }) => {
-        console.log("id", id);
-        console.log("data", data);
+      
         const formData = new FormData();
         if (data) {
           formData.append("file", data);

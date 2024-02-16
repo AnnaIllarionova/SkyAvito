@@ -11,19 +11,17 @@ export const Footer = ({ user }) => {
           </Link>
         </S.FooterImg>
         {user ? (
-         
-            <S.FooterImg>
-              <Link to="/add-new-advertisement">
-                <S.Img src="/img/icon_02.png" alt="new-advertisement" />
-              </Link>
-            </S.FooterImg> ) : null}
-            <S.FooterImg>
-              <Link to={user? "/profile" : "/singin"}>
-                <S.Img src="/img/icon_03.png" alt="profile" />
-              </Link>
-            </S.FooterImg>
-         
-       
+          <S.FooterImg>
+            <Link to="/add-new-advertisement">
+              <S.Img src="/img/icon_02.png" alt="new-advertisement" />
+            </Link>
+          </S.FooterImg>
+        ) : null}
+        <S.FooterImg>
+          <Link to={user ? "/profile" : "/singin"}>
+            <S.Img src="/img/icon_03.png" alt="profile" />
+          </Link>
+        </S.FooterImg>
       </S.FooterContainer>
     </S.Footer>
   );

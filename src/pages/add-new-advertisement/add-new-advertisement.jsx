@@ -9,7 +9,12 @@ import { AdvertisementPictures } from "../../components/add-new-advertisement-co
 import { AdvertisementPrice } from "../../components/add-new-advertisement-component/advertisement-price";
 import { AdvertisementModal } from "../../components/add-new-advertisement-component/advertisement-modal";
 
-export const NewAdvertisement = ({ user, logOut }) => {
+export const NewAdvertisement = ({
+  user,
+  logOut,
+  setDeletedPictures,
+  deletedPictures,
+}) => {
   const navigate = useNavigate();
 
   const [
@@ -38,7 +43,6 @@ export const NewAdvertisement = ({ user, logOut }) => {
       })
         .unwrap()
         .then((response) => {
-          console.log("response",response);
           if (selectedFiles) {
             for (let i = 0; i < selectedFiles.length; i++) {
               addNewAdvertisementFiles({
@@ -84,12 +88,15 @@ export const NewAdvertisement = ({ user, logOut }) => {
         setSelectedFiles={setSelectedFiles}
         setPreview={setPreview}
         preview={preview}
+        setDeletedPictures={setDeletedPictures}
+        deletedPictures={deletedPictures}
       />
 
-      <AdvertisementPrice setPriceValue={setPriceValue} 
-      priceValue=""
-      data={null}
-      isLoading={null}
+      <AdvertisementPrice
+        setPriceValue={setPriceValue}
+        priceValue=""
+        data={null}
+        isLoading={null}
       />
     </AdvertisementModal>
   );

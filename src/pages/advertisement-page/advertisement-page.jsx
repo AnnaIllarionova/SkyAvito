@@ -25,7 +25,6 @@ export const Advertisement = ({ logOut, user }) => {
     error: advByIdError,
     refetch,
   } = useGetAdvertisementByIdQuery({ id: advId });
-  console.log(data);
 
   const [fetchError, setFetchError] = useState(null);
 
@@ -150,10 +149,10 @@ export const Advertisement = ({ logOut, user }) => {
                     <Skeleton circle height={40} width={40} />
                   ) : (
                     <S.AuthorImg>
-                      <S.AuthorImgPicture
+                      {data?.user.avatar ? <S.AuthorImgPicture
                         src={`http://localhost:8090/${data?.user.avatar}`}
                         alt="user-avatar"
-                      />
+                      /> : null}
                     </S.AuthorImg>
                   )}
 
@@ -197,15 +196,10 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
     setBigImage(data?.images[0]);
   }, [data]);
 
-  const handleChooseImage = ({ index, image }) => {
+  const handleChooseImage = ({ index}) => {
     const chosenImage = data?.images[index];
-
     setBigImage(chosenImage);
-    console.log(chosenImage);
-
-    console.log("boolean", bigImage?.url === image.url);
   };
-  console.log("bigImage.url", bigImage?.url);
 
   return (
     <S.ArticleLeft>
@@ -259,7 +253,7 @@ export const ArticleImages = ({
           return (
             <S.ArticleImgBarDiv
               key={index}
-              onClick={() => handleChooseImage({ index, image })}
+              onClick={() => handleChooseImage({ index})}
               $chosen={image?.id === bigImage?.id}
             >
               <S.ArticleImgBarDivPicture

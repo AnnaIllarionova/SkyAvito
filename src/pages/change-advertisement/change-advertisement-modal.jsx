@@ -4,14 +4,19 @@ import { AdvertisementPictures } from "../../components/add-new-advertisement-co
 import { AdvertisementPrice } from "../../components/add-new-advertisement-component/advertisement-price";
 import { AdvertisementText } from "../../components/add-new-advertisement-component/advertisement-top";
 import { useGetAdvertisementByIdQuery } from "../../services/api-services";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useAddNewAdvertisementFilesMutation,
   useChangeAdvertisementMutation,
   useDeleteImageInAdvertisementMutation,
 } from "../../services/api-services-reauth";
 
-export const ChangeAdvertisement = ({ logOut, user }) => {
+export const ChangeAdvertisement = ({
+  logOut,
+  user,
+  setDeletedPictures,
+  deletedPictures,
+}) => {
   const { advId } = useParams();
   const navigate = useNavigate();
   const {
@@ -21,15 +26,35 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
   } = useGetAdvertisementByIdQuery({ id: advId });
   const [addNewAdvertisementFiles, { error: newAdvFileError }] =
     useAddNewAdvertisementFilesMutation();
-  console.log(newAdvFileError);
   const [deleteImageAdvertisement, { error: deleteError }] =
     useDeleteImageInAdvertisementMutation();
-  console.log(deleteError);
   const [titleValue, setTitleValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
 
-  const [selectedFiles, setSelectedFiles] = useState(advData && [...advData.images]);
+  const [selectedFiles, setSelectedFiles] = useState(
+    advData && [...advData.images],
+  );
+  
+  const [newSelectedPictures, setNewSelectedPictures] = useState([]);
+
+  const deletedArr =
+    deletedPictures &&
+    deletedPictures.filter((file) => advData.images.includes(file));
+  useEffect(() => {
+    if (selectedFiles) {
+      const newSelectedArr = selectedFiles.filter(
+        (file) => !advData.images.includes(file),
+      );
+      setNewSelectedPictures(newSelectedArr);
+    }
+
+    if (deleteError?.status === 400) {
+      setChangeAdvError(deleteError.data.detail);
+    } else if (deleteError?.status === 401) {
+      setChangeAdvError("Пройзошел сбой, попробуйте еще раз");
+    }
+  }, [advData, selectedFiles, deleteError]);
   const arrPreview = [];
   const startPreview = Array.from(Array(5));
 
@@ -50,11 +75,11 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
       throw new Error("Ошибка изменения объявления");
     }
     try {
-      if (advData.images) {
-        for (let i = 0; i < advData.images.length; i++) {
+      if (deletedArr) {
+        for (let i = 0; i < deletedArr.length; i++) {
           deleteImageAdvertisement({
             id: advId,
-            fileUrl: advData.images[i].url,
+            fileUrl: deletedArr[i].url,
           }).unwrap();
         }
       }
@@ -65,10 +90,10 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
         price: priceValue,
       }).unwrap();
 
-      if (selectedFiles) {
-        for (let i = 0; i < selectedFiles.length; i++) {
+      if (newSelectedPictures) {
+        for (let i = 0; i < newSelectedPictures.length; i++) {
           await addNewAdvertisementFiles({
-            data: selectedFiles[i],
+            data: newSelectedPictures[i],
             id: advId,
           }).unwrap();
         }
@@ -78,18 +103,13 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
       navigate(`/advertisement/${advId}`);
     } catch (error) {
       console.log("error", error);
-      if(error.status === 422) {
-        setChangeAdvError("Ошибка загрузки файлов, попробуйте еще раз")
+      if (error.status === 422) {
+        setChangeAdvError("Ошибка загрузки файлов, попробуйте еще раз");
       } else {
         setChangeAdvError(error.message);
       }
-    
     }
   };
-
-  if (deleteError && deleteError.status === 400) {
-    setChangeAdvError(deleteError.data.detail);
-  }
 
   return (
     <AdvertisementModal
@@ -115,6 +135,8 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
         setSelectedFiles={setSelectedFiles}
         setPreview={setPreview}
         preview={preview}
+        setDeletedPictures={setDeletedPictures}
+        deletedPictures={deletedPictures}
       />
 
       <AdvertisementPrice

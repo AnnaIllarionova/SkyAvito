@@ -7,6 +7,8 @@ export const AdvertisementPictures = ({
   setPreview,
   selectedFiles,
   setSelectedFiles,
+  setDeletedPictures,
+  deletedPictures,
 }) => {
   const filePicker = useRef(null);
   const [lengthError, setLengthError] = useState(null);
@@ -35,24 +37,24 @@ export const AdvertisementPictures = ({
 
   const handleDeleteImage = ({ e, image, index }) => {
     e.stopPropagation();
-    console.log("Before setSelectedFiles:", selectedFiles);
+
     const selectedFilesArr = [...selectedFiles];
-    selectedFilesArr.splice(preview[index], 1);
+    selectedFilesArr.splice(index, 1);
 
     setSelectedFiles(selectedFilesArr);
-    console.log("After setSelectedFiles:", selectedFiles);
+
+    const deletedImages = [];
+    deletedImages.push(selectedFiles[index]);
+    setDeletedPictures([...deletedPictures, ...deletedImages]);
+
     const filteredPreview = preview.filter((el) => el !== image);
     const fullPreview = [
       ...filteredPreview,
       ...Array.from(Array(5 - filteredPreview.length)),
     ];
-    console.log("fullPreview", fullPreview);
 
     setPreview(fullPreview);
   };
-
-  console.log("preview", preview);
-  console.log("SelectedFiles:", selectedFiles);
 
   return (
     <S.FormNewArtBlockAdvBottom>

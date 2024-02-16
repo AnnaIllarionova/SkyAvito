@@ -403,6 +403,11 @@ export const ArticleButton = styled.button`
 export const ArticleButtonBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
+  
+  @media ${device.tablet} {
+    flex-direction: column;
+  }
+ 
 `;
 
 

@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import * as S from "./header.styled";
 
-export const Header = ({user, logOut}) => {
-
+export const Header = ({ user, logOut }) => {
   return (
     <S.Header>
       <S.HeaderNav>

@@ -7,18 +7,11 @@ import { Link } from "react-router-dom";
 export const CardList = ({
   searchText,
   startSearch,
-  setStartSearch,
   data,
   error,
   isLoading,
 }) => {
   const [searchResults, setSearchResults] = useState([]);
-
-  // const { data: allImg } = useGetAllImagesQuery();
-  // const { data: imgById } = useGetImageByIdQuery({ id: 2 });
-  // console.log(imgById);
-  // console.log(allImg);
-  console.log(data);
 
   useEffect(() => {
     const searchResultsArr =
@@ -34,14 +27,15 @@ export const CardList = ({
       setSearchResults(searchResultsArr);
     } else {
       setSearchResults(data);
-      setStartSearch(false);
     }
   }, [searchText, startSearch]);
-  
-  console.log("error", error);
 
   if (error) {
-    return <S.CardTitleNoResults>{error.error || error.detail}</S.CardTitleNoResults>;
+    return (
+      <S.CardTitleNoResults>
+        {error.error || error.detail || error.message}
+      </S.CardTitleNoResults>
+    );
   }
 
   return (
@@ -49,7 +43,7 @@ export const CardList = ({
       <S.Cards className="content__cards">
         {isLoading ? (
           <SkeletonForAdd />
-        ) : startSearch && searchText.length > 0 ? (
+        ) : startSearch ? (
           searchResults.length > 0 ? (
             searchResults.map((add) => <CardItem key={add.id} add={add} />)
           ) : (
@@ -70,11 +64,12 @@ export const CardItem = ({ add }) => {
     <S.CardsItem key={add.id}>
       <S.CardsCard>
         <S.CardImage>
-          
-            {add.images.length > 0 ? (
-              <S.CardImg src={`http://localhost:8090/${add.images[0]?.url}`} alt="picture" />
-            ) : null}
-          
+          {add.images.length > 0 ? (
+            <S.CardImg
+              src={`http://localhost:8090/${add.images[0]?.url}`}
+              alt="picture"
+            />
+          ) : null}
         </S.CardImage>
         <S.CardContent>
           <Link to={`/advertisement/${add.id}`}>

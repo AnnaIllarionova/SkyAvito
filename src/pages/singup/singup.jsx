@@ -24,7 +24,6 @@ export const SingUp = ({ logOut, user }) => {
   });
 
   const onSubmit = async (userData) => {
-    console.log("data", userData);
 
     try {
       const newUser = await registerNewUser({
@@ -61,7 +60,6 @@ export const SingUp = ({ logOut, user }) => {
               </Link>
             </S.ModalLogo>
 
-            {/* form */}
             <S.ModalInputBlock onSubmit={handleSubmit(onSubmit)}>
               <S.ModalInput
                 {...register("login", {

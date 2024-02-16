@@ -7,7 +7,6 @@ import { ModalButtonClose } from "../reviews/reviews";
 
 export const ChangePasswordModal = () => {
   const currentPassword = localStorage.getItem("currentPassword");
-  console.log(currentPassword);
   const [changePassword, { isLoading: isLoadingChangePassword, error: errorChangePassword }] =
     useChangePasswordMutation();
   const [userPassword, setUserPassword] = useState("");
@@ -48,9 +47,6 @@ export const ChangePasswordModal = () => {
     }
 
   };
-
-
-
 
   return (
     <Styled.ContainerModal>

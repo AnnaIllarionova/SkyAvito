@@ -268,7 +268,7 @@ export const FormFileSpan = styled.span`
   background-color: #009ee4;
   line-height: 22px;
   height: 40px;
-  width: 140px;
+  width: 170px;
   padding: 10px 20px;
   box-sizing: border-box;
   border: none;
@@ -291,7 +291,7 @@ export const FormFileInput = styled.input`
 
 export const FormInputSubmit = styled.input`
   height: 40px;
-  width: 140px;
+  width: 170px;
   background-color: #009ee4;
   border-radius: 6px;
   margin-top: 22px;
