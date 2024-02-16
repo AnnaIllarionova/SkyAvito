@@ -28,7 +28,8 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
   const [titleValue, setTitleValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState(advData?.images);
+
+  const [selectedFiles, setSelectedFiles] = useState(advData && [...advData.images]);
   const arrPreview = [];
   const startPreview = Array.from(Array(5));
 
@@ -43,43 +44,52 @@ export const ChangeAdvertisement = ({ logOut, user }) => {
     { isLoading: changeIsLoading, error: changeError },
   ] = useChangeAdvertisementMutation();
   const [changeAdvError, setChangeAdvError] = useState(null);
-  
+
   const handleChangeImage = async () => {
     if (changeError || newAdvFileError) {
       throw new Error("Ошибка изменения объявления");
     }
     try {
+      if (advData.images) {
+        for (let i = 0; i < advData.images.length; i++) {
+          deleteImageAdvertisement({
+            id: advId,
+            fileUrl: advData.images[i].url,
+          }).unwrap();
+        }
+      }
       await changeAdvertisement({
         id: advId,
         title: titleValue,
         description: descriptionValue,
         price: priceValue,
-      })
-        .unwrap() 
-.then((response) => {
-  if (selectedFiles) {
-    for (let i = 0; i < selectedFiles.length; i++) {
-      deleteImageAdvertisement({
-        id: response.id,
-        file_url: selectedFiles[i].url,
       }).unwrap();
-      addNewAdvertisementFiles({
-        data: selectedFiles[i],
-        id: response.id,
-      }).unwrap();
-    }
-  }
-})
-          
-     
+
+      if (selectedFiles) {
+        for (let i = 0; i < selectedFiles.length; i++) {
+          await addNewAdvertisementFiles({
+            data: selectedFiles[i],
+            id: advId,
+          }).unwrap();
+        }
+      }
 
       refetch();
       navigate(`/advertisement/${advId}`);
     } catch (error) {
-      console.log(error);
-      setChangeAdvError(error);
+      console.log("error", error);
+      if(error.status === 422) {
+        setChangeAdvError("Ошибка загрузки файлов, попробуйте еще раз")
+      } else {
+        setChangeAdvError(error.message);
+      }
+    
     }
   };
+
+  if (deleteError && deleteError.status === 400) {
+    setChangeAdvError(deleteError.data.detail);
+  }
 
   return (
     <AdvertisementModal

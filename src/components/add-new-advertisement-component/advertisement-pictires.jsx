@@ -15,7 +15,6 @@ export const AdvertisementPictures = ({
     const files = Array.from(event.target.files || []);
 
     const filesArray = files.map((file) => file);
-    console.log("filesArray", filesArray);
     let updatedFiles = [...selectedFiles, ...filesArray];
     if (updatedFiles.length > 5) {
       setLengthError("Максимум 5 фотографий");
@@ -31,8 +30,6 @@ export const AdvertisementPictures = ({
 
     preview.splice(selectedFiles.length, filesArray.length, ...newPreview);
     const slicedPreview = preview.slice(0, 5);
-    console.log("slicedPreview", slicedPreview);
-
     setPreview(slicedPreview);
   };
 
@@ -55,6 +52,7 @@ export const AdvertisementPictures = ({
   };
 
   console.log("preview", preview);
+  console.log("SelectedFiles:", selectedFiles);
 
   return (
     <S.FormNewArtBlockAdvBottom>

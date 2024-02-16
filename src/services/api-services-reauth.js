@@ -198,8 +198,8 @@ export const apiWithAuthorization = createApi({
       invalidatesTags: ["Auth"],
     }),
     deleteImageInAdvertisement: builder.mutation({
-      query: ({id})=> ({
-        url: `/ads/${id}/image`,
+      query: ({id, fileUrl})=> ({
+        url: `/ads/${id}/image?file_url=${fileUrl}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Auth"],

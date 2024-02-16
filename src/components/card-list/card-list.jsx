@@ -37,6 +37,8 @@ export const CardList = ({
       setStartSearch(false);
     }
   }, [searchText, startSearch]);
+  
+  console.log("error", error);
 
   if (error) {
     return <S.CardTitleNoResults>{error.error || error.detail}</S.CardTitleNoResults>;

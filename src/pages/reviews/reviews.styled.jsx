@@ -11,6 +11,7 @@ export const ContainerModal = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: fixed;
+  z-index: 6;
 
   @media ${device.mobile} {
     background-color: #ffffff;

@@ -23,6 +23,7 @@ export const Advertisement = ({ logOut, user }) => {
     data,
     isLoading,
     error: advByIdError,
+    refetch,
   } = useGetAdvertisementByIdQuery({ id: advId });
   console.log(data);
 
@@ -55,6 +56,10 @@ export const Advertisement = ({ logOut, user }) => {
   ] = useDeleteAdvertisementMutation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const handleDeleteAdvertisement = async () => {
     if (deleteError) {
@@ -124,8 +129,10 @@ export const Advertisement = ({ logOut, user }) => {
                 {fetchError ? <p>{fetchError}</p> : null}
                 {currentUser?.id === data?.user_id ? (
                   <S.ArticleButtonBlock>
-                    <Link to="change-advertisement" >
-                    <S.ArticleButtonRedact>Редактировать</S.ArticleButtonRedact>
+                    <Link to="change-advertisement">
+                      <S.ArticleButtonRedact>
+                        Редактировать
+                      </S.ArticleButtonRedact>
                     </Link>
                     <S.ArticleButtonRemove
                       onClick={handleDeleteAdvertisement}
@@ -187,19 +194,18 @@ export const Advertisement = ({ logOut, user }) => {
 export const ArticleImagesSlider = ({ data, isLoading }) => {
   const [bigImage, setBigImage] = useState(null);
   useEffect(() => {
-    setBigImage(data?.images[0])
-  },[data])
+    setBigImage(data?.images[0]);
+  }, [data]);
 
-  const handleChooseImage = ({index, image}) => {
+  const handleChooseImage = ({ index, image }) => {
     const chosenImage = data?.images[index];
 
     setBigImage(chosenImage);
     console.log(chosenImage);
-    
+
     console.log("boolean", bigImage?.url === image.url);
   };
-  console.log("bigImage.url",bigImage?.url);
- 
+  console.log("bigImage.url", bigImage?.url);
 
   return (
     <S.ArticleLeft>
@@ -214,14 +220,14 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
             <S.ArticleImgBox>
               {data?.images.length > 0 ? (
                 <>
-                <S.ArticleImg
-                  src={`http://localhost:8090/${bigImage?.url}`}
-                  alt="article-img"
-                />
-                <ArticleImagesMob isLoading={isLoading} data={data} />
+                  <S.ArticleImg
+                    src={`http://localhost:8090/${bigImage?.url}`}
+                    alt="article-img"
+                  />
+                  <ArticleImagesMob isLoading={isLoading} data={data} />
                 </>
               ) : null}
-            </S.ArticleImgBox >
+            </S.ArticleImgBox>
           </>
         )}
 
@@ -231,7 +237,6 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
           handleChooseImage={handleChooseImage}
           bigImage={bigImage}
         />
-       
       </S.ArticleFillImg>
     </S.ArticleLeft>
   );
@@ -252,18 +257,18 @@ export const ArticleImages = ({
       ) : productImagesArr.length > 0 ? (
         productImagesArr.map((image, index) => {
           return (
-          <S.ArticleImgBarDiv
-            key={index}
-            onClick={() => handleChooseImage({index, image})}
-            $chosen={image?.id === bigImage?.id}
-          >
-            <S.ArticleImgBarDivPicture
-              src={image.url ? `http://localhost:8090/${image.url}` : null}
-              alt="article-img"
-              
-            />
-          </S.ArticleImgBarDiv>
-        )})
+            <S.ArticleImgBarDiv
+              key={index}
+              onClick={() => handleChooseImage({ index, image })}
+              $chosen={image?.id === bigImage?.id}
+            >
+              <S.ArticleImgBarDivPicture
+                src={image.url ? `http://localhost:8090/${image.url}` : null}
+                alt="article-img"
+              />
+            </S.ArticleImgBarDiv>
+          );
+        })
       ) : (
         <S.ArticleImgBarDiv>
           <S.MainTextPhoto>Доп. фото отсутствуют</S.MainTextPhoto>
