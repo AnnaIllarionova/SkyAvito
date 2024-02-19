@@ -8,11 +8,13 @@ export const AdvertisementText = ({
   titleValue,
   descriptionValue,
   isLoading,
+  setIsAdvChanging,
 }) => {
   useEffect(() => {
     data ? setTitleValue(data.title) : setTitleValue("");
     data ? setDescriptionValue(data.description) : setDescriptionValue("");
-  }, [data]);
+  }, []);
+
   return (
     <>
       <S.FormNewArtBlockAdv>
@@ -25,7 +27,10 @@ export const AdvertisementText = ({
           rows="2"
           placeholder="Введите название"
           value={data && (isLoading ? "Данные загружаются..." : titleValue)}
-          onChange={(e) => setTitleValue(e.target.value)}
+          onChange={(e) => {
+            setTitleValue(e.target.value);
+            setIsAdvChanging(true);
+          }}
         ></S.FormNewArtAreaName>
       </S.FormNewArtBlockAdv>
 
@@ -40,7 +45,10 @@ export const AdvertisementText = ({
           value={
             data && (isLoading ? "Данные загружаются..." : descriptionValue)
           }
-          onChange={(e) => setDescriptionValue(e.target.value)}
+          onChange={(e) => {
+            setDescriptionValue(e.target.value);
+            setIsAdvChanging(true);
+          }}
         ></S.FormNewArtAreaDescription>
       </S.FormNewArtBlockAdv>
     </>

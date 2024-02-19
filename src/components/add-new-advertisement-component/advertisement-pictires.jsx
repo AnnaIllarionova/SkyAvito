@@ -9,9 +9,11 @@ export const AdvertisementPictures = ({
   setSelectedFiles,
   setDeletedPictures,
   deletedPictures,
+  setIsAdvChanging,
 }) => {
   const filePicker = useRef(null);
   const [lengthError, setLengthError] = useState(null);
+  const [isChanging, setIsChanging] = useState(false);
 
   const handleChangeImage = (event) => {
     const files = Array.from(event.target.files || []);
@@ -20,8 +22,12 @@ export const AdvertisementPictures = ({
     let updatedFiles = [...selectedFiles, ...filesArray];
     if (updatedFiles.length > 5) {
       setLengthError("Максимум 5 фотографий");
+      setIsChanging(true);
       return;
+    } else {
+      setIsChanging(false);
     }
+
     const slicedUpdatedFiles = updatedFiles.slice(0, 5);
     setSelectedFiles(slicedUpdatedFiles);
     const newPreview = [];
@@ -33,10 +39,13 @@ export const AdvertisementPictures = ({
     preview.splice(selectedFiles.length, filesArray.length, ...newPreview);
     const slicedPreview = preview.slice(0, 5);
     setPreview(slicedPreview);
+    setIsAdvChanging(true);
   };
 
   const handleDeleteImage = ({ e, image, index }) => {
     e.stopPropagation();
+    setIsChanging(false);
+    setIsAdvChanging(true);
 
     const selectedFilesArr = [...selectedFiles];
     selectedFilesArr.splice(index, 1);
@@ -67,7 +76,7 @@ export const AdvertisementPictures = ({
         accept="image/*"
         ref={filePicker}
         multiple
-        onChange={handleChangeImage}
+        onChange={(event) => handleChangeImage(event)}
       />
       <Styled.FormNewArtBarImg>
         {preview &&
@@ -92,7 +101,7 @@ export const AdvertisementPictures = ({
             );
           })}
       </Styled.FormNewArtBarImg>
-      <Styled.ErrorText>{lengthError}</Styled.ErrorText>
+      {isChanging ? <Styled.ErrorText>{lengthError}</Styled.ErrorText> : null}
     </S.FormNewArtBlockAdvBottom>
   );
 };

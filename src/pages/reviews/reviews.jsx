@@ -21,15 +21,20 @@ export const Reviews = ({ user }) => {
   const [addReview, { isLoading: isReviewLoading, error: addReviewError }] =
     useAddReviewMutation();
   const [reviewError, setReviewError] = useState(null);
+  const [isReviewChanging, setIsReviewChanging] = useState(false);
 
   const handleSendReview = async () => {
     try {
+      if (userReviewValue === "" && isReviewChanging) {
+        throw new Error("Введите комментарий");
+      }
       if (addReviewError) {
         throw new Error(addReviewError.message);
       }
       await addReview({ id: advId, text: userReviewValue });
       refetchDataComments();
       setUserReviewValue("");
+      setIsReviewChanging(false);
     } catch (error) {
       console.log(error);
       setReviewError(error.message);
@@ -69,17 +74,22 @@ export const Reviews = ({ user }) => {
                       placeholder="Введите отзыв"
                       required
                       value={userReviewValue}
-                      onChange={(e) => setUserReviewValue(e.target.value)}
+                      onChange={(e) => {
+                        setUserReviewValue(e.target.value);
+                        setIsReviewChanging(true);
+                      }}
                     ></S.FormNewArtArea>
                   </S.FormNewArtBlock>
                 </S.ModalFormNewArt>
-                <S.ErrorMessage>{reviewError}</S.ErrorMessage>
+                {userReviewValue !== "" || !isReviewChanging ? null : (
+                  <S.ErrorMessage>{reviewError}</S.ErrorMessage>
+                )}
                 <ModalButton
                   buttonTitle={
                     isReviewLoading ? "Публикуем..." : "Опубликовать"
                   }
                   onClick={handleSendReview}
-                  disabled={isReviewLoading}
+                  disabled={isReviewLoading || !isReviewChanging}
                 />
               </>
             ) : (
@@ -106,7 +116,11 @@ export const ModalButtonClose = () => {
   );
 };
 
-export const ModalButton = ({ buttonTitle, onClick, disabled }) => {
+export const ModalButton = ({
+  buttonTitle,
+  onClick,
+  disabled,
+}) => {
   return (
     <S.FormNewArtButtonPub
       id="btnPublish"

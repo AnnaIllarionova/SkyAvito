@@ -35,6 +35,7 @@ const baseQueryReauth = async (args, api, extraOptions) => {
   const accessToken = localStorage
     .getItem("accessTokenData")
     .replace(/^"|"$/g, "");
+
   // console.debug("Аксесс_2", accessToken);
 
   const refreshToken = localStorage
@@ -59,10 +60,7 @@ const baseQueryReauth = async (args, api, extraOptions) => {
     api,
     extraOptions,
   );
-  // console.debug(
-  //   "Результат запроса на обновление токена не объект",
-  //   refreshResult,
-  // );
+  // console.debug("Результат запроса на обновление токена", refreshResult);
 
   if (!refreshResult.data.access_token) {
     return forceLogOut();
@@ -158,7 +156,6 @@ export const apiWithAuthorization = createApi({
     }),
     addNewAdvertisementFiles: builder.mutation({
       query: ({ data, id }) => {
-      
         const formData = new FormData();
         if (data) {
           formData.append("file", data);
@@ -196,12 +193,12 @@ export const apiWithAuthorization = createApi({
       invalidatesTags: ["Auth"],
     }),
     deleteImageInAdvertisement: builder.mutation({
-      query: ({id, fileUrl})=> ({
+      query: ({ id, fileUrl }) => ({
         url: `/ads/${id}/image?file_url=${fileUrl}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Auth"],
-    })
+    }),
   }),
 });
 

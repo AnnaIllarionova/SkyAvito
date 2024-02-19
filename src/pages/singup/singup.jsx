@@ -7,9 +7,9 @@ import { Footer } from "../../components/footer/footer";
 import { MenuMob } from "../../components/menu/menu";
 
 export const SingUp = ({ logOut, user }) => {
-  const [registerNewUser, { error: registerError }] =
-    useRegisterNewUserMutation();
+  const [registerNewUser, {isLoading}] = useRegisterNewUserMutation();
   const [authError, setAuthError] = useState(null);
+  const [isEmailChanging, setIsEmailChanging] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,7 +24,8 @@ export const SingUp = ({ logOut, user }) => {
   });
 
   const onSubmit = async (userData) => {
-
+    setIsEmailChanging(false);
+   
     try {
       const newUser = await registerNewUser({
         password: userData.password,
@@ -32,22 +33,28 @@ export const SingUp = ({ logOut, user }) => {
         email: userData.login,
         name: userData.firstName,
         surname: userData.lastName,
-        phone: 89000000000,
+        phone: "",
         city: userData.city,
       }).unwrap();
-      if (registerError && registerError.status === 400) {
-        throw new Error("Ошибка регистрации");
-      }
+
       localStorage.setItem("user", JSON.stringify(newUser));
+     
       reset();
       navigate("/singin");
     } catch (error) {
-      console.log(error.data);
-
-      setAuthError("Такой email уже зарегистрирован");
+      if (error?.data) {
+        setAuthError("Такой email уже зарегистрирован");
+      } else if (error.status === "FETCH_ERROR") {
+        setAuthError("Ошибка сети, попробуйте еще раз");
+      }
+      // console.log(error);
     }
   };
-
+  const handleChangeEmail = () => {
+    setIsEmailChanging(true);
+    setAuthError(null);
+  };
+ 
   return (
     <>
       <S.ContainerEnter>
@@ -72,6 +79,7 @@ export const SingUp = ({ logOut, user }) => {
                 type="email"
                 id="formlogin"
                 placeholder="email"
+                onChange={handleChangeEmail}
               />
               {errors?.login ? (
                 <S.ErrorMessage>
@@ -153,12 +161,13 @@ export const SingUp = ({ logOut, user }) => {
                   {errors?.city?.message || "Error!"}
                 </S.ErrorMessage>
               ) : null}
-              {authError && <S.ErrorMessage>{authError}</S.ErrorMessage>}
+              {authError && !isEmailChanging 
+                ? authError && <S.ErrorMessage>{authError}</S.ErrorMessage> : null}
               <S.ModalButtonEnter
                 id="btnEnter"
                 type="submit"
-                value="Зарегистрироваться"
-                disabled={!isValid}
+                value={isLoading ? "Подождите..." : "Зарегистрироваться"}
+                disabled={!isValid || isLoading}
               />
             </S.ModalInputBlock>
 

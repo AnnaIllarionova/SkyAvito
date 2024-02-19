@@ -7,8 +7,9 @@ import { MenuMob } from "../../components/menu/menu";
 import { Footer } from "../../components/footer/footer";
 
 export const SingIn = ({ setUser, logOut, user }) => {
-  const [getToken, { error: tokenError }] = useGetTokenMutation();
+  const [getToken, { isLoading, error: tokenError }] = useGetTokenMutation();
   const [loginError, setLoginError] = useState(null);
+  const [isInputChanging, setIsInputChanging] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -21,13 +22,14 @@ export const SingIn = ({ setUser, logOut, user }) => {
   });
 
   const onSubmit = async (data) => {
+    setIsInputChanging(false);
     try {
       const accessToken = await getToken({
         email: data.login,
         password: data.password,
       }).unwrap();
-      if (tokenError && tokenError.status === 401) {
-        throw new Error("Ошибка авторизации");
+      if (tokenError) {
+        throw new Error("Ошибка авторизации, попробуйте еще раз");
       }
       localStorage.setItem(
         "accessTokenData",
@@ -39,15 +41,27 @@ export const SingIn = ({ setUser, logOut, user }) => {
       );
 
       localStorage.setItem("currentPassword", data.password);
-
+      setLoginError(null);
       setUser(accessToken);
       reset();
       navigate("/profile");
     } catch (error) {
-      setLoginError(error?.data.detail);
+      // console.log(error);
+      if (error?.data?.detail === "Incorrect email") {
+        setLoginError("Некорректный email");
+      } else if (error?.data?.detail === "Incorrect password") {
+        setLoginError("Некорректный пароль");
+      } else if (error.status === "FETCH_ERROR") {
+        setLoginError("Ошибка сети, попробуйте еще раз");
+      } else {
+        setLoginError(error?.data?.detail || error.message || error.error);
+      }
     }
   };
-
+  const handleChangeInput = () => {
+    setLoginError(null);
+    setIsInputChanging(true);
+  };
   return (
     <>
       <S.ContainerEnter>
@@ -67,6 +81,7 @@ export const SingIn = ({ setUser, logOut, user }) => {
                 })}
                 id="formlogin"
                 placeholder="email"
+                onChange={handleChangeInput}
               />
               {errors?.login ? (
                 <S.ErrorMessage>
@@ -81,18 +96,21 @@ export const SingIn = ({ setUser, logOut, user }) => {
                 type="password"
                 id="formpassword"
                 placeholder="Пароль"
+                onChange={handleChangeInput}
               />
               {errors?.password ? (
                 <S.ErrorMessage>
                   {errors?.password?.message || "Error!"}
                 </S.ErrorMessage>
               ) : null}
-              {loginError && <S.ErrorMessage>{loginError}</S.ErrorMessage>}
+              {loginError && !isInputChanging ? (
+                <S.ErrorMessage>{loginError}</S.ErrorMessage>
+              ) : null}
               <S.ModalButtonEnter
                 id="btnEnter"
                 type="submit"
-                value="Войти"
-                disabled={!isValid}
+                value={isLoading ? "Подождите..." : "Войти"}
+                disabled={!isValid || isLoading}
               />
             </S.ModalInputBlock>
 

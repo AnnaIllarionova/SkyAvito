@@ -33,6 +33,7 @@
 - HTML
 - JavaScript
 - React
+- Redux
 - StyledComponents
 - Docker
 

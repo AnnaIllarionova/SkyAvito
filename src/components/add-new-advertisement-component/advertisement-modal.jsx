@@ -14,6 +14,7 @@ export const AdvertisementModal = ({
   newAdvError,
   isNewAdvTextLoading,
   handlePublishNewAdv,
+  isAdvChanging,
 }) => {
   const navigate = useNavigate();
 
@@ -36,14 +37,16 @@ export const AdvertisementModal = ({
             <S.ModalFormNewArtAdv id="formNewArt" action="#">
               {children}
 
-              <Styled.ErrorText>{newAdvError}</Styled.ErrorText>
+              {newAdvError && !isAdvChanging ? (
+                <Styled.ErrorText>{newAdvError}</Styled.ErrorText>
+              ) : null}
 
               <ModalButton
                 buttonTitle={
                   isNewAdvTextLoading ? "Публикуем..." : "Опубликовать"
                 }
-                onClick={handlePublishNewAdv}
-                disabled={isNewAdvTextLoading}
+                onClick={(e) => handlePublishNewAdv(e)}
+                disabled={isNewAdvTextLoading || !isAdvChanging}
               />
             </S.ModalFormNewArtAdv>
           </S.ModalContentAdv>

@@ -16,6 +16,7 @@ export const NewAdvertisement = ({
   deletedPictures,
 }) => {
   const navigate = useNavigate();
+  const [isAdvChanging, setIsAdvChanging] = useState(false);
 
   const [
     addNewAdvertisementText,
@@ -31,11 +32,20 @@ export const NewAdvertisement = ({
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [preview, setPreview] = useState(Array.from(Array(5)));
 
-  const handlePublishNewAdv = async () => {
+  const handlePublishNewAdv = async (e) => {
+    e.preventDefault();
+    setIsAdvChanging(false);
     if (newAdvTextError || newAdvFileError) {
       throw new Error(" Ошибка загрузки текста объявления");
     }
     try {
+      if (titleValue === "" || descriptionValue === "" || priceValue === "") {
+        throw new Error(
+          "Поля 'Название', 'Описание' и 'Цена' должны быть заполнены",
+        );
+      } else {
+        setNewAdvError(null);
+      }
       await addNewAdvertisementText({
         title: titleValue,
         description: descriptionValue,
@@ -59,11 +69,11 @@ export const NewAdvertisement = ({
       setPreview([]);
       navigate("/profile");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.status === 422) {
         setNewAdvError("Заполните все текстовые поля");
       } else {
-        setNewAdvError(error.error);
+        setNewAdvError(error.error || error.message);
       }
     }
   };
@@ -77,10 +87,12 @@ export const NewAdvertisement = ({
       newAdvError={newAdvError}
       isNewAdvTextLoading={isNewAdvTextLoading}
       handlePublishNewAdv={handlePublishNewAdv}
+      isAdvChanging={isAdvChanging}
     >
       <AdvertisementText
         setTitleValue={setTitleValue}
         setDescriptionValue={setDescriptionValue}
+        setIsAdvChanging={setIsAdvChanging}
       />
 
       <AdvertisementPictures
@@ -90,6 +102,7 @@ export const NewAdvertisement = ({
         preview={preview}
         setDeletedPictures={setDeletedPictures}
         deletedPictures={deletedPictures}
+        setIsAdvChanging={setIsAdvChanging}
       />
 
       <AdvertisementPrice
@@ -97,6 +110,7 @@ export const NewAdvertisement = ({
         priceValue=""
         data={null}
         isLoading={null}
+        setIsAdvChanging={setIsAdvChanging}
       />
     </AdvertisementModal>
   );
