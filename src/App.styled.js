@@ -3,7 +3,7 @@ import { device } from "./components/media-sizes/media-sizes";
 
 export const Wrapper = styled.div`
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   overflow: hidden;
   background-color: #f1f1f1;
   display: flex;

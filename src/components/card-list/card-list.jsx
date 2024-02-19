@@ -33,7 +33,8 @@ export const CardList = ({
   if (error) {
     return (
       <S.CardTitleNoResults>
-        {error.error || error.detail || error.message}
+        {/* {error.error || error.detail || error.message} */}
+        Ошибка сети, попробуйте еще раз
       </S.CardTitleNoResults>
     );
   }
@@ -44,7 +45,7 @@ export const CardList = ({
         {isLoading ? (
           <SkeletonForAdd />
         ) : startSearch ? (
-          searchResults.length > 0 ? (
+          searchResults?.length > 0 ? (
             searchResults.map((add) => <CardItem key={add.id} add={add} />)
           ) : (
             <S.CardTitleNoResults>
@@ -87,14 +88,14 @@ export const CardItem = ({ add }) => {
 export const DateOfAdvertisement = ({ add }) => {
   const [wasCreatedAt, setWasCreatedAt] = useState(null);
 
-  const addDate = parseISO(add.created_on);
+  const addDate = add && parseISO(add.created_on);
   useEffect(() => {
     if (isToday(addDate)) {
-      setWasCreatedAt(`Сегодня в ${format(addDate, "HH:mm")}`);
+      setWasCreatedAt(`Сегодня в ${addDate && format(addDate, "HH:mm")}`);
     } else if (isYesterday(addDate)) {
-      setWasCreatedAt(`Вчера в ${format(addDate, "HH:mm")}`);
+      setWasCreatedAt(`Вчера в ${addDate && format(addDate, "HH:mm")}`);
     } else {
-      setWasCreatedAt(format(addDate, "dd.MM.yyy в HH:mm"));
+      setWasCreatedAt(addDate && format( addDate, "dd.MM.yyy в HH:mm"));
     }
   }, [addDate]);
 

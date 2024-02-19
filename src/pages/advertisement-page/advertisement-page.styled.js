@@ -435,7 +435,8 @@ export const AdvTitleNoResults = styled.p`
   font-size: 22px;
   font-weight: 500;
   line-height: 26px;
-  color: #009ee4;
+  color: red;
+  margin-top: 20px;
 
   @media ${device.mobile} {
     height: 51px;
@@ -444,5 +445,9 @@ export const AdvTitleNoResults = styled.p`
     color: #009ee4;
     margin-bottom: 10px;
     margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
+    width: 100%;
   }
 `;

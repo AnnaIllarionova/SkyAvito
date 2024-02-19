@@ -42,10 +42,9 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
   const [phoneValue, setPhoneValue] = useState("");
   const [cityValue, setCityValue] = useState("");
   const [isChanging, setIsChanging] = useState(false);
+  const [savingError, setSavingError] = useState(null);
 
   useEffect(() => {
-    refetch();
-    userAdvsRefetch();
 
     if (currentUser) {
       setNameValue(currentUser.name);
@@ -53,11 +52,22 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
       setPhoneValue(currentUser.phone);
       setCityValue(currentUser.city);
     }
-  }, [currentUser]);
+    refetch();
+    userAdvsRefetch();
+  }, [currentUser, userAdvsData]);
+
+
 
   const handleSaveUser = async (e) => {
     e.preventDefault();
+   
     try {
+      if (nameValue === "" || phoneValue === "") {
+        throw new Error(
+          "Поля 'Введите своё имя' и 'Введите номер телефона' должны быть заполнены"
+        );
+      }
+
       await changeCurrentUser({
         role: currentUser.role,
         email: currentUser.email,
@@ -68,17 +78,11 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
       });
       setIsChanging(false);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // console.log(error.message);
+      setSavingError(error.message);
     }
   };
-
-  if (currentUserError) {
-    return (
-      <S.ProfileTitleNoResults>
-        {currentUserError?.error}
-      </S.ProfileTitleNoResults>
-    );
-  }
 
   const [addUserAvatar, { isLoading: avatarIsLoading }] =
     useAddUserAvatarMutation();
@@ -105,6 +109,14 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
   const handleChangeAvatar = () => {
     setIsAvatarChanging(true);
   };
+ 
+  if (currentUserError) {
+    return (
+      <S.ProfileTitleNoResults>
+        Ошибка сети, попробуйте еще раз
+      </S.ProfileTitleNoResults>
+    );
+  }
 
   return user !== null ? (
     <>
@@ -116,11 +128,11 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
               <Skeleton height={42} />
             ) : (
               <Styled.MainTitle>
-                Здравствуйте,&nbsp;
-                {currentUser?.name !== ""
+                {`Здравствуйте, 
+                ${currentUser?.name !== ""
                   ? currentUser?.name
                   : currentUser?.email}
-                !
+                !`}
               </Styled.MainTitle>
             )}
 
@@ -249,9 +261,9 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
                           }}
                         />
                       </S.SettingsBox>
-                      {errorChangeUser ? (
+                      {errorChangeUser || savingError && isChanging ? (
                         <S.ProfileTitleNoResults>
-                          {errorChangeUser?.error}
+                          {errorChangeUser?.error || savingError}
                         </S.ProfileTitleNoResults>
                       ) : null}
                       <S.SettingsButton

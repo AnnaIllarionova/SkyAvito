@@ -31,7 +31,6 @@ export const ModalBlock = styled.div`
     left: 0px;
     top: 55px;
     opacity: 1;
-    
   }
 `;
 
@@ -75,9 +74,9 @@ export const ModalContentAdv = styled(ModalContent)`
 `;
 
 export const ModalTitleDiv = styled.div`
-@media ${device.mobile} {
-  position: relative;
-}
+  @media ${device.mobile} {
+    position: relative;
+  }
 `;
 
 export const ModalTitle = styled.h3`
@@ -91,8 +90,7 @@ export const ModalTitle = styled.h3`
     font-size: 24px;
     line-height: 29px;
     padding: 0 0 0 26px;
-    margin:0;
-   
+    margin: 0;
   }
 `;
 
@@ -285,11 +283,11 @@ export const FormNewArtAreaDescription = styled(FormNewArtArea)`
 export const FormNewArtButtonPub = styled.button`
   width: 181px;
   height: 50px;
-  background: #d9d9d9;
+  background: ${(props) => (props.disabled ? "#d9d9d9" : "#0080c1")};
   border: 1px solid #d9d9d9;
   border-radius: 6px;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 50px;
   color: #ffffff;
 
   &:hover {

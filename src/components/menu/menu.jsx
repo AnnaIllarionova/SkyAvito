@@ -5,7 +5,7 @@ import * as Styled from "../search/search.styled";
 export const Menu = ({ logOut, user }) => {
   return (
     <S.MainMenu>
-      <S.MenuLogoLink to="/" target="_blank">
+      <S.MenuLogoLink to="/" >
         <S.MenuLogoImg src="/img/logo.png" alt="logo" />
       </S.MenuLogoLink>
       <Styled.SearchLogoMobileLink to="/">

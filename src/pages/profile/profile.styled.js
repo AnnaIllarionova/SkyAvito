@@ -149,6 +149,7 @@ export const SettingsBox = styled.div`
   @media ${device.mobile} {
     display: inline-block;
     margin: 0 0px 18px;
+    width: 100%
   }
 `;
 
@@ -319,17 +320,23 @@ export const FormFile = styled.form`
 export const ProfileTitleNoResults = styled.p`
   white-space: nowrap;
   height: 52px;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 26px;
-  color: #009ee4;
+  color: red;
+  margin-top: 20px;
+  text-align: center;
 
   @media ${device.mobile} {
     height: 51px;
     font-size: 14px;
     line-height: 17px;
-    color: #009ee4;
+    color: red;
     margin-bottom: 10px;
     margin-top: 10px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
   }
 `;

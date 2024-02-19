@@ -19,6 +19,8 @@ export const ChangeAdvertisement = ({
 }) => {
   const { advId } = useParams();
   const navigate = useNavigate();
+  const [isAdvChanging, setIsAdvChanging] = useState(false);
+
   const {
     data: advData,
     isLoading: advIsLoading,
@@ -35,7 +37,7 @@ export const ChangeAdvertisement = ({
   const [selectedFiles, setSelectedFiles] = useState(
     advData && [...advData.images],
   );
-  
+
   const [newSelectedPictures, setNewSelectedPictures] = useState([]);
 
   const deletedArr =
@@ -70,11 +72,20 @@ export const ChangeAdvertisement = ({
   ] = useChangeAdvertisementMutation();
   const [changeAdvError, setChangeAdvError] = useState(null);
 
-  const handleChangeImage = async () => {
+  const handleChangeImage = async (e) => {
+    e.preventDefault();
+    setIsAdvChanging(false);
     if (changeError || newAdvFileError) {
       throw new Error("Ошибка изменения объявления");
     }
     try {
+      if (titleValue === "" || descriptionValue === "" || priceValue === "") {
+        throw new Error(
+          "Поля 'Название', 'Описание' и 'Цена' должны быть заполнены",
+        );
+      } else {
+        setChangeAdvError(null);
+      }
       if (deletedArr) {
         for (let i = 0; i < deletedArr.length; i++) {
           deleteImageAdvertisement({
@@ -102,7 +113,7 @@ export const ChangeAdvertisement = ({
       refetch();
       navigate(`/advertisement/${advId}`);
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       if (error.status === 422) {
         setChangeAdvError("Ошибка загрузки файлов, попробуйте еще раз");
       } else {
@@ -120,6 +131,7 @@ export const ChangeAdvertisement = ({
       newAdvError={changeAdvError}
       isNewAdvTextLoading={changeIsLoading}
       handlePublishNewAdv={handleChangeImage}
+      isAdvChanging={isAdvChanging}
     >
       <AdvertisementText
         setTitleValue={setTitleValue}
@@ -128,6 +140,7 @@ export const ChangeAdvertisement = ({
         titleValue={titleValue}
         descriptionValue={descriptionValue}
         isLoading={advIsLoading}
+        setIsAdvChanging={setIsAdvChanging}
       />
 
       <AdvertisementPictures
@@ -137,6 +150,7 @@ export const ChangeAdvertisement = ({
         preview={preview}
         setDeletedPictures={setDeletedPictures}
         deletedPictures={deletedPictures}
+        setIsAdvChanging={setIsAdvChanging}
       />
 
       <AdvertisementPrice
@@ -144,6 +158,7 @@ export const ChangeAdvertisement = ({
         priceValue={priceValue}
         data={advData}
         isLoading={advIsLoading}
+        setIsAdvChanging={setIsAdvChanging}
       />
     </AdvertisementModal>
   );

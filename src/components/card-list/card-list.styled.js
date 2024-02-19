@@ -7,15 +7,20 @@ export const CardTitleNoResults = styled.p`
   font-size: 22px;
   font-weight: 500;
   line-height: 26px;
-  color: #009ee4;
+  color: red;
+  margin-top: 20px;
 
   @media ${device.mobile} {
     height: 51px;
     font-size: 14px;
     line-height: 17px;
-    color: #009ee4;
+    color: red;
     margin-bottom: 10px;
     margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-line;
+    width: 100%;
   }
 `;
 
@@ -23,6 +28,7 @@ export const MainContent = styled.div`
   width: 100%;
   margin: 0 auto;
   overflow-y: auto;
+  margin-bottom: 20px;
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -39,12 +45,7 @@ export const MainContent = styled.div`
     width: 100%;
     margin: 0 auto;
     overflow-y: scroll;
-    // overflow: hidden;
-    // position: fixed;
-    // right: 0;
-    // left: 0;
-    // top: 134px;
-    // bottom: 84px;
+  
   }
 `;
 

@@ -7,17 +7,20 @@ import { ModalButtonClose } from "../reviews/reviews";
 
 export const ChangePasswordModal = () => {
   const currentPassword = localStorage.getItem("currentPassword");
-  const [changePassword, { isLoading: isLoadingChangePassword, error: errorChangePassword }] =
-    useChangePasswordMutation();
+  const [
+    changePassword,
+    { isLoading: isLoadingChangePassword, error: errorChangePassword },
+  ] = useChangePasswordMutation();
   const [userPassword, setUserPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
   const navigate = useNavigate();
 
-
   const handleChange = async (e) => {
     e.preventDefault();
-    if (
+
+    try {
+      if (
         (userPassword !== "" && newPassword === "") ||
         (userPassword === "" && newPassword === "") ||
         (userPassword === "" && newPassword !== "")
@@ -25,39 +28,44 @@ export const ChangePasswordModal = () => {
         throw new Error("Все поля должны быть заполнены!");
       }
 
-    try {
+      if (userPassword !== currentPassword) {
+        throw new Error("Вы неправильно ввели старый пароль!");
+      }
+
+      if (errorChangePassword && errorChangePassword.status === 400) {
+        throw new Error(errorChangePassword.detail);
+      }
+
+      if (newPassword.length < 5) {
+        throw new Error("Пароль должен содержать не менее 5 символов");
+      }
+
       await changePassword({
         password_1: userPassword,
         password_2: newPassword,
       });
-      if (userPassword !== currentPassword) {
-        throw new Error("Вы неправильно ввели старый пароль!");
-      }
-       
-      if(errorChangePassword && errorChangePassword.status === 400) {
-    throw new Error(errorChangePassword.detail);
-      }
 
       navigate("/profile");
       setNewPassword("");
       setUserPassword("");
     } catch (error) {
-      console.log(error);
-      setPasswordError(error.message)
+      // console.log(error);
+      setPasswordError(error.message);
     }
-
   };
 
   return (
     <Styled.ContainerModal>
       <S.ModalBlock>
         <S.ModalFormLogin id="formLogIn" action="#">
-       
           <Link to="/profile">
             <ModalButtonClose />
           </Link>
 
-          <S.ModalInputBlock style={{marginTop: "70px"}} onSubmit={handleChange}>
+          <S.ModalInputBlock
+            style={{ marginTop: "70px" }}
+            onSubmit={handleChange}
+          >
             <S.ModalInput
               type="password"
               placeholder="Введите старый пароль"
@@ -72,15 +80,18 @@ export const ChangePasswordModal = () => {
               onChange={(e) => setNewPassword(e.target.value)}
             />
             {passwordError ? (
-              <S.ErrorMessage>
-                {passwordError || "Error!"}
-              </S.ErrorMessage>
+              <S.ErrorMessage>{passwordError || "Error!"}</S.ErrorMessage>
             ) : null}
 
-            <S.ModalButtonEnter 
-            type="submit" 
-            disabled={isLoadingChangePassword} 
-            value={isLoadingChangePassword ? "Меняем пароль..." : "Подтвердить изменения"} />
+            <S.ModalButtonEnter
+              type="submit"
+              disabled={isLoadingChangePassword}
+              value={
+                isLoadingChangePassword
+                  ? "Меняем пароль..."
+                  : "Подтвердить изменения"
+              }
+            />
           </S.ModalInputBlock>
         </S.ModalFormLogin>
       </S.ModalBlock>

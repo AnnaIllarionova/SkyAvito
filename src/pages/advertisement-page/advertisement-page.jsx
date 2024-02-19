@@ -68,15 +68,24 @@ export const Advertisement = ({ logOut, user }) => {
     try {
       await deleteAdvertisement({ id: advId }).unwrap();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setFetchError(error.message);
     } finally {
       navigate("/profile");
     }
   };
-  if (advByIdError || commentsError) {
+ 
+  if(advByIdError?.status === 404) {
+    navigate("/*");
+  } else if (advByIdError?.status === "FETCH_ERROR") {
     return (
-      <S.AdvTitleNoResults>{`${advByIdError?.error || ""}, ${commentsError?.error || ""}`}</S.AdvTitleNoResults>
+      <S.AdvTitleNoResults>Ошибка сети, попробуйте еще раз</S.AdvTitleNoResults>
+    );
+  } 
+
+  if (commentsError) {
+    return (
+      <S.AdvTitleNoResults>Что-то пошло не так, попробуйте еще раз</S.AdvTitleNoResults>
     );
   }
 
@@ -248,7 +257,7 @@ export const ArticleImages = ({
     <S.ArticleImgBar>
       {isLoading ? (
         <Skeleton width={88} height={88} />
-      ) : productImagesArr.length > 0 ? (
+      ) : productImagesArr?.length > 0 ? (
         productImagesArr.map((image, index) => {
           return (
             <S.ArticleImgBarDiv

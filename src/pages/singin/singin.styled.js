@@ -10,6 +10,8 @@ export const ContainerEnter = styled.div`
 
   @media (max-width: 768px) {
     background-color: #ffffff;
+    overflow-y: scroll;
+    margin-bottom: 54px;
   }
 `;
 
@@ -141,7 +143,7 @@ export const ModalButtonEnter = styled.input`
   font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.05px;
-  color: ${(props) => props.disabled ? "#b3b3b3" : "#ffffff"} ;
+  color: ${(props) => (props.disabled ? "#b3b3b3" : "#ffffff")};
 
   &:hover {
     background-color: #0080c1;

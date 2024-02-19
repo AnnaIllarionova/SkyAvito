@@ -7,10 +7,11 @@ export const AdvertisementPrice = ({
   priceValue,
   data,
   isLoading,
+  setIsAdvChanging
 }) => {
   useEffect(() => {
-    data ? setPriceValue(data.price) : setPriceValue("");
-  }, [data]);
+    data ? setPriceValue(data?.price) : setPriceValue("");
+  }, []);
 
   return (
     <S.FormNewArtBlockAdvBottom style={{ position: "relative" }}>
@@ -20,7 +21,10 @@ export const AdvertisementPrice = ({
         name="price"
         id="formName"
         value={data && (isLoading ? "Данные Загружаются" : priceValue)}
-        onChange={(e) => setPriceValue(e.target.value)}
+        onChange={(e) => {
+          setPriceValue(e.target.value);
+          setIsAdvChanging(true);
+        }}
       />
       <Styled.FormNewArtInputPriceCover></Styled.FormNewArtInputPriceCover>
     </S.FormNewArtBlockAdvBottom>

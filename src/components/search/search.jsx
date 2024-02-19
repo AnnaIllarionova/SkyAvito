@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import * as S from "./search.styled";
 
 export const Search = ({
@@ -8,16 +9,20 @@ export const Search = ({
 }) => {
   const handleSearchText = (e) => {
     setSearchText(e.target.value);
-    
   };
-  if(searchText === "") {
-    setStartSearch(false);
-  } 
+  const handleSearchTextMob = (e) => {
+    setSearchText(e.target.value);
+    setStartSearch(true);
+  };
+  useEffect(() => {
+    if (searchText === "") {
+      setStartSearch(false);
+    }
+  }, [searchText]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleSearchResult();
-    
   };
 
   return (
@@ -34,7 +39,7 @@ export const Search = ({
           placeholder="Поиск по объявлениям"
           name="search"
           value={searchText}
-          onChange={handleSearchText}
+          onChange={(e) => handleSearchText(e)}
         />
         <S.SearchButton type="submit">Найти</S.SearchButton>
       </S.SearchForm>
@@ -42,9 +47,9 @@ export const Search = ({
         type="search"
         placeholder="Поиск"
         name="search-mob"
+        value={searchText}
         onChange={(e) => {
-          handleSearchText(e);
-          setStartSearch(true);
+          handleSearchTextMob(e);
         }}
       />
     </S.MainSearch>
