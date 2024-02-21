@@ -3,34 +3,41 @@ import { Header } from "../../components/header/header";
 import { Search } from "../../components/search/search";
 import * as S from "./main-page.styled";
 import { CardList } from "../../components/card-list/card-list";
-import { useGetAllAdvertisementsQuery } from "../../services/api-services";
 import { Outlet } from "react-router-dom";
+import { NewAdvertisement } from "../add-new-advertisement/add-new-advertisement";
 
-export const Layout = ({user, logOut}) => {
+export const Layout = ({ user, logOut, setIsModalOpen }) => {
   return (
     <>
-    <Header user={user} logOut={logOut} />
-    <Outlet />
-    <Footer user={user} />
+      <Header user={user} logOut={logOut} setIsModalOpen={setIsModalOpen} />
+      <Outlet />
+      <Footer user={user} setIsModalOpen={setIsModalOpen} />
     </>
-  )
-}
+  );
+};
 
 export const MainPage = ({
   searchText,
   setSearchText,
   startSearch,
   setStartSearch,
+  allAds,
+  error,
+  isLoading,
+  isModalOpen,
+  user,
+  logOut,
+  setDeletedPictures,
+  deletedPictures,
+  refetch,
+  setIsModalOpen,
 }) => {
   const handleSearchResult = () => {
     setStartSearch(true);
   };
-  const { data: allAds, error, isLoading } = useGetAllAdvertisementsQuery();
-
 
   return (
-
-      
+    <>
       <main className="main">
         <Search
           setSearchText={setSearchText}
@@ -50,7 +57,16 @@ export const MainPage = ({
           />
         </S.MainContainer>
       </main>
-     
-    
+      {isModalOpen ? (
+        <NewAdvertisement
+          user={user}
+          logOut={logOut}
+          setDeletedPictures={setDeletedPictures}
+          deletedPictures={deletedPictures}
+          refetch={refetch}
+          setIsModalOpen={setIsModalOpen}
+        />
+      ) : null}
+    </>
   );
 };

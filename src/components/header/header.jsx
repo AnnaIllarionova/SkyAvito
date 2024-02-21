@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import * as S from "./header.styled";
 
-export const Header = ({ user, logOut }) => {
+export const Header = ({ user, logOut, setIsModalOpen }) => {
+
+ 
   return (
     <S.Header>
       <S.HeaderNav>
@@ -18,11 +20,12 @@ export const Header = ({ user, logOut }) => {
                 <S.LogoMobileImg src="./img/logo-mob.png" alt="logo" />
               </S.LogoMobileLink>
             </S.HeaderLogo>
-            <Link to="/add-new-advertisement">
-              <S.HeaderButtonPutAddvertisement id="btputAd">
-                Разместить объявление
-              </S.HeaderButtonPutAddvertisement>
-            </Link>
+            <S.HeaderButtonPutAddvertisement
+              onClick={() => setIsModalOpen(true)}
+              id="btputAd"
+            >
+              Разместить объявление
+            </S.HeaderButtonPutAddvertisement>
             <Link to="/profile">
               <S.HeaderButtonNavToProfile id="btnlk">
                 Личный кабинет

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-// import { Header } from "../../components/header/header";
 import * as S from "./error-page.styled";
 
 export const ErrorPage = () => {

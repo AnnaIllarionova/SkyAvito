@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Styled from "../reviews/reviews.styled";
 import * as S from "../singin/singin.styled";
 import { useState } from "react";
@@ -58,9 +58,7 @@ export const ChangePasswordModal = () => {
     <Styled.ContainerModal>
       <S.ModalBlock>
         <S.ModalFormLogin id="formLogIn" action="#">
-          <Link to="/profile">
-            <ModalButtonClose />
-          </Link>
+            <ModalButtonClose onClick={() => navigate("/profile")} />
 
           <S.ModalInputBlock
             style={{ marginTop: "70px" }}

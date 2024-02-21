@@ -11,8 +11,19 @@ import * as Styled from "../main-page/main-page.styled";
 import * as S from "./profile.styled";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { NewAdvertisement } from "../add-new-advertisement/add-new-advertisement";
 
-export const Profile = ({ searchText, startSearch, user, logOut }) => {
+export const Profile = ({
+  searchText,
+  startSearch,
+  user,
+  logOut,
+  isModalOpen,
+  setDeletedPictures,
+  deletedPictures,
+  refetch,
+  setIsModalOpen,
+}) => {
   const {
     data: userAdvsData,
     isLoading: userAdvsIsLoading,
@@ -23,7 +34,7 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
     data: currentUser,
     isLoading,
     error: currentUserError,
-    refetch,
+    refetch: refetchCurrentUser,
   } = useGetCurrentUserQuery();
 
   const [
@@ -45,26 +56,23 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
   const [savingError, setSavingError] = useState(null);
 
   useEffect(() => {
-
     if (currentUser) {
       setNameValue(currentUser.name);
       setSurnameValue(currentUser.surname);
       setPhoneValue(currentUser.phone);
       setCityValue(currentUser.city);
     }
-    refetch();
+    refetchCurrentUser();
     userAdvsRefetch();
   }, [currentUser, userAdvsData]);
 
-
-
   const handleSaveUser = async (e) => {
     e.preventDefault();
-   
+
     try {
       if (nameValue === "" || phoneValue === "") {
         throw new Error(
-          "Поля 'Введите своё имя' и 'Введите номер телефона' должны быть заполнены"
+          "Поля 'Введите своё имя' и 'Введите номер телефона' должны быть заполнены",
         );
       }
 
@@ -79,7 +87,6 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
       setIsChanging(false);
     } catch (error) {
       // console.log(error);
-      // console.log(error.message);
       setSavingError(error.message);
     }
   };
@@ -109,7 +116,7 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
   const handleChangeAvatar = () => {
     setIsAvatarChanging(true);
   };
- 
+
   if (currentUserError) {
     return (
       <S.ProfileTitleNoResults>
@@ -129,9 +136,11 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
             ) : (
               <Styled.MainTitle>
                 {`Здравствуйте, 
-                ${currentUser?.name !== ""
-                  ? currentUser?.name
-                  : currentUser?.email}
+                ${
+                  currentUser?.name !== ""
+                    ? currentUser?.name
+                    : currentUser?.email
+                }
                 !`}
               </Styled.MainTitle>
             )}
@@ -261,7 +270,7 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
                           }}
                         />
                       </S.SettingsBox>
-                      {errorChangeUser || savingError && isChanging ? (
+                      {errorChangeUser || (savingError && isChanging) ? (
                         <S.ProfileTitleNoResults>
                           {errorChangeUser?.error || savingError}
                         </S.ProfileTitleNoResults>
@@ -300,6 +309,16 @@ export const Profile = ({ searchText, startSearch, user, logOut }) => {
         </Styled.MainContainer>
       </main>
       <Outlet />
+      {isModalOpen ? (
+        <NewAdvertisement
+          user={user}
+          logOut={logOut}
+          setDeletedPictures={setDeletedPictures}
+          deletedPictures={deletedPictures}
+          refetch={refetch}
+          setIsModalOpen={setIsModalOpen}
+        />
+      ) : null}
     </>
   ) : (
     navigate("/singin")

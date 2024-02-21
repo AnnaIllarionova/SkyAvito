@@ -16,14 +16,23 @@ import {
 } from "../../services/api-services-reauth";
 import { useEffect, useState } from "react";
 import { ArticleImagesMob } from "../../components/swiper-mob-for-adv-page/swiper-mob";
+import { NewAdvertisement } from "../add-new-advertisement/add-new-advertisement";
 
-export const Advertisement = ({ logOut, user }) => {
+export const Advertisement = ({
+  logOut,
+  user,
+  refetch,
+  isModalOpen,
+  setDeletedPictures,
+  deletedPictures,
+  setIsModalOpen,
+}) => {
   const { advId } = useParams();
   const {
     data,
     isLoading,
     error: advByIdError,
-    refetch,
+    refetch: refetchAdvById,
   } = useGetAdvertisementByIdQuery({ id: advId });
 
   const [fetchError, setFetchError] = useState(null);
@@ -57,7 +66,7 @@ export const Advertisement = ({ logOut, user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    refetch();
+    refetchAdvById();
   }, []);
 
   const handleDeleteAdvertisement = async () => {
@@ -67,6 +76,7 @@ export const Advertisement = ({ logOut, user }) => {
 
     try {
       await deleteAdvertisement({ id: advId }).unwrap();
+      refetch();
     } catch (error) {
       // console.log(error);
       setFetchError(error.message);
@@ -74,18 +84,20 @@ export const Advertisement = ({ logOut, user }) => {
       navigate("/profile");
     }
   };
- 
-  if(advByIdError?.status === 404) {
+
+  if (advByIdError?.status === 404) {
     navigate("/*");
   } else if (advByIdError?.status === "FETCH_ERROR") {
     return (
       <S.AdvTitleNoResults>Ошибка сети, попробуйте еще раз</S.AdvTitleNoResults>
     );
-  } 
+  }
 
   if (commentsError) {
     return (
-      <S.AdvTitleNoResults>Что-то пошло не так, попробуйте еще раз</S.AdvTitleNoResults>
+      <S.AdvTitleNoResults>
+        Что-то пошло не так, попробуйте еще раз
+      </S.AdvTitleNoResults>
     );
   }
 
@@ -158,10 +170,12 @@ export const Advertisement = ({ logOut, user }) => {
                     <Skeleton circle height={40} width={40} />
                   ) : (
                     <S.AuthorImg>
-                      {data?.user.avatar ? <S.AuthorImgPicture
-                        src={`http://localhost:8090/${data?.user.avatar}`}
-                        alt="user-avatar"
-                      /> : null}
+                      {data?.user.avatar ? (
+                        <S.AuthorImgPicture
+                          src={`http://localhost:8090/${data?.user.avatar}`}
+                          alt="user-avatar"
+                        />
+                      ) : null}
                     </S.AuthorImg>
                   )}
 
@@ -195,6 +209,16 @@ export const Advertisement = ({ logOut, user }) => {
       </S.Main>
 
       <Outlet />
+      {isModalOpen ? (
+        <NewAdvertisement
+          user={user}
+          logOut={logOut}
+          setDeletedPictures={setDeletedPictures}
+          deletedPictures={deletedPictures}
+          refetch={refetch}
+          setIsModalOpen={setIsModalOpen}
+        />
+      ) : null}
     </>
   );
 };
@@ -205,7 +229,7 @@ export const ArticleImagesSlider = ({ data, isLoading }) => {
     setBigImage(data?.images[0]);
   }, [data]);
 
-  const handleChooseImage = ({ index}) => {
+  const handleChooseImage = ({ index }) => {
     const chosenImage = data?.images[index];
     setBigImage(chosenImage);
   };
@@ -262,7 +286,7 @@ export const ArticleImages = ({
           return (
             <S.ArticleImgBarDiv
               key={index}
-              onClick={() => handleChooseImage({ index})}
+              onClick={() => handleChooseImage({ index })}
               $chosen={image?.id === bigImage?.id}
             >
               <S.ArticleImgBarDivPicture

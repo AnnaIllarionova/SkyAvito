@@ -16,6 +16,9 @@ export const ChangeAdvertisement = ({
   user,
   setDeletedPictures,
   deletedPictures,
+  refetch,
+  setIsModalOpen,
+
 }) => {
   const { advId } = useParams();
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ export const ChangeAdvertisement = ({
   const {
     data: advData,
     isLoading: advIsLoading,
-    refetch,
+    refetch: refetchCurrentAdv,
   } = useGetAdvertisementByIdQuery({ id: advId });
   const [addNewAdvertisementFiles, { error: newAdvFileError }] =
     useAddNewAdvertisementFilesMutation();
@@ -110,6 +113,7 @@ export const ChangeAdvertisement = ({
         }
       }
 
+      refetchCurrentAdv();
       refetch();
       navigate(`/advertisement/${advId}`);
     } catch (error) {
@@ -132,6 +136,8 @@ export const ChangeAdvertisement = ({
       isNewAdvTextLoading={changeIsLoading}
       handlePublishNewAdv={handleChangeImage}
       isAdvChanging={isAdvChanging}
+      setIsModalOpen={setIsModalOpen}
+    
     >
       <AdvertisementText
         setTitleValue={setTitleValue}

@@ -3,7 +3,7 @@ import * as Styled from "../../pages/add-new-advertisement/add-new-advertisement
 import { Footer } from "../footer/footer";
 import { MenuMob } from "../menu/menu";
 import { ModalButton, ModalButtonClose } from "../../pages/reviews/reviews";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const AdvertisementModal = ({
   children,
@@ -15,8 +15,13 @@ export const AdvertisementModal = ({
   isNewAdvTextLoading,
   handlePublishNewAdv,
   isAdvChanging,
+  setIsModalOpen,
 }) => {
   const navigate = useNavigate();
+  const handleCloseModal = () => {
+    navigate(linkBack);
+    setIsModalOpen(false);
+  };
 
   return user !== null ? (
     <>
@@ -26,14 +31,10 @@ export const AdvertisementModal = ({
           <S.ModalContentAdv>
             <S.ModalTitleDiv>
               <S.ModalTitle>{title}</S.ModalTitle>
-              <Link to={linkBack}>
-                <S.ModalLinkBack></S.ModalLinkBack>
-              </Link>
+              <S.ModalLinkBack onClick={handleCloseModal}></S.ModalLinkBack>
             </S.ModalTitleDiv>
 
-            <Link to={linkBack}>
-              <ModalButtonClose />
-            </Link>
+            <ModalButtonClose onClick={handleCloseModal} />
             <S.ModalFormNewArtAdv id="formNewArt" action="#">
               {children}
 

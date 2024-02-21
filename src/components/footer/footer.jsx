@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import * as S from "./footer.styled";
 
-export const Footer = ({ user }) => {
+export const Footer = ({ user, setIsModalOpen }) => {
+ 
   return (
+   
     <S.Footer>
       <S.FooterContainer>
         <S.FooterImg>
@@ -11,10 +13,8 @@ export const Footer = ({ user }) => {
           </Link>
         </S.FooterImg>
         {user ? (
-          <S.FooterImg>
-            <Link to="/add-new-advertisement">
+          <S.FooterImg onClick={() => setIsModalOpen(true)}>
               <S.Img src="/img/icon_02.png" alt="new-advertisement" />
-            </Link>
           </S.FooterImg>
         ) : null}
         <S.FooterImg>
@@ -24,5 +24,7 @@ export const Footer = ({ user }) => {
         </S.FooterImg>
       </S.FooterContainer>
     </S.Footer>
+   
+   
   );
 };
