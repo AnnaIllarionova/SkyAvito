@@ -8,14 +8,15 @@ import { useState } from "react";
 import { Advertisement } from "./pages/advertisement-page/advertisement-page";
 import { SellerProfilePage } from "./pages/seller-profile-page/seller-profile-page";
 import { Reviews } from "./pages/reviews/reviews";
-import { NewAdvertisement } from "./pages/add-new-advertisement/add-new-advertisement";
 import { ChangePasswordModal } from "./pages/change-password-modal/change-password-modal";
 import { ChangeAdvertisement } from "./pages/change-advertisement/change-advertisement-modal";
+import { useGetAllAdvertisementsQuery } from "./services/api-services";
 
 export const AppRoutes = () => {
   const [searchText, setSearchText] = useState("");
   const [startSearch, setStartSearch] = useState(false);
   const [deletedPictures, setDeletedPictures] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getUserFromLS = () => {
     try {
@@ -37,9 +38,21 @@ export const AppRoutes = () => {
     navigate("/singin");
   };
 
+  const {
+    data: allAds,
+    error,
+    isLoading,
+    refetch,
+  } = useGetAllAdvertisementsQuery();
+
   return (
     <Routes>
-      <Route path="/" element={<Layout user={user} logOut={logOut} />}>
+      <Route
+        path="/"
+        element={
+          <Layout user={user} logOut={logOut} setIsModalOpen={setIsModalOpen} />
+        }
+      >
         <Route
           index
           element={
@@ -48,13 +61,33 @@ export const AppRoutes = () => {
               setSearchText={setSearchText}
               startSearch={startSearch}
               setStartSearch={setStartSearch}
+              allAds={allAds}
+              error={error}
+              isLoading={isLoading}
+              isModalOpen={isModalOpen}
+              user={user}
+              logOut={logOut}
+              setDeletedPictures={setDeletedPictures}
+              deletedPictures={deletedPictures}
+              refetch={refetch}
+              setIsModalOpen={setIsModalOpen}
             />
           }
         />
 
         <Route
           path="/advertisement/:advId/*"
-          element={<Advertisement logOut={logOut} user={user} />}
+          element={
+            <Advertisement
+              logOut={logOut}
+              user={user}
+              refetch={refetch}
+              isModalOpen={isModalOpen}
+              setDeletedPictures={setDeletedPictures}
+            deletedPictures={deletedPictures}
+            setIsModalOpen={setIsModalOpen}
+            />
+          }
         >
           <Route path="reviews" element={<Reviews user={user} />} />
           <Route
@@ -65,6 +98,8 @@ export const AppRoutes = () => {
                 logOut={logOut}
                 setDeletedPictures={setDeletedPictures}
                 deletedPictures={deletedPictures}
+                refetch={refetch}
+                setIsModalOpen={setIsModalOpen}
               />
             }
           />
@@ -79,6 +114,11 @@ export const AppRoutes = () => {
               setStartSearch={setStartSearch}
               logOut={logOut}
               user={user}
+              isModalOpen={isModalOpen}
+              setDeletedPictures={setDeletedPictures}
+              deletedPictures={deletedPictures}
+              refetch={refetch}
+              setIsModalOpen={setIsModalOpen}
             />
           }
         />
@@ -92,6 +132,11 @@ export const AppRoutes = () => {
               setStartSearch={setStartSearch}
               user={user}
               logOut={logOut}
+              isModalOpen={isModalOpen}
+              setDeletedPictures={setDeletedPictures}
+              deletedPictures={deletedPictures}
+              refetch={refetch}
+              setIsModalOpen={setIsModalOpen}
             />
           }
         >
@@ -107,17 +152,6 @@ export const AppRoutes = () => {
       />
       <Route path="/singup" element={<SingUp user={user} logOut={logOut} />} />
 
-      <Route
-        path="/add-new-advertisement"
-        element={
-          <NewAdvertisement
-            user={user}
-            logOut={logOut}
-            setDeletedPictures={setDeletedPictures}
-            deletedPictures={deletedPictures}
-          />
-        }
-      />
     </Routes>
   );
 };

@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetAdvertisementCommentsByIdQuery } from "../../services/api-services";
 import * as S from "./reviews.styled";
 import Skeleton from "react-loading-skeleton";
@@ -9,6 +9,7 @@ import { useAddReviewMutation } from "../../services/api-services-reauth";
 
 export const Reviews = ({ user }) => {
   const { advId } = useParams();
+  const navigate = useNavigate();
   const {
     data: dataComments,
     isLoading: isCommentsLoading,
@@ -55,9 +56,7 @@ export const Reviews = ({ user }) => {
               <S.ModalLinkBack></S.ModalLinkBack>
             </Link>
           </S.ModalTitleDiv>
-          <Link to={`/advertisement/${advId}`}>
-            <ModalButtonClose />
-          </Link>
+            <ModalButtonClose onClick={() => navigate(`/advertisement/${advId}`)} />
           <S.ModalScroll>
             {user ? (
               <>
@@ -108,9 +107,9 @@ export const Reviews = ({ user }) => {
   );
 };
 
-export const ModalButtonClose = () => {
+export const ModalButtonClose = ({onClick}) => {
   return (
-    <S.ModalButtonClose>
+    <S.ModalButtonClose onClick={onClick}>
       <S.ModalButtonCloseLine></S.ModalButtonCloseLine>
     </S.ModalButtonClose>
   );

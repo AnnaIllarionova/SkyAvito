@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   useAddNewAdvertisementFilesMutation,
   useAddNewAdvertisementTextMutation,
@@ -14,10 +13,10 @@ export const NewAdvertisement = ({
   logOut,
   setDeletedPictures,
   deletedPictures,
+  refetch,
+  setIsModalOpen,
 }) => {
-  const navigate = useNavigate();
   const [isAdvChanging, setIsAdvChanging] = useState(false);
-
   const [
     addNewAdvertisementText,
     { isLoading: isNewAdvTextLoading, error: newAdvTextError },
@@ -46,28 +45,30 @@ export const NewAdvertisement = ({
       } else {
         setNewAdvError(null);
       }
-      await addNewAdvertisementText({
+      const response = await addNewAdvertisementText({
         title: titleValue,
         description: descriptionValue,
         price: priceValue,
       })
         .unwrap()
-        .then((response) => {
+        
           if (selectedFiles) {
             for (let i = 0; i < selectedFiles.length; i++) {
-              addNewAdvertisementFiles({
+             await addNewAdvertisementFiles({
                 data: selectedFiles[i],
                 id: response.id,
               }).unwrap();
             }
           }
-        });
+     
+
+      refetch();
       setTitleValue("");
       setDescriptionValue("");
       setPriceValue("");
       setSelectedFiles([]);
       setPreview([]);
-      navigate("/profile");
+      setIsModalOpen(false);
     } catch (error) {
       // console.log(error);
       if (error.status === 422) {
@@ -83,11 +84,12 @@ export const NewAdvertisement = ({
       logOut={logOut}
       user={user}
       title="Новое объявление"
-      linkBack="/profile"
+      linkBack={null}
       newAdvError={newAdvError}
       isNewAdvTextLoading={isNewAdvTextLoading}
       handlePublishNewAdv={handlePublishNewAdv}
       isAdvChanging={isAdvChanging}
+      setIsModalOpen={setIsModalOpen}
     >
       <AdvertisementText
         setTitleValue={setTitleValue}

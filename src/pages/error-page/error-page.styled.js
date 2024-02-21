@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../components/media-sizes/media-sizes";
 
 export const ErrorContent = styled.div`
   max-width: 100%;
@@ -20,6 +21,11 @@ export const ErrorContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media ${device.mobile} {
+    left: 0;
+    width: 320px;
+  }
 `;
 
 export const ErrorNumber = styled.h1`
@@ -32,6 +38,11 @@ export const ErrorNumber = styled.h1`
   font-feature-settings:
     "clig" off,
     "liga" off;
+
+    @media ${device.mobile} {
+      font-size: 140px;
+      line-height: 140px;
+    }
 `;
 
 export const ErrorTitle = styled.h3`
@@ -41,6 +52,10 @@ export const ErrorTitle = styled.h3`
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
+
+  @media ${device.mobile} {
+    font-size: 24px;
+  }
 `;
 
 export const ErrorText = styled.p`
@@ -53,6 +68,10 @@ export const ErrorText = styled.p`
   letter-spacing: -0.054px;
   margin-top: 19px;
   margin-bottom: 36px;
+
+  @media ${device.mobile} {
+    font-size: 14px;
+  }
 `;
 
 export const ErrorBtnBackToMain = styled.button`
